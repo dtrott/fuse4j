@@ -28,15 +28,14 @@ static jclass_fuse_FuseFS *FuseFS;
 static jobject fuseFS = NULL;
 static jobject threadGroup = NULL;
 
-
-jobject read_file_handle(struct fuse_file_info *ffi)
-{
-    return (jobject) ffi->fh;
-}
-
-void write_file_handle(struct fuse_file_info *ffi, jobject ob)
+static void create_file_handle(struct fuse_file_info *ffi, jobject ob)
 {
     ffi->fh = (uint64_t) ob;
+}
+
+static jobject read_file_handle(struct fuse_file_info *ffi)
+{
+    return (jobject) ffi->fh;
 }
 
 /*
@@ -798,7 +797,7 @@ static int javafs_open(const char *path, struct fuse_file_info *ffi)
       jobject jFhGlobalRef = (jFh == NULL) ? NULL : (*env)->NewGlobalRef(env, jFh);
 
       // every sane platform should store a pointer into unsigned long without a problem
-      write_file_handle(ffi, jFhGlobalRef);
+      create_file_handle(ffi, jFhGlobalRef);
       ffi->direct_io = ((*env)->GetBooleanField(env, jOpen, FuseOpen->field.directIO) == JNI_TRUE)? 1 : 0;
       ffi->keep_cache = ((*env)->GetBooleanField(env, jOpen, FuseOpen->field.keepCache) == JNI_TRUE)? 1 : 0;
 
