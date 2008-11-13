@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>fuse4j-parent</artifactId>
+        <groupId>fuse4j</groupId>
+        <version>2.4.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>fuse4j-core</artifactId>
+    <name>Fuse4J Core</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
