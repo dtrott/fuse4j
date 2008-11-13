@@ -1,0 +1,25 @@
+This is still a really early version.
+
+The maven project(s) can be built by:
+
+cd maven
+mvn install
+
+
+The native executable can be built by:
+
+cd native
+make
+
+
+
+The code is not really functional at the moment:
+The native code expects the java class to implement:
+
+fuse.FuseFS
+
+Where as most clients will implement:
+
+fuse.Filesystem3
+
+
