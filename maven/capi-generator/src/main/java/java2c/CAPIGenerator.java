@@ -17,6 +17,7 @@ import fuse.FuseGetattr;
 import fuse.FuseOpen;
 import fuse.FuseSize;
 import fuse.FuseStatfs;
+import fuse.FuseFSFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -452,6 +453,7 @@ public class CAPIGenerator {
             new CAPIGenerator(FuseContext.class).generateClassAPI(hOut, cOut, false, false);
             new CAPIGenerator(FuseFS.class).generateClassAPI(hOut, cOut, false, false);
             new CAPIGenerator(ByteBuffer.class).generateClassAPI(hOut, cOut, false, false);
+            new CAPIGenerator(FuseFSFactory.class).generateClassAPI(hOut, cOut, false, false);
         }
         catch(IOException e) {
             e.printStackTrace();

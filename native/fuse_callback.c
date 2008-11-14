@@ -24,6 +24,7 @@ static jclass_fuse_FuseSize *FuseSize;
 static jclass_fuse_FuseContext *FuseContext;
 static jclass_java_nio_ByteBuffer *ByteBuffer;
 static jclass_fuse_FuseFS *FuseFS;
+static jclass_fuse_FuseFSFactory *FuseFSFactory;
 
 static jobject fuseFS = NULL;
 static jobject threadGroup = NULL;
@@ -80,93 +81,6 @@ static void free_threadGroup(JNIEnv *env)
    if (threadGroup != NULL) { (*env)->DeleteGlobalRef(env, threadGroup); threadGroup = NULL; }
 }
 */
-
-static int alloc_filesystem(JNIEnv *env, char *filesystemClassName)
-{
-   jclass fsClass = NULL;
-   jobject util = NULL;
-   jmethodID fsConstructorID;
-
-   while (1)
-   {
-      fsClass = (*env)->FindClass(env, filesystemClassName);
-      if ((*env)->ExceptionCheck(env)) break;
-
-      fsConstructorID = (*env)->GetMethodID(env, fsClass, "<init>", "()V");
-      if ((*env)->ExceptionCheck(env)) break;
-
-      util = (*env)->NewObject(env, fsClass, fsConstructorID);
-      if ((*env)->ExceptionCheck(env)) break;
-
-      fuseFS = (*env)->NewGlobalRef(env, util);
-      if ((*env)->ExceptionCheck(env)) break;
-      
-      TRACE("FILE SYSTEM ALLOC OK");
-
-      return 1; /* success */
-   }
-
-   TRACE("FILE SYSTEM ALLOC FAILED");
-
-   // error handler
-
-   if ((*env)->ExceptionCheck(env))
-   {
-      (*env)->ExceptionDescribe(env);
-   }
-
-   free_fuseFS(env);
-
-   if (util != NULL) (*env)->DeleteLocalRef(env, util);
-   if (fsClass != NULL) (*env)->DeleteLocalRef(env, fsClass);
-
-   return 0;
-}
-
-
-static void free_classes(JNIEnv *env)
-{
-   if (FuseGetattr != NULL)     { free_jclass_fuse_FuseGetattr(env, FuseGetattr);         FuseGetattr = NULL; }
-   if (FuseFSDirEnt != NULL)    { free_jclass_fuse_FuseFSDirEnt(env, FuseFSDirEnt);       FuseFSDirEnt = NULL; }
-   if (FuseFSDirFiller != NULL) { free_jclass_fuse_FuseFSDirFiller(env, FuseFSDirFiller); FuseFSDirFiller = NULL; }
-   if (FuseStatfs != NULL)      { free_jclass_fuse_FuseStatfs(env, FuseStatfs);           FuseStatfs = NULL; }
-   if (FuseOpen != NULL)        { free_jclass_fuse_FuseOpen(env, FuseOpen);               FuseOpen = NULL; }
-   if (FuseSize != NULL)        { free_jclass_fuse_FuseSize(env, FuseSize);               FuseSize = NULL; }
-   if (FuseContext != NULL)     { free_jclass_fuse_FuseContext(env, FuseContext);         FuseContext = NULL; }
-   if (ByteBuffer != NULL)      { free_jclass_java_nio_ByteBuffer(env, ByteBuffer);       ByteBuffer = NULL; }
-   if (FuseFS != NULL)          { free_jclass_fuse_FuseFS(env, FuseFS);                   FuseFS = NULL; }
-}
-
-
-static int alloc_classes(JNIEnv *env)
-{
-   while (1)
-   {
-      if (!(FuseGetattr     = alloc_jclass_fuse_FuseGetattr(env))) break;
-      if (!(FuseFSDirEnt    = alloc_jclass_fuse_FuseFSDirEnt(env))) break;
-      if (!(FuseFSDirFiller = alloc_jclass_fuse_FuseFSDirFiller(env))) break;
-      if (!(FuseStatfs      = alloc_jclass_fuse_FuseStatfs(env))) break;
-      if (!(FuseOpen        = alloc_jclass_fuse_FuseOpen(env))) break;
-      if (!(FuseSize        = alloc_jclass_fuse_FuseSize(env))) break;
-      if (!(FuseContext     = alloc_jclass_fuse_FuseContext(env))) break;
-      if (!(ByteBuffer      = alloc_jclass_java_nio_ByteBuffer(env))) break;
-      if (!(FuseFS          = alloc_jclass_fuse_FuseFS(env))) break;
-
-      return 1;
-   }
-
-   // error handler
-
-   if ((*env)->ExceptionCheck(env))
-   {
-      (*env)->ExceptionDescribe(env);
-   }
-
-   free_classes(env);
-
-   return 0;
-}
-
 
 static void free_JVM(JNIEnv *env)
 {
@@ -286,8 +200,6 @@ static int javafs_getattr(const char *path, struct stat *stbuf)
    jobject jGetattr = NULL;
    jint jerrno = 0;
 
-    TRACE("Start: javafs_getattr");
-
    while (1)
    {
       jPath = (*env)->NewDirectByteBuffer(env, (void *)path, (jlong)strlen(path));
@@ -298,23 +210,6 @@ static int javafs_getattr(const char *path, struct stat *stbuf)
 
       jerrno = (*env)->CallIntMethod(env, fuseFS, FuseFS->method.getattr__Ljava_nio_ByteBuffer_Lfuse_FuseGetattrSetter_, jPath, jGetattr);
       if (exception_check_jerrno(env, &jerrno)) break;
-
-      /* public class FuseGetattr extends FuseFtype {
-
-         public long inode;
-         // public int mode; in superclass
-         public int nlink;
-         public int uid;
-         public int gid;
-         public int rdev;
-         public long size;
-         public long blocks;
-         public int atime;
-         public int mtime;
-         public int ctime;
-
-         ...}
-      */
 
       // inode support fix by Edwin Olson <eolson@mit.edu>
       stbuf->st_ino =    (ino_t)((*env)->GetLongField(env, jGetattr, FuseGetattr->field.inode));
@@ -396,8 +291,6 @@ static int javafs_getdir(const char *path, fuse_dirh_t h, fuse_dirfil_t filler)
    jint i;
    jint n;
    int res1;
-
-    TRACE("Start: javafs_getdir");
 
    while (1)
    {
@@ -896,48 +789,29 @@ static int javafs_statvfs(const char *path, struct statvfs *fst)
    jobject jStatfs = NULL;
    jint jerrno = 0;
 
-
-   TRACE("Start: javafs_statvfs");
-
    while (1)
    {
-      TRACE("HERE 1");
       jStatfs = (*env)->NewObject(env, FuseStatfs->class, FuseStatfs->constructor.new);
       if (exception_check_jerrno(env, &jerrno)) break;
-      TRACE("HERE 2 %p, %p", env, fuseFS);
 
       jerrno = (*env)->CallIntMethod(env, fuseFS, FuseFS->method.statfs__Lfuse_FuseStatfsSetter_, jStatfs);
-
-      TRACE("HERE 2A");
-
       if (exception_check_jerrno(env, &jerrno)) break;
 
-      TRACE("HERE 3");
-
       fst->f_bsize   = (long) (*env)->GetIntField(env, jStatfs, FuseStatfs->field.blockSize);
-      TRACE("HERE 4");
       fst->f_blocks  = (long) (*env)->GetIntField(env, jStatfs, FuseStatfs->field.blocks);
-      TRACE("HERE 5");
       fst->f_bfree   = (long) (*env)->GetIntField(env, jStatfs, FuseStatfs->field.blocksFree);
-      TRACE("HERE 6");
       fst->f_bavail  = (long) (*env)->GetIntField(env, jStatfs, FuseStatfs->field.blocksAvail);
-      TRACE("HERE 7");
       fst->f_files   = (long) (*env)->GetIntField(env, jStatfs, FuseStatfs->field.files);
-      TRACE("HERE 8");
       fst->f_ffree   = (long) (*env)->GetIntField(env, jStatfs, FuseStatfs->field.filesFree);
-      TRACE("HERE 9");
       fst->f_namemax = (long) (*env)->GetIntField(env, jStatfs, FuseStatfs->field.namelen);
-      TRACE("HERE 10");
       break;
    }
 
    // cleanup
 
    if (jStatfs != NULL) (*env)->DeleteLocalRef(env, jStatfs);
-   TRACE("HERE 11");
 
    release_env(env);
-
    return -jerrno;
 }
 
@@ -1212,6 +1086,99 @@ static int javafs_removexattr(const char *path, const char *name)
    return -jerrno;
 }
 
+static void free_classes(JNIEnv *env);
+
+static int alloc_classes(JNIEnv *env)
+{
+   while (1)
+   {
+      if (!(FuseGetattr     = alloc_jclass_fuse_FuseGetattr(env))) break;
+      if (!(FuseFSDirEnt    = alloc_jclass_fuse_FuseFSDirEnt(env))) break;
+      if (!(FuseFSDirFiller = alloc_jclass_fuse_FuseFSDirFiller(env))) break;
+      if (!(FuseStatfs      = alloc_jclass_fuse_FuseStatfs(env))) break;
+      if (!(FuseOpen        = alloc_jclass_fuse_FuseOpen(env))) break;
+      if (!(FuseSize        = alloc_jclass_fuse_FuseSize(env))) break;
+      if (!(FuseContext     = alloc_jclass_fuse_FuseContext(env))) break;
+      if (!(ByteBuffer      = alloc_jclass_java_nio_ByteBuffer(env))) break;
+      if (!(FuseFS          = alloc_jclass_fuse_FuseFS(env))) break;
+      if (!(FuseFSFactory   = alloc_jclass_fuse_FuseFSFactory(env))) break;
+
+      return 1;
+   }
+
+   // error handler
+
+   if ((*env)->ExceptionCheck(env))
+   {
+      (*env)->ExceptionDescribe(env);
+   }
+
+   free_classes(env);
+
+   return 0;
+}
+
+static void free_classes(JNIEnv *env)
+{
+   if (FuseGetattr != NULL)     { free_jclass_fuse_FuseGetattr(env, FuseGetattr);         FuseGetattr = NULL; }
+   if (FuseFSDirEnt != NULL)    { free_jclass_fuse_FuseFSDirEnt(env, FuseFSDirEnt);       FuseFSDirEnt = NULL; }
+   if (FuseFSDirFiller != NULL) { free_jclass_fuse_FuseFSDirFiller(env, FuseFSDirFiller); FuseFSDirFiller = NULL; }
+   if (FuseStatfs != NULL)      { free_jclass_fuse_FuseStatfs(env, FuseStatfs);           FuseStatfs = NULL; }
+   if (FuseOpen != NULL)        { free_jclass_fuse_FuseOpen(env, FuseOpen);               FuseOpen = NULL; }
+   if (FuseSize != NULL)        { free_jclass_fuse_FuseSize(env, FuseSize);               FuseSize = NULL; }
+   if (FuseContext != NULL)     { free_jclass_fuse_FuseContext(env, FuseContext);         FuseContext = NULL; }
+   if (ByteBuffer != NULL)      { free_jclass_java_nio_ByteBuffer(env, ByteBuffer);       ByteBuffer = NULL; }
+   if (FuseFS != NULL)          { free_jclass_fuse_FuseFS(env, FuseFS);                   FuseFS = NULL; }
+   if (FuseFSFactory != NULL)   { free_jclass_fuse_FuseFSFactory(env, FuseFSFactory);     FuseFSFactory = NULL; }
+}
+
+static int alloc_filesystem(JNIEnv *env, char *filesystemClassName)
+{
+    jclass userFSClass = NULL;
+    jmethodID userFSConstructorID;
+    jobject userFSObject = NULL;
+    jobject fsObject = NULL;
+
+    while (1)
+    {
+        userFSClass = (*env)->FindClass(env, filesystemClassName);
+        if ((*env)->ExceptionCheck(env)) break;
+
+        userFSConstructorID = (*env)->GetMethodID(env, userFSClass, "<init>", "()V");
+        if ((*env)->ExceptionCheck(env)) break;
+
+        userFSObject = (*env)->NewObject(env, userFSClass, userFSConstructorID);
+        if ((*env)->ExceptionCheck(env)) break;
+
+        fsObject = (*env)->CallStaticObjectMethod(env, FuseFSFactory->class, FuseFSFactory->static_method.adapt__Ljava_lang_Object_, userFSObject);
+        if ((*env)->ExceptionCheck(env)) break;
+
+        fuseFS = (*env)->NewGlobalRef(env, fsObject);
+        if ((*env)->ExceptionCheck(env)) break;
+
+        TRACE("FILE SYSTEM ALLOC OK");
+
+        return 1; /* success */
+    }
+
+   TRACE("FILE SYSTEM ALLOC FAILED");
+
+   // error handler
+
+   if ((*env)->ExceptionCheck(env))
+   {
+      (*env)->ExceptionDescribe(env);
+   }
+
+   free_fuseFS(env);
+
+   if (fsObject     != NULL) (*env)->DeleteLocalRef(env, fsObject);
+   if (userFSObject != NULL) (*env)->DeleteLocalRef(env, userFSObject);
+   if (userFSClass  != NULL) (*env)->DeleteLocalRef(env, userFSClass);
+
+   return 0;
+}
+
 /**
  * Initialize filesystem
  *
@@ -1246,8 +1213,6 @@ static void * javafs_init(struct fuse_conn_info *conn) {
  * Introduced in version 2.3
  */
 static void javafs_destroy(void *data) {
-
-    TRACE("Destroy Starting");
     JNIEnv *env = get_env();
 
     free_fuseFS(env);
@@ -1257,7 +1222,6 @@ static void javafs_destroy(void *data) {
          (*env)->ExceptionClear(env);
 
     free_JVM(env);
-    TRACE("Destroy Complete");
 }
 
 

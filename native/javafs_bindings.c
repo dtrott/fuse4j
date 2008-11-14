@@ -68,21 +68,21 @@ jclass_fuse_FuseGetattr *alloc_jclass_fuse_FuseGetattr(JNIEnv *env)
       // obtain instance method IDs
       fuse_FuseGetattr->method.set__JIIIIIJJIII = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "set", "(JIIIIIJJIII)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseGetattr->method.clone = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "clone", "()Ljava/lang/Object;");
-      if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseGetattr->method.toString = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "toString", "()Ljava/lang/String;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseGetattr->method.clone = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "clone", "()Ljava/lang/Object;");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseGetattr->method.hashCode = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "hashCode", "()I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseGetattr->method.getClass = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "getClass", "()Ljava/lang/Class;");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseGetattr->method.wait__J = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "wait", "(J)V");
+      fuse_FuseGetattr->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "equals", "(Ljava/lang/Object;)Z");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseGetattr->method.wait__JI = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "wait", "(JI)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseGetattr->method.wait = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "wait", "()V");
+      fuse_FuseGetattr->method.wait__J = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "wait", "(J)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseGetattr->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "equals", "(Ljava/lang/Object;)Z");
+      fuse_FuseGetattr->method.wait = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "wait", "()V");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseGetattr->method.notify = (*env)->GetMethodID(env, fuse_FuseGetattr->class, "notify", "()V");
       if ((*env)->ExceptionCheck(env)) break;
@@ -146,21 +146,21 @@ jclass_fuse_FuseFSDirEnt *alloc_jclass_fuse_FuseFSDirEnt(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
 
       // obtain instance method IDs
-      fuse_FuseFSDirEnt->method.clone = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "clone", "()Ljava/lang/Object;");
-      if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirEnt->method.toString = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "toString", "()Ljava/lang/String;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSDirEnt->method.clone = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "clone", "()Ljava/lang/Object;");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirEnt->method.hashCode = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "hashCode", "()I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirEnt->method.getClass = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "getClass", "()Ljava/lang/Class;");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSDirEnt->method.wait__J = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "wait", "(J)V");
+      fuse_FuseFSDirEnt->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "equals", "(Ljava/lang/Object;)Z");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirEnt->method.wait__JI = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "wait", "(JI)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSDirEnt->method.wait = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "wait", "()V");
+      fuse_FuseFSDirEnt->method.wait__J = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "wait", "(J)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSDirEnt->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "equals", "(Ljava/lang/Object;)Z");
+      fuse_FuseFSDirEnt->method.wait = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "wait", "()V");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirEnt->method.notify = (*env)->GetMethodID(env, fuse_FuseFSDirEnt->class, "notify", "()V");
       if ((*env)->ExceptionCheck(env)) break;
@@ -216,15 +216,17 @@ jclass_fuse_FuseFSDirFiller *alloc_jclass_fuse_FuseFSDirFiller(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
 
       // obtain instance method IDs
-      fuse_FuseFSDirFiller->method.setCharset__Ljava_nio_charset_Charset_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "setCharset", "(Ljava/nio/charset/Charset;)V");
+      fuse_FuseFSDirFiller->method.toString = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "toString", "()Ljava/lang/String;");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.add__Ljava_lang_String_JI = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "add", "(Ljava/lang/String;JI)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSDirFiller->method.toString = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "toString", "()Ljava/lang/String;");
+      fuse_FuseFSDirFiller->method.setCharset__Ljava_nio_charset_Charset_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "setCharset", "(Ljava/nio/charset/Charset;)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSDirFiller->method.add__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "add", "(Ljava/lang/Object;)Z");
+      fuse_FuseFSDirFiller->method.get__I = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "get", "(I)Ljava/lang/Object;");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.add__ILjava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "add", "(ILjava/lang/Object;)V");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSDirFiller->method.add__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "add", "(Ljava/lang/Object;)Z");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.indexOf__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "indexOf", "(Ljava/lang/Object;)I");
       if ((*env)->ExceptionCheck(env)) break;
@@ -232,15 +234,13 @@ jclass_fuse_FuseFSDirFiller *alloc_jclass_fuse_FuseFSDirFiller(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.clear = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "clear", "()V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSDirFiller->method.contains__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "contains", "(Ljava/lang/Object;)Z");
-      if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.lastIndexOf__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "lastIndexOf", "(Ljava/lang/Object;)I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSDirFiller->method.contains__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "contains", "(Ljava/lang/Object;)Z");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.addAll__Ljava_util_Collection_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "addAll", "(Ljava/util/Collection;)Z");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.addAll__ILjava_util_Collection_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "addAll", "(ILjava/util/Collection;)Z");
-      if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSDirFiller->method.get__I = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "get", "(I)Ljava/lang/Object;");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.size = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "size", "()I");
       if ((*env)->ExceptionCheck(env)) break;
@@ -248,17 +248,17 @@ jclass_fuse_FuseFSDirFiller *alloc_jclass_fuse_FuseFSDirFiller(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.toArray___Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "toArray", "([Ljava/lang/Object;)[Ljava/lang/Object;");
       if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSDirFiller->method.set__ILjava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "set", "(ILjava/lang/Object;)Ljava/lang/Object;");
+      if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.remove__I = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "remove", "(I)Ljava/lang/Object;");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.remove__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "remove", "(Ljava/lang/Object;)Z");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.isEmpty = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "isEmpty", "()Z");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSDirFiller->method.set__ILjava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "set", "(ILjava/lang/Object;)Ljava/lang/Object;");
+      fuse_FuseFSDirFiller->method.trimToSize = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "trimToSize", "()V");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.ensureCapacity__I = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "ensureCapacity", "(I)V");
-      if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSDirFiller->method.trimToSize = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "trimToSize", "()V");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.hashCode = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "hashCode", "()I");
       if ((*env)->ExceptionCheck(env)) break;
@@ -268,9 +268,9 @@ jclass_fuse_FuseFSDirFiller *alloc_jclass_fuse_FuseFSDirFiller(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.subList__II = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "subList", "(II)Ljava/util/List;");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSDirFiller->method.listIterator = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "listIterator", "()Ljava/util/ListIterator;");
-      if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.listIterator__I = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "listIterator", "(I)Ljava/util/ListIterator;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSDirFiller->method.listIterator = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "listIterator", "()Ljava/util/ListIterator;");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.containsAll__Ljava_util_Collection_ = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "containsAll", "(Ljava/util/Collection;)Z");
       if ((*env)->ExceptionCheck(env)) break;
@@ -280,9 +280,9 @@ jclass_fuse_FuseFSDirFiller *alloc_jclass_fuse_FuseFSDirFiller(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.getClass = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "getClass", "()Ljava/lang/Class;");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSDirFiller->method.wait__J = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "wait", "(J)V");
-      if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.wait__JI = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "wait", "(JI)V");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSDirFiller->method.wait__J = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "wait", "(J)V");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSDirFiller->method.wait = (*env)->GetMethodID(env, fuse_FuseFSDirFiller->class, "wait", "()V");
       if ((*env)->ExceptionCheck(env)) break;
@@ -358,21 +358,21 @@ jclass_fuse_FuseStatfs *alloc_jclass_fuse_FuseStatfs(JNIEnv *env)
       // obtain instance method IDs
       fuse_FuseStatfs->method.set__IIIIIII = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "set", "(IIIIIII)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseStatfs->method.clone = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "clone", "()Ljava/lang/Object;");
-      if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseStatfs->method.toString = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "toString", "()Ljava/lang/String;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseStatfs->method.clone = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "clone", "()Ljava/lang/Object;");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseStatfs->method.hashCode = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "hashCode", "()I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseStatfs->method.getClass = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "getClass", "()Ljava/lang/Class;");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseStatfs->method.wait__J = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "wait", "(J)V");
+      fuse_FuseStatfs->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "equals", "(Ljava/lang/Object;)Z");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseStatfs->method.wait__JI = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "wait", "(JI)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseStatfs->method.wait = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "wait", "()V");
+      fuse_FuseStatfs->method.wait__J = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "wait", "(J)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseStatfs->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "equals", "(Ljava/lang/Object;)Z");
+      fuse_FuseStatfs->method.wait = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "wait", "()V");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseStatfs->method.notify = (*env)->GetMethodID(env, fuse_FuseStatfs->class, "notify", "()V");
       if ((*env)->ExceptionCheck(env)) break;
@@ -434,21 +434,21 @@ jclass_fuse_FuseSize *alloc_jclass_fuse_FuseSize(JNIEnv *env)
       // obtain instance method IDs
       fuse_FuseSize->method.setSize__I = (*env)->GetMethodID(env, fuse_FuseSize->class, "setSize", "(I)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseSize->method.clone = (*env)->GetMethodID(env, fuse_FuseSize->class, "clone", "()Ljava/lang/Object;");
-      if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseSize->method.toString = (*env)->GetMethodID(env, fuse_FuseSize->class, "toString", "()Ljava/lang/String;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseSize->method.clone = (*env)->GetMethodID(env, fuse_FuseSize->class, "clone", "()Ljava/lang/Object;");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseSize->method.hashCode = (*env)->GetMethodID(env, fuse_FuseSize->class, "hashCode", "()I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseSize->method.getClass = (*env)->GetMethodID(env, fuse_FuseSize->class, "getClass", "()Ljava/lang/Class;");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseSize->method.wait__J = (*env)->GetMethodID(env, fuse_FuseSize->class, "wait", "(J)V");
+      fuse_FuseSize->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseSize->class, "equals", "(Ljava/lang/Object;)Z");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseSize->method.wait__JI = (*env)->GetMethodID(env, fuse_FuseSize->class, "wait", "(JI)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseSize->method.wait = (*env)->GetMethodID(env, fuse_FuseSize->class, "wait", "()V");
+      fuse_FuseSize->method.wait__J = (*env)->GetMethodID(env, fuse_FuseSize->class, "wait", "(J)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseSize->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseSize->class, "equals", "(Ljava/lang/Object;)Z");
+      fuse_FuseSize->method.wait = (*env)->GetMethodID(env, fuse_FuseSize->class, "wait", "()V");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseSize->method.notify = (*env)->GetMethodID(env, fuse_FuseSize->class, "notify", "()V");
       if ((*env)->ExceptionCheck(env)) break;
@@ -522,21 +522,21 @@ jclass_fuse_FuseOpen *alloc_jclass_fuse_FuseOpen(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseOpen->method.setKeepCache__Z = (*env)->GetMethodID(env, fuse_FuseOpen->class, "setKeepCache", "(Z)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseOpen->method.clone = (*env)->GetMethodID(env, fuse_FuseOpen->class, "clone", "()Ljava/lang/Object;");
-      if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseOpen->method.toString = (*env)->GetMethodID(env, fuse_FuseOpen->class, "toString", "()Ljava/lang/String;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseOpen->method.clone = (*env)->GetMethodID(env, fuse_FuseOpen->class, "clone", "()Ljava/lang/Object;");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseOpen->method.hashCode = (*env)->GetMethodID(env, fuse_FuseOpen->class, "hashCode", "()I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseOpen->method.getClass = (*env)->GetMethodID(env, fuse_FuseOpen->class, "getClass", "()Ljava/lang/Class;");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseOpen->method.wait__J = (*env)->GetMethodID(env, fuse_FuseOpen->class, "wait", "(J)V");
+      fuse_FuseOpen->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseOpen->class, "equals", "(Ljava/lang/Object;)Z");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseOpen->method.wait__JI = (*env)->GetMethodID(env, fuse_FuseOpen->class, "wait", "(JI)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseOpen->method.wait = (*env)->GetMethodID(env, fuse_FuseOpen->class, "wait", "()V");
+      fuse_FuseOpen->method.wait__J = (*env)->GetMethodID(env, fuse_FuseOpen->class, "wait", "(J)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseOpen->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseOpen->class, "equals", "(Ljava/lang/Object;)Z");
+      fuse_FuseOpen->method.wait = (*env)->GetMethodID(env, fuse_FuseOpen->class, "wait", "()V");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseOpen->method.notify = (*env)->GetMethodID(env, fuse_FuseOpen->class, "notify", "()V");
       if ((*env)->ExceptionCheck(env)) break;
@@ -600,21 +600,21 @@ jclass_fuse_FuseContext *alloc_jclass_fuse_FuseContext(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
 
       // obtain instance method IDs
-      fuse_FuseContext->method.clone = (*env)->GetMethodID(env, fuse_FuseContext->class, "clone", "()Ljava/lang/Object;");
-      if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseContext->method.toString = (*env)->GetMethodID(env, fuse_FuseContext->class, "toString", "()Ljava/lang/String;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseContext->method.clone = (*env)->GetMethodID(env, fuse_FuseContext->class, "clone", "()Ljava/lang/Object;");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseContext->method.hashCode = (*env)->GetMethodID(env, fuse_FuseContext->class, "hashCode", "()I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseContext->method.getClass = (*env)->GetMethodID(env, fuse_FuseContext->class, "getClass", "()Ljava/lang/Class;");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseContext->method.wait__J = (*env)->GetMethodID(env, fuse_FuseContext->class, "wait", "(J)V");
+      fuse_FuseContext->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseContext->class, "equals", "(Ljava/lang/Object;)Z");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseContext->method.wait__JI = (*env)->GetMethodID(env, fuse_FuseContext->class, "wait", "(JI)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseContext->method.wait = (*env)->GetMethodID(env, fuse_FuseContext->class, "wait", "()V");
+      fuse_FuseContext->method.wait__J = (*env)->GetMethodID(env, fuse_FuseContext->class, "wait", "(J)V");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseContext->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseContext->class, "equals", "(Ljava/lang/Object;)Z");
+      fuse_FuseContext->method.wait = (*env)->GetMethodID(env, fuse_FuseContext->class, "wait", "()V");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseContext->method.notify = (*env)->GetMethodID(env, fuse_FuseContext->class, "notify", "()V");
       if ((*env)->ExceptionCheck(env)) break;
@@ -666,11 +666,17 @@ jclass_fuse_FuseFS *alloc_jclass_fuse_FuseFS(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
 
       // obtain instance method IDs
-      fuse_FuseFS->method.chown__Ljava_nio_ByteBuffer_II = (*env)->GetMethodID(env, fuse_FuseFS->class, "chown", "(Ljava/nio/ByteBuffer;II)I");
+      fuse_FuseFS->method.write__Ljava_nio_ByteBuffer_Ljava_lang_Object_ZLjava_nio_ByteBuffer_J = (*env)->GetMethodID(env, fuse_FuseFS->class, "write", "(Ljava/nio/ByteBuffer;Ljava/lang/Object;ZLjava/nio/ByteBuffer;J)I");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.chmod__Ljava_nio_ByteBuffer_I = (*env)->GetMethodID(env, fuse_FuseFS->class, "chmod", "(Ljava/nio/ByteBuffer;I)I");
+      fuse_FuseFS->method.flush__Ljava_nio_ByteBuffer_Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "flush", "(Ljava/nio/ByteBuffer;Ljava/lang/Object;)I");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.symlink__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "symlink", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I");
+      fuse_FuseFS->method.open__Ljava_nio_ByteBuffer_ILfuse_FuseOpenSetter_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "open", "(Ljava/nio/ByteBuffer;ILfuse/FuseOpenSetter;)I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFS->method.read__Ljava_nio_ByteBuffer_Ljava_lang_Object_Ljava_nio_ByteBuffer_J = (*env)->GetMethodID(env, fuse_FuseFS->class, "read", "(Ljava/nio/ByteBuffer;Ljava/lang/Object;Ljava/nio/ByteBuffer;J)I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFS->method.mkdir__Ljava_nio_ByteBuffer_I = (*env)->GetMethodID(env, fuse_FuseFS->class, "mkdir", "(Ljava/nio/ByteBuffer;I)I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFS->method.rename__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "rename", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.getattr__Ljava_nio_ByteBuffer_Lfuse_FuseGetattrSetter_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "getattr", "(Ljava/nio/ByteBuffer;Lfuse/FuseGetattrSetter;)I");
       if ((*env)->ExceptionCheck(env)) break;
@@ -684,9 +690,21 @@ jclass_fuse_FuseFS *alloc_jclass_fuse_FuseFS(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.rmdir__Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "rmdir", "(Ljava/nio/ByteBuffer;)I");
       if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFS->method.symlink__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "symlink", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFS->method.link__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "link", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFS->method.chmod__Ljava_nio_ByteBuffer_I = (*env)->GetMethodID(env, fuse_FuseFS->class, "chmod", "(Ljava/nio/ByteBuffer;I)I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFS->method.chown__Ljava_nio_ByteBuffer_II = (*env)->GetMethodID(env, fuse_FuseFS->class, "chown", "(Ljava/nio/ByteBuffer;II)I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFS->method.truncate__Ljava_nio_ByteBuffer_J = (*env)->GetMethodID(env, fuse_FuseFS->class, "truncate", "(Ljava/nio/ByteBuffer;J)I");
+      if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.utime__Ljava_nio_ByteBuffer_II = (*env)->GetMethodID(env, fuse_FuseFS->class, "utime", "(Ljava/nio/ByteBuffer;II)I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.statfs__Lfuse_FuseStatfsSetter_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "statfs", "(Lfuse/FuseStatfsSetter;)I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFS->method.release__Ljava_nio_ByteBuffer_Ljava_lang_Object_I = (*env)->GetMethodID(env, fuse_FuseFS->class, "release", "(Ljava/nio/ByteBuffer;Ljava/lang/Object;I)I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.fsync__Ljava_nio_ByteBuffer_Ljava_lang_Object_Z = (*env)->GetMethodID(env, fuse_FuseFS->class, "fsync", "(Ljava/nio/ByteBuffer;Ljava/lang/Object;Z)I");
       if ((*env)->ExceptionCheck(env)) break;
@@ -701,24 +719,6 @@ jclass_fuse_FuseFS *alloc_jclass_fuse_FuseFS(JNIEnv *env)
       fuse_FuseFS->method.listxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "listxattr", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.removexattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "removexattr", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I");
-      if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.write__Ljava_nio_ByteBuffer_Ljava_lang_Object_ZLjava_nio_ByteBuffer_J = (*env)->GetMethodID(env, fuse_FuseFS->class, "write", "(Ljava/nio/ByteBuffer;Ljava/lang/Object;ZLjava/nio/ByteBuffer;J)I");
-      if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.flush__Ljava_nio_ByteBuffer_Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "flush", "(Ljava/nio/ByteBuffer;Ljava/lang/Object;)I");
-      if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.read__Ljava_nio_ByteBuffer_Ljava_lang_Object_Ljava_nio_ByteBuffer_J = (*env)->GetMethodID(env, fuse_FuseFS->class, "read", "(Ljava/nio/ByteBuffer;Ljava/lang/Object;Ljava/nio/ByteBuffer;J)I");
-      if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.open__Ljava_nio_ByteBuffer_ILfuse_FuseOpenSetter_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "open", "(Ljava/nio/ByteBuffer;ILfuse/FuseOpenSetter;)I");
-      if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.mkdir__Ljava_nio_ByteBuffer_I = (*env)->GetMethodID(env, fuse_FuseFS->class, "mkdir", "(Ljava/nio/ByteBuffer;I)I");
-      if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.rename__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "rename", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I");
-      if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.release__Ljava_nio_ByteBuffer_Ljava_lang_Object_I = (*env)->GetMethodID(env, fuse_FuseFS->class, "release", "(Ljava/nio/ByteBuffer;Ljava/lang/Object;I)I");
-      if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.truncate__Ljava_nio_ByteBuffer_J = (*env)->GetMethodID(env, fuse_FuseFS->class, "truncate", "(Ljava/nio/ByteBuffer;J)I");
-      if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.link__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "link", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I");
       if ((*env)->ExceptionCheck(env)) break;
 
       // we're done
@@ -766,9 +766,9 @@ jclass_java_nio_ByteBuffer *alloc_jclass_java_nio_ByteBuffer(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
 
       // obtain static method IDs
-      java_nio_ByteBuffer->static_method.wrap___BII = (*env)->GetStaticMethodID(env, java_nio_ByteBuffer->class, "wrap", "([BII)Ljava/nio/ByteBuffer;");
-      if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->static_method.wrap___B = (*env)->GetStaticMethodID(env, java_nio_ByteBuffer->class, "wrap", "([B)Ljava/nio/ByteBuffer;");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->static_method.wrap___BII = (*env)->GetStaticMethodID(env, java_nio_ByteBuffer->class, "wrap", "([BII)Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->static_method.allocate__I = (*env)->GetStaticMethodID(env, java_nio_ByteBuffer->class, "allocate", "(I)Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
@@ -778,9 +778,21 @@ jclass_java_nio_ByteBuffer *alloc_jclass_java_nio_ByteBuffer(JNIEnv *env)
       // obtain instance method IDs
       java_nio_ByteBuffer->method.hashCode = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "hashCode", "()I");
       if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.compareTo__Ljava_lang_Object_ = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "compareTo", "(Ljava/lang/Object;)I");
+      if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.compareTo__Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "compareTo", "(Ljava/nio/ByteBuffer;)I");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.compareTo__Ljava_lang_Object_ = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "compareTo", "(Ljava/lang/Object;)I");
+      java_nio_ByteBuffer->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "equals", "(Ljava/lang/Object;)Z");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.toString = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "toString", "()Ljava/lang/String;");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.get___BII = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "get", "([BII)Ljava/nio/ByteBuffer;");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.get = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "get", "()B");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.get__I = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "get", "(I)B");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.get___B = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "get", "([B)Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.getShort = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "getShort", "()S");
       if ((*env)->ExceptionCheck(env)) break;
@@ -798,9 +810,9 @@ jclass_java_nio_ByteBuffer *alloc_jclass_java_nio_ByteBuffer(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.getLong__I = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "getLong", "(I)J");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.getFloat = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "getFloat", "()F");
-      if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.getFloat__I = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "getFloat", "(I)F");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.getFloat = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "getFloat", "()F");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.getDouble = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "getDouble", "()D");
       if ((*env)->ExceptionCheck(env)) break;
@@ -826,63 +838,51 @@ jclass_java_nio_ByteBuffer *alloc_jclass_java_nio_ByteBuffer(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.putFloat__IF = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "putFloat", "(IF)Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.putDouble__D = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "putDouble", "(D)Ljava/nio/ByteBuffer;");
-      if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.putDouble__ID = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "putDouble", "(ID)Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.put__B = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "put", "(B)Ljava/nio/ByteBuffer;");
-      if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.put__IB = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "put", "(IB)Ljava/nio/ByteBuffer;");
+      java_nio_ByteBuffer->method.putDouble__D = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "putDouble", "(D)Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.put__Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "put", "(Ljava/nio/ByteBuffer;)Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.put___BII = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "put", "([BII)Ljava/nio/ByteBuffer;");
-      if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.put___B = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "put", "([B)Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "equals", "(Ljava/lang/Object;)Z");
+      java_nio_ByteBuffer->method.put___BII = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "put", "([BII)Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.toString = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "toString", "()Ljava/lang/String;");
+      java_nio_ByteBuffer->method.put__IB = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "put", "(IB)Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.get = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "get", "()B");
+      java_nio_ByteBuffer->method.put__B = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "put", "(B)Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.get__I = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "get", "(I)B");
+      java_nio_ByteBuffer->method.isDirect = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "isDirect", "()Z");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.get___BII = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "get", "([BII)Ljava/nio/ByteBuffer;");
-      if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.get___B = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "get", "([B)Ljava/nio/ByteBuffer;");
+      java_nio_ByteBuffer->method.hasArray = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "hasArray", "()Z");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.array = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "array", "()[B");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.arrayOffset = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "arrayOffset", "()I");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.hasArray = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "hasArray", "()Z");
+      java_nio_ByteBuffer->method.duplicate = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "duplicate", "()Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.isDirect = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "isDirect", "()Z");
-      if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.asCharBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asCharBuffer", "()Ljava/nio/CharBuffer;");
-      if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.asDoubleBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asDoubleBuffer", "()Ljava/nio/DoubleBuffer;");
-      if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.asFloatBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asFloatBuffer", "()Ljava/nio/FloatBuffer;");
-      if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.asIntBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asIntBuffer", "()Ljava/nio/IntBuffer;");
-      if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.asLongBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asLongBuffer", "()Ljava/nio/LongBuffer;");
+      java_nio_ByteBuffer->method.slice = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "slice", "()Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.asReadOnlyBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asReadOnlyBuffer", "()Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.asShortBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asShortBuffer", "()Ljava/nio/ShortBuffer;");
-      if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.compact = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "compact", "()Ljava/nio/ByteBuffer;");
-      if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.duplicate = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "duplicate", "()Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.order = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "order", "()Ljava/nio/ByteOrder;");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.order__Ljava_nio_ByteOrder_ = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "order", "(Ljava/nio/ByteOrder;)Ljava/nio/ByteBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.slice = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "slice", "()Ljava/nio/ByteBuffer;");
+      java_nio_ByteBuffer->method.asCharBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asCharBuffer", "()Ljava/nio/CharBuffer;");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.asShortBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asShortBuffer", "()Ljava/nio/ShortBuffer;");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.asIntBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asIntBuffer", "()Ljava/nio/IntBuffer;");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.asLongBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asLongBuffer", "()Ljava/nio/LongBuffer;");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.asFloatBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asFloatBuffer", "()Ljava/nio/FloatBuffer;");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.asDoubleBuffer = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "asDoubleBuffer", "()Ljava/nio/DoubleBuffer;");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.limit = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "limit", "()I");
       if ((*env)->ExceptionCheck(env)) break;
@@ -890,31 +890,31 @@ jclass_java_nio_ByteBuffer *alloc_jclass_java_nio_ByteBuffer(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.clear = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "clear", "()Ljava/nio/Buffer;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.position = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "position", "()I");
+      java_nio_ByteBuffer->method.remaining = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "remaining", "()I");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.position__I = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "position", "(I)Ljava/nio/Buffer;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.remaining = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "remaining", "()I");
+      java_nio_ByteBuffer->method.position = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "position", "()I");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.capacity = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "capacity", "()I");
-      if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.flip = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "flip", "()Ljava/nio/Buffer;");
-      if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.hasRemaining = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "hasRemaining", "()Z");
-      if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.isReadOnly = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "isReadOnly", "()Z");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.mark = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "mark", "()Ljava/nio/Buffer;");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.reset = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "reset", "()Ljava/nio/Buffer;");
       if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.flip = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "flip", "()Ljava/nio/Buffer;");
+      if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.rewind = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "rewind", "()Ljava/nio/Buffer;");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.hasRemaining = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "hasRemaining", "()Z");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.isReadOnly = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "isReadOnly", "()Z");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.getClass = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "getClass", "()Ljava/lang/Class;");
       if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.wait__J = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "wait", "(J)V");
-      if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.wait__JI = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "wait", "(JI)V");
+      if ((*env)->ExceptionCheck(env)) break;
+      java_nio_ByteBuffer->method.wait__J = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "wait", "(J)V");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.wait = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "wait", "()V");
       if ((*env)->ExceptionCheck(env)) break;
@@ -931,6 +931,86 @@ jclass_java_nio_ByteBuffer *alloc_jclass_java_nio_ByteBuffer(JNIEnv *env)
    (*env)->ExceptionDescribe(env);
    (*env)->ExceptionClear(env);
    free_jclass_java_nio_ByteBuffer(env, java_nio_ByteBuffer);
+   return NULL;
+}
+
+/**
+ * free structure with a reference to fuse.FuseFSFactory java class and cached field & method IDs
+ */
+void free_jclass_fuse_FuseFSFactory(JNIEnv *env, jclass_fuse_FuseFSFactory *fuse_FuseFSFactory)
+{
+   if (fuse_FuseFSFactory->class != NULL)
+      (*env)->DeleteGlobalRef(env, fuse_FuseFSFactory->class);
+
+   free(fuse_FuseFSFactory);
+}
+
+/**
+ * alloc structure with a reference to fuse.FuseFSFactory java class and cached field & method IDs
+ */
+jclass_fuse_FuseFSFactory *alloc_jclass_fuse_FuseFSFactory(JNIEnv *env)
+{
+   jclass class;
+
+   jclass_fuse_FuseFSFactory *fuse_FuseFSFactory = (jclass_fuse_FuseFSFactory*)calloc(1, sizeof(jclass_fuse_FuseFSFactory));
+   if (fuse_FuseFSFactory == NULL)
+   {
+      WARN("Can't allocate structure jclass_fuse_FuseFSFactory");
+      return NULL;
+   }
+
+   while (1)
+   {
+      class = (*env)->FindClass(env, "fuse/FuseFSFactory");
+      if ((*env)->ExceptionCheck(env)) break;
+
+      fuse_FuseFSFactory->class = (*env)->NewGlobalRef(env, class);
+      if ((*env)->ExceptionCheck(env)) break;
+
+      // obtain constructor method IDs
+      fuse_FuseFSFactory->constructor.new = (*env)->GetMethodID(env, fuse_FuseFSFactory->class, "<init>", "()V");
+      if ((*env)->ExceptionCheck(env)) break;
+
+      // obtain static method IDs
+      fuse_FuseFSFactory->static_method.adapt__Lfuse_compat_Filesystem1_Lorg_apache_commons_logging_Log_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Lfuse/compat/Filesystem1;Lorg/apache/commons/logging/Log;)Lfuse/FuseFS;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSFactory->static_method.adapt__Lfuse_compat_Filesystem2_Lorg_apache_commons_logging_Log_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Lfuse/compat/Filesystem2;Lorg/apache/commons/logging/Log;)Lfuse/FuseFS;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSFactory->static_method.adapt__Lfuse_Filesystem3_Lorg_apache_commons_logging_Log_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Lfuse/Filesystem3;Lorg/apache/commons/logging/Log;)Lfuse/FuseFS;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSFactory->static_method.adapt__Ljava_lang_Object_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Ljava/lang/Object;)Lfuse/FuseFS;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSFactory->static_method.adapt__Ljava_lang_Object_Lorg_apache_commons_logging_Log_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Ljava/lang/Object;Lorg/apache/commons/logging/Log;)Lfuse/FuseFS;");
+      if ((*env)->ExceptionCheck(env)) break;
+
+      // obtain instance method IDs
+      fuse_FuseFSFactory->method.hashCode = (*env)->GetMethodID(env, fuse_FuseFSFactory->class, "hashCode", "()I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSFactory->method.getClass = (*env)->GetMethodID(env, fuse_FuseFSFactory->class, "getClass", "()Ljava/lang/Class;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSFactory->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFSFactory->class, "equals", "(Ljava/lang/Object;)Z");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSFactory->method.toString = (*env)->GetMethodID(env, fuse_FuseFSFactory->class, "toString", "()Ljava/lang/String;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSFactory->method.wait__JI = (*env)->GetMethodID(env, fuse_FuseFSFactory->class, "wait", "(JI)V");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSFactory->method.wait__J = (*env)->GetMethodID(env, fuse_FuseFSFactory->class, "wait", "(J)V");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSFactory->method.wait = (*env)->GetMethodID(env, fuse_FuseFSFactory->class, "wait", "()V");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSFactory->method.notify = (*env)->GetMethodID(env, fuse_FuseFSFactory->class, "notify", "()V");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFSFactory->method.notifyAll = (*env)->GetMethodID(env, fuse_FuseFSFactory->class, "notifyAll", "()V");
+      if ((*env)->ExceptionCheck(env)) break;
+
+      // we're done
+      return fuse_FuseFSFactory;
+   }
+
+   // error handler
+   (*env)->ExceptionDescribe(env);
+   (*env)->ExceptionClear(env);
+   free_jclass_fuse_FuseFSFactory(env, fuse_FuseFSFactory);
    return NULL;
 }
 
