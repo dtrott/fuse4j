@@ -1,4 +1,11 @@
 This is still a really early version.
+The native methods are not registered yet hence more complex functionality
+will not work, but you should at least be able to mount the fake filesystem.
+
+Note: I am building on:
+Mac OS X 10.5.5
+Using MacFuse (Built from source)
+
 
 The maven project(s) can be built by:
 
@@ -12,14 +19,19 @@ cd native
 make
 
 
+To mount the "Fake" filesystem.
 
-The code is not really functional at the moment:
-The native code expects the java class to implement:
-
-fuse.FuseFS
-
-Where as most clients will implement:
-
-fuse.Filesystem3
+cd extra
+mkdir fake
+./mount_fake.sh
 
 
+This will mount to the "fake" directory you just created.
+
+
+
+To run in the background (test it first in the foreground)
+Edit mount_fake.sh and remove the -f flag
+
+umount fake
+./mount_fake.sh 
