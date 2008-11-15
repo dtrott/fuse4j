@@ -868,7 +868,6 @@ static int javafs_release(const char *path, struct fuse_file_info *ffi)
    if (jFh != NULL)
    {
       (*env)->DeleteGlobalRef(env, jFh);
-      (*env)->DeleteLocalRef(env, jFh);
       ffi->fh = 0;
    }
 
