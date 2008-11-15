@@ -12,8 +12,11 @@
 //
 // JVM allocation/deallocation
 
-static JavaVM *vm;
-static JNIEnv *mainEnv;
+JavaVM *vm;
+JNIEnv *mainEnv;
+
+jobject threadGroup = NULL;
+jclass_fuse_FuseContext *FuseContext;
 
 static jclass_fuse_FuseGetattr *FuseGetattr;
 static jclass_fuse_FuseFSDirEnt *FuseFSDirEnt;
@@ -21,13 +24,9 @@ static jclass_fuse_FuseFSDirFiller *FuseFSDirFiller;
 static jclass_fuse_FuseStatfs *FuseStatfs;
 static jclass_fuse_FuseOpen *FuseOpen;
 static jclass_fuse_FuseSize *FuseSize;
-static jclass_fuse_FuseContext *FuseContext;
 static jclass_java_nio_ByteBuffer *ByteBuffer;
 static jclass_fuse_FuseFS *FuseFS;
 static jclass_fuse_FuseFSFactory *FuseFSFactory;
-
-static jobject fuseFS = NULL;
-static jobject threadGroup = NULL;
 
 static void create_file_handle(struct fuse_file_info *ffi, jobject ob)
 {
@@ -39,48 +38,50 @@ static jobject read_file_handle(struct fuse_file_info *ffi)
     return (jobject) ffi->fh;
 }
 
-/*
-static int retain_fuseFS(JNIEnv *env, jobject util)
+
+int alloc_classes(JNIEnv *env)
 {
-   fuseFS = (*env)->NewGlobalRef(env, util);
+   while (1)
+   {
+      if (!(FuseGetattr     = alloc_jclass_fuse_FuseGetattr(env))) break;
+      if (!(FuseFSDirEnt    = alloc_jclass_fuse_FuseFSDirEnt(env))) break;
+      if (!(FuseFSDirFiller = alloc_jclass_fuse_FuseFSDirFiller(env))) break;
+      if (!(FuseStatfs      = alloc_jclass_fuse_FuseStatfs(env))) break;
+      if (!(FuseOpen        = alloc_jclass_fuse_FuseOpen(env))) break;
+      if (!(FuseSize        = alloc_jclass_fuse_FuseSize(env))) break;
+      if (!(FuseContext     = alloc_jclass_fuse_FuseContext(env))) break;
+      if (!(ByteBuffer      = alloc_jclass_java_nio_ByteBuffer(env))) break;
+      if (!(FuseFS          = alloc_jclass_fuse_FuseFS(env))) break;
+      if (!(FuseFSFactory   = alloc_jclass_fuse_FuseFSFactory(env))) break;
+
+      return 1;
+   }
+
+   // error handler
 
    if ((*env)->ExceptionCheck(env))
    {
       (*env)->ExceptionDescribe(env);
-      return 0;
    }
 
-   return 1;
-}
-*/
+   free_classes(env);
 
-static void free_fuseFS(JNIEnv *env)
+   return 0;
+}
+
+void free_classes(JNIEnv *env)
 {
-   if (fuseFS != NULL) { (*env)->DeleteGlobalRef(env, fuseFS); fuseFS = NULL; }
+   if (FuseGetattr != NULL)     { free_jclass_fuse_FuseGetattr(env, FuseGetattr);         FuseGetattr = NULL; }
+   if (FuseFSDirEnt != NULL)    { free_jclass_fuse_FuseFSDirEnt(env, FuseFSDirEnt);       FuseFSDirEnt = NULL; }
+   if (FuseFSDirFiller != NULL) { free_jclass_fuse_FuseFSDirFiller(env, FuseFSDirFiller); FuseFSDirFiller = NULL; }
+   if (FuseStatfs != NULL)      { free_jclass_fuse_FuseStatfs(env, FuseStatfs);           FuseStatfs = NULL; }
+   if (FuseOpen != NULL)        { free_jclass_fuse_FuseOpen(env, FuseOpen);               FuseOpen = NULL; }
+   if (FuseSize != NULL)        { free_jclass_fuse_FuseSize(env, FuseSize);               FuseSize = NULL; }
+   if (FuseContext != NULL)     { free_jclass_fuse_FuseContext(env, FuseContext);         FuseContext = NULL; }
+   if (ByteBuffer != NULL)      { free_jclass_java_nio_ByteBuffer(env, ByteBuffer);       ByteBuffer = NULL; }
+   if (FuseFS != NULL)          { free_jclass_fuse_FuseFS(env, FuseFS);                   FuseFS = NULL; }
+   if (FuseFSFactory != NULL)   { free_jclass_fuse_FuseFSFactory(env, FuseFSFactory);     FuseFSFactory = NULL; }
 }
-
-
-/*
-static int retain_threadGroup(JNIEnv *env, jobject util)
-{
-   threadGroup = (*env)->NewGlobalRef(env, util);
-
-   if ((*env)->ExceptionCheck(env))
-   {
-      (*env)->ExceptionDescribe(env);
-      return 0;
-   }
-
-   return 1;
-}
-*/
-
-/*
-static void free_threadGroup(JNIEnv *env)
-{
-   if (threadGroup != NULL) { (*env)->DeleteGlobalRef(env, threadGroup); threadGroup = NULL; }
-}
-*/
 
 static void free_JVM(JNIEnv *env)
 {
@@ -1084,52 +1085,6 @@ static int javafs_removexattr(const char *path, const char *name)
    release_env(env);
 
    return -jerrno;
-}
-
-static void free_classes(JNIEnv *env);
-
-static int alloc_classes(JNIEnv *env)
-{
-   while (1)
-   {
-      if (!(FuseGetattr     = alloc_jclass_fuse_FuseGetattr(env))) break;
-      if (!(FuseFSDirEnt    = alloc_jclass_fuse_FuseFSDirEnt(env))) break;
-      if (!(FuseFSDirFiller = alloc_jclass_fuse_FuseFSDirFiller(env))) break;
-      if (!(FuseStatfs      = alloc_jclass_fuse_FuseStatfs(env))) break;
-      if (!(FuseOpen        = alloc_jclass_fuse_FuseOpen(env))) break;
-      if (!(FuseSize        = alloc_jclass_fuse_FuseSize(env))) break;
-      if (!(FuseContext     = alloc_jclass_fuse_FuseContext(env))) break;
-      if (!(ByteBuffer      = alloc_jclass_java_nio_ByteBuffer(env))) break;
-      if (!(FuseFS          = alloc_jclass_fuse_FuseFS(env))) break;
-      if (!(FuseFSFactory   = alloc_jclass_fuse_FuseFSFactory(env))) break;
-
-      return 1;
-   }
-
-   // error handler
-
-   if ((*env)->ExceptionCheck(env))
-   {
-      (*env)->ExceptionDescribe(env);
-   }
-
-   free_classes(env);
-
-   return 0;
-}
-
-static void free_classes(JNIEnv *env)
-{
-   if (FuseGetattr != NULL)     { free_jclass_fuse_FuseGetattr(env, FuseGetattr);         FuseGetattr = NULL; }
-   if (FuseFSDirEnt != NULL)    { free_jclass_fuse_FuseFSDirEnt(env, FuseFSDirEnt);       FuseFSDirEnt = NULL; }
-   if (FuseFSDirFiller != NULL) { free_jclass_fuse_FuseFSDirFiller(env, FuseFSDirFiller); FuseFSDirFiller = NULL; }
-   if (FuseStatfs != NULL)      { free_jclass_fuse_FuseStatfs(env, FuseStatfs);           FuseStatfs = NULL; }
-   if (FuseOpen != NULL)        { free_jclass_fuse_FuseOpen(env, FuseOpen);               FuseOpen = NULL; }
-   if (FuseSize != NULL)        { free_jclass_fuse_FuseSize(env, FuseSize);               FuseSize = NULL; }
-   if (FuseContext != NULL)     { free_jclass_fuse_FuseContext(env, FuseContext);         FuseContext = NULL; }
-   if (ByteBuffer != NULL)      { free_jclass_java_nio_ByteBuffer(env, ByteBuffer);       ByteBuffer = NULL; }
-   if (FuseFS != NULL)          { free_jclass_fuse_FuseFS(env, FuseFS);                   FuseFS = NULL; }
-   if (FuseFSFactory != NULL)   { free_jclass_fuse_FuseFSFactory(env, FuseFSFactory);     FuseFSFactory = NULL; }
 }
 
 static int alloc_filesystem(JNIEnv *env, char *filesystemClassName)

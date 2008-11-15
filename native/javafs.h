@@ -72,7 +72,8 @@
 #endif
 
 #include "javafs_bindings.h"
-
+#include "fuse_callback.h"
+#include "native_impl.h"
 
 #ifdef __cplusplus
 extern "C" {

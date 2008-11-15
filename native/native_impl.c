@@ -1,0 +1,163 @@
+#include "javafs.h"
+
+jobject fuseFS = NULL;
+
+
+static int retain_fuseFS(JNIEnv *env, jobject util)
+{
+   fuseFS = (*env)->NewGlobalRef(env, util);
+
+   if ((*env)->ExceptionCheck(env))
+   {
+      (*env)->ExceptionDescribe(env);
+      return 0;
+   }
+
+   return 1;
+}
+
+void free_fuseFS(JNIEnv *env)
+{
+   if (fuseFS != NULL) { (*env)->DeleteGlobalRef(env, fuseFS); fuseFS = NULL; }
+}
+
+
+
+static int retain_threadGroup(JNIEnv *env, jobject util)
+{
+   threadGroup = (*env)->NewGlobalRef(env, util);
+
+   if ((*env)->ExceptionCheck(env))
+   {
+      (*env)->ExceptionDescribe(env);
+      return 0;
+   }
+
+   return 1;
+}
+
+static void free_threadGroup(JNIEnv *env)
+{
+   if (threadGroup != NULL) { (*env)->DeleteGlobalRef(env, threadGroup); threadGroup = NULL; }
+}
+
+/*
+ * Class:     fuse_FuseMount
+ * Method:    mount
+ * Signature: ([Ljava/lang/String;Lfuse/FuseFS;Ljava/lang/ThreadGroup;)V
+ */
+JNIEXPORT void JNICALL Java_fuse_FuseMount_mount(JNIEnv *env, jclass class, jobjectArray jArgs, jobject jFuseFS, jobject jThreadGroup)
+{
+   if (!((*env)->GetJavaVM(env, &vm)))
+   {
+      mainEnv = env;
+      int i;
+      int n = (*env)->GetArrayLength(env, jArgs);
+      int fuseArgc = n + 1;
+      char *fuseArgv[fuseArgc];
+
+      // fake 1st argument to be the name of executable
+      fuseArgv[0] = "javafs";
+
+      // convert String[] jArgs -> char *fuseArgv[];
+      for (i = 0; i < n; i++)
+      {
+         jstring jArg = (*env)->GetObjectArrayElement(env, jArgs, i);
+         const char *arg = (*env)->GetStringUTFChars(env, jArg, NULL);
+         char *fuseArg = (char *)malloc(strlen(arg) + 1);
+         strcpy(fuseArg, arg);
+         (*env)->ReleaseStringUTFChars(env, jArg, arg);
+         (*env)->DeleteLocalRef(env, jArg);
+
+         fuseArgv[i + 1] = fuseArg;
+      }
+
+      /*
+      printf("%d fuse arguments:", fuseArgc);
+      for (i = 0; i < fuseArgc; i++)
+         printf(" %s", fuseArgv[i]);
+      printf("\n");
+      */
+
+      if (alloc_classes(env))
+      {
+         if (retain_fuseFS(env, jFuseFS))
+         {
+            if (retain_threadGroup(env, jThreadGroup))
+            {
+               // main loop
+               fuse_main(fuseArgc, fuseArgv, &javafs_oper, NULL);
+
+               // cleanup
+               free_threadGroup(env);
+            }
+
+            // cleanup
+            free_fuseFS(env);
+         }
+
+         // cleanup
+         free_classes(env);
+      }
+
+      // free char *fuseArgv[] strings
+      for (i = 1; i < fuseArgc; i++)
+      {
+         free(fuseArgv[i]);
+      }
+
+      vm = NULL;
+      mainEnv = NULL;
+   }
+}
+
+
+/*
+ * Class:     fuse_FuseOpen
+ * Method:    sizeOfFh
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_fuse_FuseOpen_sizeOfFh(JNIEnv *env, jclass class)
+{
+   struct fuse_file_info *ffi;
+
+   return (jint) sizeof(ffi->fh);
+}
+
+
+/*
+ * Class:     fuse_FuseContext
+ * Method:    fillInFuseContext
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_fuse_FuseContext_fillInFuseContext(JNIEnv *env, jobject jContext)
+{
+   struct fuse_context *context = fuse_get_context();
+
+   (*env)->SetIntField(env, jContext, FuseContext->field.uid, (jint)(context->uid));
+   (*env)->SetIntField(env, jContext, FuseContext->field.gid, (jint)(context->gid));
+   (*env)->SetIntField(env, jContext, FuseContext->field.pid, (jint)(context->pid));
+}
+
+
+/*
+ * Class:     fuse_FuseFSFillDir
+ * Method:    fill
+ * Signature: (Ljava/nio/ByteBuffer;JIJJJ)Z
+ */
+JNIEXPORT jboolean JNICALL Java_fuse_FuseFSFillDir_fill
+  (JNIEnv *env, jobject jFillDir, jobject jName, jlong inode, jint mode, jlong nextOffset, jlong buf, jlong fillDir)
+{
+   // cast jlong (64 bit signed integer) to function pointer
+   fuse_fill_dir_t fill_dir = (fuse_fill_dir_t) fillDir;
+
+   const char *name = (const char *) (*env)->GetDirectBufferAddress(env, jName);
+
+   struct stat stbuf;
+   stbuf.st_ino = (ino_t) inode;
+   stbuf.st_mode = (mode_t) mode;
+
+   int retval = fill_dir((void *)buf, name, &stbuf, (off_t) nextOffset);
+
+   return (retval == 0)? JNI_TRUE : JNI_FALSE;
+}
