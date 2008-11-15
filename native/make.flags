@@ -1,9 +1,8 @@
-FUSE_HOME := /usr/local
-JAVA_HOME := /System/Library/Frameworks/JavaVM.framework/Versions/1.5/Home
+FUSE_HOME=/usr/local
+JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.5/Home
 
-INCLUDES := -I${JAVA_HOME}/include -I${FUSE_HOME}/include
-LDPATH := -L. -L/Library/Java/Extensions -L/System/Library/Java/Extensions -L/usr/lib/java
-LDPATH := ${LDPATH} -L${FUSE_HOME}/lib /System/Library/Frameworks/JavaVM.framework/Versions/1.5/Libraries
+INCLUDES=-I${JAVA_HOME}/include -I${FUSE_HOME}/include
+LDPATH=-L/Library/Java/Extensions -L/System/Library/Java/Extensions -L${FUSE_HOME}/lib -framework CoreFoundation -framework IOKit -framework JavaVM
 
 LIB_SO=libjavafs.jnilib
 FS_EXE=javafs
@@ -12,4 +11,4 @@ CC=gcc
 DEPFLAGS=-D__FreeBSD__=10 -D_FILE_OFFSET_BITS=64
 CFLAGS=-Wall -fPIC ${DEPFLAGS}
 LD=libtool -dynamic
-LDFLAGS=-framework CoreFoundation -framework IOKit -framework JavaVM -lfuse -lpthread -lSystem
+LDFLAGS=-lfuse -lpthread -lSystem
