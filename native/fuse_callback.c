@@ -1154,6 +1154,7 @@ static void * javafs_init(struct fuse_conn_info *conn) {
         {
             if (alloc_filesystem(env, params->filesystemClassName))
             {
+                RegisterNativeMethods(env);
             }
         }
     }

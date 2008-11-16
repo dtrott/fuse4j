@@ -112,20 +112,6 @@ JNIEXPORT void JNICALL Java_fuse_FuseMount_mount(JNIEnv *env, jclass class, jobj
    }
 }
 
-
-/*
- * Class:     fuse_FuseOpen
- * Method:    sizeOfFh
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_fuse_FuseOpen_sizeOfFh(JNIEnv *env, jclass class)
-{
-   struct fuse_file_info *ffi;
-
-   return (jint) sizeof(ffi->fh);
-}
-
-
 /*
  * Class:     fuse_FuseContext
  * Method:    fillInFuseContext
@@ -161,4 +147,65 @@ JNIEXPORT jboolean JNICALL Java_fuse_FuseFSFillDir_fill
    int retval = fill_dir((void *)buf, name, &stbuf, (off_t) nextOffset);
 
    return (retval == 0)? JNI_TRUE : JNI_FALSE;
+}
+
+static int RegisterMethod(JNIEnv *env, jclass cls, char *name, char *signature, void *fnPtr)
+{
+    JNINativeMethod nm;
+
+    while(1)
+    {
+        nm.name = name;
+        nm.signature = signature;
+        nm.fnPtr = fnPtr;
+
+        (*env)->RegisterNatives(env, cls, &nm, 1);
+        if ((*env)->ExceptionCheck(env)) break;
+
+        return 1;
+    }
+
+    if ((*env)->ExceptionCheck(env))
+    {
+        (*env)->ExceptionDescribe(env);
+    }
+
+   return 0;
+}
+
+static int LoadClassAndRegisterMethod(JNIEnv *env, char *class_name, char *name, char *signature, void *fnPtr)
+{
+    jclass class;
+    int result;
+
+    while(1) {
+        class = (*env)->FindClass(env, class_name);
+        if ((*env)->ExceptionCheck(env)) break;
+
+        result = RegisterMethod(env, class, name, signature, fnPtr);
+
+        if (class != NULL) {
+            (*env)->DeleteLocalRef(env, class);
+        }
+
+        return result;
+    }
+
+    if ((*env)->ExceptionCheck(env)) {
+        // error handler
+        (*env)->ExceptionDescribe(env);
+        (*env)->ExceptionClear(env);
+    }
+
+    if (class != NULL) {
+        (*env)->DeleteLocalRef(env, class);
+    }
+
+    return 0;
+}
+
+void RegisterNativeMethods(JNIEnv *env)
+{
+    RegisterMethod            (env,  FuseContext->class,  "fillInFuseContext", "()V", Java_fuse_FuseContext_fillInFuseContext);
+    LoadClassAndRegisterMethod(env, "fuse/FuseFSFillDir", "fill", "(Ljava/nio/ByteBuffer;JIJJJ)Z", Java_fuse_FuseFSFillDir_fill);
 }
