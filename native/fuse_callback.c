@@ -7,7 +7,8 @@
  *   See the file COPYING.LIB
  */
 
-#include "javafs.h"
+#include "fuse_callback.h"
+#include "native_impl.h"
 
 //
 // JVM allocation/deallocation

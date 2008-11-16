@@ -3,6 +3,7 @@
  */
 
 #include "javafs.h"
+#include "javafs_bindings.h"
 
 /**
  * free structure with a reference to fuse.FuseGetattr java class and cached field & method IDs

@@ -71,10 +71,6 @@
 
 #endif
 
-#include "javafs_bindings.h"
-#include "fuse_callback.h"
-#include "native_impl.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -94,6 +90,13 @@ typedef struct _jfuse_params
    int javaArgc;
 
 } jfuse_params;
+
+
+extern JavaVM *vm;
+extern JNIEnv *mainEnv;
+extern jobject threadGroup;
+extern jobject fuseFS;
+extern struct fuse_operations javafs_oper;
 
 
 #endif

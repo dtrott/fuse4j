@@ -1,6 +1,6 @@
-#include "javafs.h"
 
-extern struct fuse_operations javafs_oper;
+#include "javafs.h"
+#include "fuse_callback.h"
 
 int main(int argc, char *argv[])
 {

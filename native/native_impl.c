@@ -1,4 +1,5 @@
-#include "javafs.h"
+#include "native_impl.h"
+#include "fuse_callback.h"
 
 jobject fuseFS = NULL;
 
