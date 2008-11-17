@@ -1,46 +1,6 @@
 #include "native_impl.h"
 #include "fuse_callback.h"
-
-jobject fuseFS = NULL;
-
-
-static int retain_fuseFS(JNIEnv *env, jobject util)
-{
-   fuseFS = (*env)->NewGlobalRef(env, util);
-
-   if ((*env)->ExceptionCheck(env))
-   {
-      (*env)->ExceptionDescribe(env);
-      return 0;
-   }
-
-   return 1;
-}
-
-void free_fuseFS(JNIEnv *env)
-{
-   if (fuseFS != NULL) { (*env)->DeleteGlobalRef(env, fuseFS); fuseFS = NULL; }
-}
-
-
-
-static int retain_threadGroup(JNIEnv *env, jobject util)
-{
-   threadGroup = (*env)->NewGlobalRef(env, util);
-
-   if ((*env)->ExceptionCheck(env))
-   {
-      (*env)->ExceptionDescribe(env);
-      return 0;
-   }
-
-   return 1;
-}
-
-static void free_threadGroup(JNIEnv *env)
-{
-   if (threadGroup != NULL) { (*env)->DeleteGlobalRef(env, threadGroup); threadGroup = NULL; }
-}
+#include "util.h"
 
 /*
  * Class:     fuse_FuseMount
@@ -178,7 +138,8 @@ static int LoadClassAndRegisterMethod(JNIEnv *env, char *class_name, char *name,
     jclass class;
     int result;
 
-    while(1) {
+    while(1)
+    {
         class = (*env)->FindClass(env, class_name);
         if ((*env)->ExceptionCheck(env)) break;
 
@@ -204,8 +165,14 @@ static int LoadClassAndRegisterMethod(JNIEnv *env, char *class_name, char *name,
     return 0;
 }
 
-void RegisterNativeMethods(JNIEnv *env)
+int RegisterNativeMethods(JNIEnv *env)
 {
-    RegisterMethod            (env,  FuseContext->class,  "fillInFuseContext", "()V", Java_fuse_FuseContext_fillInFuseContext);
-    LoadClassAndRegisterMethod(env, "fuse/FuseFSFillDir", "fill", "(Ljava/nio/ByteBuffer;JIJJJ)Z", Java_fuse_FuseFSFillDir_fill);
+    while(1)
+    {
+        if (!RegisterMethod            (env,  FuseContext->class,  "fillInFuseContext", "()V",              Java_fuse_FuseContext_fillInFuseContext)) break;
+        if (!LoadClassAndRegisterMethod(env, "fuse/FuseFSFillDir", "fill", "(Ljava/nio/ByteBuffer;JIJJJ)Z", Java_fuse_FuseFSFillDir_fill)) break;
+
+        return 1;
+    }
+    return 0;
 }

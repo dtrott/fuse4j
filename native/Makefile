@@ -1,5 +1,5 @@
-SRCS=javafs.c javafs_bindings.c fuse_callback.c native_impl.c
-OBJS=javafs.o javafs_bindings.o fuse_callback.o native_impl.o
+SRCS=fuse_callback.c javafs.c javafs_bindings.c native_impl.c util.c
+OBJS=fuse_callback.o javafs.o javafs_bindings.o native_impl.o util.o
 
 include make.flags
 

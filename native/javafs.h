@@ -81,22 +81,4 @@ extern "C" {
 } /* end of extern "C" { */
 #endif
 
-typedef struct _jfuse_params
-{
-   char *fuseArgv[100];
-   char *javaArgv[100];
-   char *filesystemClassName;
-   int fuseArgc;
-   int javaArgc;
-
-} jfuse_params;
-
-
-extern JavaVM *vm;
-extern JNIEnv *mainEnv;
-extern jobject threadGroup;
-extern jobject fuseFS;
-extern struct fuse_operations javafs_oper;
-
-
 #endif

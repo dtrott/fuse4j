@@ -3,9 +3,6 @@
 
 #include "javafs.h"
 
-extern jobject fuseFS;
-
-void free_fuseFS(JNIEnv *env);
-void RegisterNativeMethods(JNIEnv *env);
+int RegisterNativeMethods(JNIEnv *env);
 
 #endif

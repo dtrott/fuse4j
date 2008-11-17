@@ -1,6 +1,6 @@
-
 #include "javafs.h"
 #include "fuse_callback.h"
+#include "util.h"
 
 int main(int argc, char *argv[])
 {
