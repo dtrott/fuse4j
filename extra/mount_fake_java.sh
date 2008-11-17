@@ -1,6 +1,9 @@
 #!/bin/sh
 
-# This script uses the native (executable) launcher which works in either the foreground or forked into the background.
+# This script launches the JVM directly which loads the fuse native library.
+# It is not possible to fork a running JVM into the background, hence this script can only be used in the foreground.
+# Which is probably the best option for debugging.
+# If you want to fork into the background use the native launcher.
 
 PROJECT_NAME=fuse4j
 CWD=`pwd`
@@ -14,7 +17,7 @@ JAVA_HOME=/usr/lib/java
 
 M2_REPO=${HOME}/.m2/repository
 
-LD_LIBRARY_PATH=$FUSE_HOME/lib:${JAVA_HOME}/jre/lib/i386/server
+LD_LIBRARY_PATH=$FUSE_HOME/lib:${JAVA_HOME}/jre/lib/i386/server:${CWD}/../native
 export LD_LIBRARY_PATH
 
 CLASSPATH=""
@@ -24,4 +27,4 @@ CLASSPATH="$CLASSPATH:$M2_REPO/commons-logging/commons-logging/1.1.1/commons-log
 export CLASSPATH
 
 
-../native/javafs -C${FS_CLASS} "-J-Djava.class.path=$CLASSPATH" $MOUNT_POINT -f
+java -Djava.library.path=$LD_LIBRARY_PATH fuse.FakeFilesystem $MOUNT_POINT -f
