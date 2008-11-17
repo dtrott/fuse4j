@@ -916,21 +916,22 @@ static int javafs_removexattr(const char *path, const char *name)
  * Introduced in version 2.3
  * Changed in version 2.6
  */
-static void * javafs_init(struct fuse_conn_info *conn) {
+static void * javafs_init(struct fuse_conn_info *conn)
+{
     jfuse_params *params = fuse_get_context()->private_data;
-    JNIEnv *env;
 
-    if ((env = alloc_JVM(params->javaArgc, params->javaArgv)) != NULL)
+    // The param's object is not set by the mount call
+    // Hence java is only initialized if called from the launcher
+
+    if (params)
     {
-        if (alloc_classes(env))
+        if (init_java(params))
         {
-            if (alloc_fuseFS(env, params->filesystemClassName))
-            {
-                RegisterNativeMethods(env);
-            }
+            return params;
         }
     }
-    return params;
+
+    return NULL;
 }
 
 /**
@@ -940,16 +941,15 @@ static void * javafs_init(struct fuse_conn_info *conn) {
  *
  * Introduced in version 2.3
  */
-static void javafs_destroy(void *data) {
-    JNIEnv *env = get_env();
+static void javafs_destroy(void *data)
+{
+    // The data's object is not set by the mount call
+    // Hence java is only initialized if called from the launcher
 
-    free_fuseFS(env);
-    free_classes(env);
-
-    if ((*env)->ExceptionCheck(env))
-         (*env)->ExceptionClear(env);
-
-    free_JVM(env);
+    if (data)
+    {
+        shutdown_java();
+    }
 }
 
 

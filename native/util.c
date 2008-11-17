@@ -1,4 +1,5 @@
 #include "util.h"
+#include "native_impl.h"
 
 JavaVM *vm;
 JNIEnv *mainEnv;
@@ -17,6 +18,34 @@ jclass_fuse_FuseSize          *FuseSize;
 jclass_fuse_FuseStatfs        *FuseStatfs;
 jclass_java_nio_ByteBuffer    *ByteBuffer;
 
+
+int init_java(jfuse_params *params)
+{
+    JNIEnv *env = NULL;
+
+    while(1) {
+        if ((env = alloc_JVM(params->javaArgc, params->javaArgv)) == NULL) break;
+
+        if (! alloc_classes(env)) break;
+
+        if (! alloc_fuseFS(env, params->filesystemClassName)) break;
+
+        if (! RegisterNativeMethods(env)) break;
+
+        return 1;
+    }
+
+    return 0;
+}
+
+void shutdown_java()
+{
+    JNIEnv *env = get_env();
+
+    free_fuseFS(env);
+    free_classes(env);
+    free_JVM(env);
+}
 
 JNIEnv *alloc_JVM(int argc, char *argv[])
 {
@@ -93,16 +122,19 @@ int alloc_classes(JNIEnv *env)
 
 void free_classes(JNIEnv *env)
 {
-   if (FuseGetattr != NULL)     { free_jclass_fuse_FuseGetattr(env, FuseGetattr);         FuseGetattr = NULL; }
-   if (FuseFSDirEnt != NULL)    { free_jclass_fuse_FuseFSDirEnt(env, FuseFSDirEnt);       FuseFSDirEnt = NULL; }
-   if (FuseFSDirFiller != NULL) { free_jclass_fuse_FuseFSDirFiller(env, FuseFSDirFiller); FuseFSDirFiller = NULL; }
-   if (FuseStatfs != NULL)      { free_jclass_fuse_FuseStatfs(env, FuseStatfs);           FuseStatfs = NULL; }
-   if (FuseOpen != NULL)        { free_jclass_fuse_FuseOpen(env, FuseOpen);               FuseOpen = NULL; }
-   if (FuseSize != NULL)        { free_jclass_fuse_FuseSize(env, FuseSize);               FuseSize = NULL; }
-   if (FuseContext != NULL)     { free_jclass_fuse_FuseContext(env, FuseContext);         FuseContext = NULL; }
-   if (ByteBuffer != NULL)      { free_jclass_java_nio_ByteBuffer(env, ByteBuffer);       ByteBuffer = NULL; }
-   if (FuseFS != NULL)          { free_jclass_fuse_FuseFS(env, FuseFS);                   FuseFS = NULL; }
-   if (FuseFSFactory != NULL)   { free_jclass_fuse_FuseFSFactory(env, FuseFSFactory);     FuseFSFactory = NULL; }
+    if (FuseGetattr != NULL)     { free_jclass_fuse_FuseGetattr(env, FuseGetattr);         FuseGetattr = NULL; }
+    if (FuseFSDirEnt != NULL)    { free_jclass_fuse_FuseFSDirEnt(env, FuseFSDirEnt);       FuseFSDirEnt = NULL; }
+    if (FuseFSDirFiller != NULL) { free_jclass_fuse_FuseFSDirFiller(env, FuseFSDirFiller); FuseFSDirFiller = NULL; }
+    if (FuseStatfs != NULL)      { free_jclass_fuse_FuseStatfs(env, FuseStatfs);           FuseStatfs = NULL; }
+    if (FuseOpen != NULL)        { free_jclass_fuse_FuseOpen(env, FuseOpen);               FuseOpen = NULL; }
+    if (FuseSize != NULL)        { free_jclass_fuse_FuseSize(env, FuseSize);               FuseSize = NULL; }
+    if (FuseContext != NULL)     { free_jclass_fuse_FuseContext(env, FuseContext);         FuseContext = NULL; }
+    if (ByteBuffer != NULL)      { free_jclass_java_nio_ByteBuffer(env, ByteBuffer);       ByteBuffer = NULL; }
+    if (FuseFS != NULL)          { free_jclass_fuse_FuseFS(env, FuseFS);                   FuseFS = NULL; }
+    if (FuseFSFactory != NULL)   { free_jclass_fuse_FuseFSFactory(env, FuseFSFactory);     FuseFSFactory = NULL; }
+
+    if ((*env)->ExceptionCheck(env))
+        (*env)->ExceptionClear(env);
 }
 
 int retain_threadGroup(JNIEnv *env, jobject util)

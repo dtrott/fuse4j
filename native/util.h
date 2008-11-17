@@ -34,6 +34,9 @@ extern jclass_fuse_FuseStatfs        *FuseStatfs;
 extern jclass_java_nio_ByteBuffer    *ByteBuffer;
 
 
+int init_java(jfuse_params *params);
+void shutdown_java();
+
 JNIEnv * alloc_JVM(int argc, char *argv[]);
 void     free_JVM(JNIEnv *env);
 
