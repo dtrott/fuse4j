@@ -45,7 +45,7 @@ public class CAPIGenerator {
     }
 
 
-    public void generateClassAPI(PrintWriter hOut, PrintWriter cOut, boolean extraArgForInterfaces, boolean includeStaticFields) {
+    public void generateClassAPI(Map<String, String> overload, PrintWriter hOut, PrintWriter cOut, boolean extraArgForInterfaces, boolean includeStaticFields) {
         String className = clazz.getName();
         String jniClassName = className.replace('.', '/');
         String structTypeName = "jclass_" + className.replace('.', '_');
@@ -60,10 +60,11 @@ public class CAPIGenerator {
             Field field = fields[i];
             int mod = field.getModifiers();
             if (Modifier.isPublic(mod)) {
-                if (Modifier.isStatic(mod))
+                if (Modifier.isStatic(mod)) {
                     staticFieldsList.add(field);
-                else
+                } else {
                     instanceFieldsList.add(field);
+                }
             }
         }
         Field[] staticFields = (Field[]) staticFieldsList.toArray(new Field[staticFieldsList.size()]);
@@ -93,17 +94,21 @@ public class CAPIGenerator {
             Method method = methods[i];
             int mod = method.getModifiers();
             if (Modifier.isPublic(mod)) {
-                if (Modifier.isStatic(mod))
-                    staticMethodsList.add(method);
-                else
-                    instanceMethodsList.add(method);
+                final String methodName = method.getName();
+                final String selectReturn = overload.get(methodName);
 
-                method2name.put(method, getMethodName(method.getName(), method.getParameterTypes()));
+                if (selectReturn == null || selectReturn.equals(method.getReturnType().getName())) {
+                    if (Modifier.isStatic(mod)) {
+                        staticMethodsList.add(method);
+                    } else {
+                        instanceMethodsList.add(method);
+                    }
+                    method2name.put(method, getMethodName(methodName, method.getParameterTypes()));
+                }
             }
         }
         Method[] staticMethods = (Method[]) staticMethodsList.toArray(new Method[staticMethodsList.size()]);
         Method[] instanceMethods = (Method[]) instanceMethodsList.toArray(new Method[instanceMethodsList.size()]);
-
 
         // before we begin, we output header
 
@@ -420,6 +425,9 @@ public class CAPIGenerator {
             System.exit(-1);
         }
 
+        Map<String, String> overload = new HashMap<String, String>();
+        overload.put("array", "[B");
+
         File hFile = new File(args[0]);
         File cFile = new File(args[1]);
         File hIncluded = new File(args[2]);
@@ -448,23 +456,27 @@ public class CAPIGenerator {
                             "\n"
             );
 
-            new CAPIGenerator(FuseGetattr.class).generateClassAPI(hOut, cOut, false, false);
-            new CAPIGenerator(FuseFSDirEnt.class).generateClassAPI(hOut, cOut, false, false);
-            new CAPIGenerator(FuseFSDirFiller.class).generateClassAPI(hOut, cOut, false, false);
-            new CAPIGenerator(FuseStatfs.class).generateClassAPI(hOut, cOut, false, false);
-            new CAPIGenerator(FuseSize.class).generateClassAPI(hOut, cOut, false, false);
-            new CAPIGenerator(FuseOpen.class).generateClassAPI(hOut, cOut, false, false);
-            new CAPIGenerator(FuseContext.class).generateClassAPI(hOut, cOut, false, false);
-            new CAPIGenerator(FuseFS.class).generateClassAPI(hOut, cOut, false, false);
-            new CAPIGenerator(ByteBuffer.class).generateClassAPI(hOut, cOut, false, false);
-            new CAPIGenerator(FuseFSFactory.class).generateClassAPI(hOut, cOut, false, false);
+            new CAPIGenerator(FuseGetattr.class).generateClassAPI(overload, hOut, cOut, false, false);
+            new CAPIGenerator(FuseFSDirEnt.class).generateClassAPI(overload, hOut, cOut, false, false);
+            new CAPIGenerator(FuseFSDirFiller.class).generateClassAPI(overload, hOut, cOut, false, false);
+            new CAPIGenerator(FuseStatfs.class).generateClassAPI(overload, hOut, cOut, false, false);
+            new CAPIGenerator(FuseSize.class).generateClassAPI(overload, hOut, cOut, false, false);
+            new CAPIGenerator(FuseOpen.class).generateClassAPI(overload, hOut, cOut, false, false);
+            new CAPIGenerator(FuseContext.class).generateClassAPI(overload, hOut, cOut, false, false);
+            new CAPIGenerator(FuseFS.class).generateClassAPI(overload, hOut, cOut, false, false);
+            new CAPIGenerator(ByteBuffer.class).generateClassAPI(overload, hOut, cOut, false, false);
+            new CAPIGenerator(FuseFSFactory.class).generateClassAPI(overload, hOut, cOut, false, false);
         }
         catch(IOException e) {
             e.printStackTrace();
         }
         finally {
-            if (hOut != null) hOut.close();
-            if (cOut != null) cOut.close();
+            if (hOut != null) {
+                hOut.close();
+            }
+            if (cOut != null) {
+                cOut.close();
+            }
         }
     }
 
@@ -509,33 +521,35 @@ public class CAPIGenerator {
             clazz = clazz.getComponentType();
         }
 
-        if (clazz == Void.TYPE)
+        if (clazz == Void.TYPE) {
             buff.append("V");
-        else if (clazz == Boolean.TYPE)
+        } else if (clazz == Boolean.TYPE) {
             buff.append("Z");
-        else if (clazz == Byte.TYPE)
+        } else if (clazz == Byte.TYPE) {
             buff.append("B");
-        else if (clazz == Character.TYPE)
+        } else if (clazz == Character.TYPE) {
             buff.append("C");
-        else if (clazz == Short.TYPE)
+        } else if (clazz == Short.TYPE) {
             buff.append("S");
-        else if (clazz == Integer.TYPE)
+        } else if (clazz == Integer.TYPE) {
             buff.append("I");
-        else if (clazz == Long.TYPE)
+        } else if (clazz == Long.TYPE) {
             buff.append("J");
-        else if (clazz == Float.TYPE)
+        } else if (clazz == Float.TYPE) {
             buff.append("F");
-        else if (clazz == Double.TYPE)
+        } else if (clazz == Double.TYPE) {
             buff.append("D");
-        else
+        } else {
             buff.append("L").append(clazz.getName().replace('.', '/')).append(";");
+        }
 
         return buff;
     }
 
     private StringBuffer appendJVMTypeSignatures(Class[] classes, StringBuffer buff) {
-        for(int i = 0; i < classes.length; i++)
+        for(int i = 0; i < classes.length; i++) {
             appendJVMTypeSignature(classes[i], buff);
+        }
 
         return buff;
     }
@@ -567,17 +581,19 @@ public class CAPIGenerator {
 
         for(int i = 0; i < chars.length; i++) {
             char c = chars[i];
-            if ((i == 0 && !Character.isJavaIdentifierStart(c)) || (i > 0 && !Character.isJavaIdentifierPart(c)))
+            if ((i == 0 && !Character.isJavaIdentifierStart(c)) || (i > 0 && !Character.isJavaIdentifierPart(c))) {
                 chars[i] = '_';
+            }
         }
 
         return new String(chars);
     }
 
     String getMethodName(String methodName, Class[] argumentTypes) {
-        if (argumentTypes == null || argumentTypes.length == 0)
+        if (argumentTypes == null || argumentTypes.length == 0) {
             return mangle(methodName);
-        else
+        } else {
             return mangle(methodName + "__" + getJVMTypeSignatures(argumentTypes));
+        }
     }
 }
