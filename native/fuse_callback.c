@@ -927,6 +927,11 @@ static void * javafs_init(struct fuse_conn_info *conn)
     {
         if (init_java(params))
         {
+            JNIEnv *env = get_env();
+            jint jerrno = (*env)->CallIntMethod(env, fuseFS, FuseFS->method.init);
+            exception_check_jerrno(env, &jerrno);
+            release_env(env);
+
             return params;
         }
     }
@@ -948,6 +953,11 @@ static void javafs_destroy(void *data)
 
     if (data)
     {
+        JNIEnv *env = get_env();
+        jint jerrno = (*env)->CallIntMethod(env, fuseFS, FuseFS->method.destroy);
+        exception_check_jerrno(env, &jerrno);
+        release_env(env);
+
         shutdown_java();
     }
 }

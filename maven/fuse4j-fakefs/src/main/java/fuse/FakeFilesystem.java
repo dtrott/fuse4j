@@ -18,9 +18,8 @@ import java.nio.BufferOverflowException;
 import java.nio.CharBuffer;
 import java.util.*;
 
-
 @SuppressWarnings({"OctalInteger"})
-public class FakeFilesystem implements Filesystem3, XattrSupport
+public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSupport
 {
    private static final Log log = LogFactory.getLog(FakeFilesystem.class);
 
@@ -517,25 +516,31 @@ public class FakeFilesystem implements Filesystem3, XattrSupport
       return Errno.EROFS;
    }
 
+    //
+    // LifeCycleSupport
+    public int init() {
+        log.info("Initializing Filesystem");
+        return 0;
+    }
 
-   //
-   // Java entry point
+    public int destroy() {
+        log.info("Destroying Filesystem");
+        return 0;
+    }
 
-   public static void main(String[] args)
-   {
-      log.info("entering");
+    //
+    // Java entry point
+    public static void main(String[] args) {
+        log.info("entering");
 
-      try
-      {
-         FuseMount.mount(args, new FakeFilesystem(), log);
-      }
-      catch (Exception e)
-      {
-         e.printStackTrace();
-      }
-      finally
-      {
-         log.info("exiting");
-      }
-   }
+        try {
+            FuseMount.mount(args, new FakeFilesystem(), log);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            log.info("exiting");
+        }
+    }
 }

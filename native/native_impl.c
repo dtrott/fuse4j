@@ -46,8 +46,16 @@ JNIEXPORT void JNICALL Java_fuse_FuseMount_mount(JNIEnv *env, jclass class, jobj
          {
             if (retain_threadGroup(env, jThreadGroup))
             {
-               // main loop
-               fuse_main(fuseArgc, fuseArgv, &javafs_oper, NULL);
+               jint jerrno = (*env)->CallIntMethod(env, fuseFS, FuseFS->method.init);
+               exception_check_jerrno(env, &jerrno);
+
+               if (jerrno == 0) {
+                   // main loop
+                   fuse_main(fuseArgc, fuseArgv, &javafs_oper, NULL);
+
+                   jerrno = (*env)->CallIntMethod(env, fuseFS, FuseFS->method.destroy);
+                   exception_check_jerrno(env, &jerrno);
+               }
 
                // cleanup
                free_threadGroup(env);
