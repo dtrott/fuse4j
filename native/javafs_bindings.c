@@ -670,6 +670,8 @@ jclass_fuse_FuseFS *alloc_jclass_fuse_FuseFS(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.chown__Ljava_nio_ByteBuffer_II = (*env)->GetMethodID(env, fuse_FuseFS->class, "chown", "(Ljava/nio/ByteBuffer;II)I");
       if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFS->method.destroy = (*env)->GetMethodID(env, fuse_FuseFS->class, "destroy", "()I");
+      if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.flush__Ljava_nio_ByteBuffer_Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "flush", "(Ljava/nio/ByteBuffer;Ljava/lang/Object;)I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.fsync__Ljava_nio_ByteBuffer_Ljava_lang_Object_Z = (*env)->GetMethodID(env, fuse_FuseFS->class, "fsync", "(Ljava/nio/ByteBuffer;Ljava/lang/Object;Z)I");
@@ -681,6 +683,8 @@ jclass_fuse_FuseFS *alloc_jclass_fuse_FuseFS(JNIEnv *env)
       fuse_FuseFS->method.getxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "getxattr", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.getxattrsize__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Lfuse_FuseSizeSetter_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "getxattrsize", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;Lfuse/FuseSizeSetter;)I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_FuseFS->method.init = (*env)->GetMethodID(env, fuse_FuseFS->class, "init", "()I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.link__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "link", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I");
       if ((*env)->ExceptionCheck(env)) break;
@@ -777,8 +781,6 @@ jclass_java_nio_ByteBuffer *alloc_jclass_java_nio_ByteBuffer(JNIEnv *env)
 
       // obtain instance method IDs
       java_nio_ByteBuffer->method.array = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "array", "()[B");
-      if ((*env)->ExceptionCheck(env)) break;
-      java_nio_ByteBuffer->method.array = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "array", "()Ljava/lang/Object;");
       if ((*env)->ExceptionCheck(env)) break;
       java_nio_ByteBuffer->method.arrayOffset = (*env)->GetMethodID(env, java_nio_ByteBuffer->class, "arrayOffset", "()I");
       if ((*env)->ExceptionCheck(env)) break;

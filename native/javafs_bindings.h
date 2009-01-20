@@ -397,12 +397,14 @@ typedef struct _jclass_fuse_FuseFS
    {
       jmethodID chmod__Ljava_nio_ByteBuffer_I;
       jmethodID chown__Ljava_nio_ByteBuffer_II;
+      jmethodID destroy;
       jmethodID flush__Ljava_nio_ByteBuffer_Ljava_lang_Object_;
       jmethodID fsync__Ljava_nio_ByteBuffer_Ljava_lang_Object_Z;
       jmethodID getattr__Ljava_nio_ByteBuffer_Lfuse_FuseGetattrSetter_;
       jmethodID getdir__Ljava_nio_ByteBuffer_Lfuse_FuseFSDirFiller_;
       jmethodID getxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
       jmethodID getxattrsize__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Lfuse_FuseSizeSetter_;
+      jmethodID init;
       jmethodID link__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
       jmethodID listxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
       jmethodID listxattrsize__Ljava_nio_ByteBuffer_Lfuse_FuseSizeSetter_;
@@ -455,7 +457,6 @@ typedef struct _jclass_java_nio_ByteBuffer
    // cached instance method IDs
    struct
    {
-      jmethodID array;
       jmethodID array;
       jmethodID arrayOffset;
       jmethodID asCharBuffer;
