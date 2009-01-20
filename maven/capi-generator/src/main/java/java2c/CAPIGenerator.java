@@ -13,11 +13,11 @@ import fuse.FuseContext;
 import fuse.FuseFS;
 import fuse.FuseFSDirEnt;
 import fuse.FuseFSDirFiller;
+import fuse.FuseFSFactory;
 import fuse.FuseGetattr;
 import fuse.FuseOpen;
 import fuse.FuseSize;
 import fuse.FuseStatfs;
-import fuse.FuseFSFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 
 @SuppressWarnings("unchecked")
@@ -52,6 +53,7 @@ public class CAPIGenerator {
 
         // split all public fields into static and instance fields
         Field[] fields = clazz.getFields();
+        Arrays.sort(fields, new FieldComparator());
         List staticFieldsList = new ArrayList();
         List instanceFieldsList = new ArrayList();
         for(int i = 0; i < fields.length; i++) {
@@ -69,6 +71,7 @@ public class CAPIGenerator {
 
         // obtain all public constructors and give them C names
         Constructor[] constructors = clazz.getConstructors();
+        Arrays.sort(constructors, new ConstructorComparator(this));
         List constructorsList = new ArrayList();
         Map constructor2name = new HashMap();
         for(int i = 0; i < constructors.length; i++) {
@@ -82,6 +85,7 @@ public class CAPIGenerator {
 
         // split all public methods into static and instance methods and give them C names
         Method[] methods = clazz.getMethods();
+        Arrays.sort(methods, new MethodComparator(this));
         List staticMethodsList = new ArrayList();
         List instanceMethodsList = new ArrayList();
         Map method2name = new HashMap();
@@ -570,7 +574,7 @@ public class CAPIGenerator {
         return new String(chars);
     }
 
-    private String getMethodName(String methodName, Class[] argumentTypes) {
+    String getMethodName(String methodName, Class[] argumentTypes) {
         if (argumentTypes == null || argumentTypes.length == 0)
             return mangle(methodName);
         else

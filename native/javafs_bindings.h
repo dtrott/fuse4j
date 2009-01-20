@@ -16,17 +16,17 @@ typedef struct _jclass_fuse_FuseGetattr
    // cached instance field IDs
    struct
    {
-      jfieldID inode;
-      jfieldID nlink;
-      jfieldID uid;
+      jfieldID atime;
+      jfieldID blocks;
+      jfieldID ctime;
       jfieldID gid;
+      jfieldID inode;
+      jfieldID mode;
+      jfieldID mtime;
+      jfieldID nlink;
       jfieldID rdev;
       jfieldID size;
-      jfieldID blocks;
-      jfieldID atime;
-      jfieldID mtime;
-      jfieldID ctime;
-      jfieldID mode;
+      jfieldID uid;
 
    } field;
 
@@ -40,17 +40,17 @@ typedef struct _jclass_fuse_FuseGetattr
    // cached instance method IDs
    struct
    {
-      jmethodID set__JIIIIIJJIII;
-      jmethodID toString;
       jmethodID clone;
-      jmethodID hashCode;
-      jmethodID getClass;
       jmethodID equals__Ljava_lang_Object_;
-      jmethodID wait__JI;
-      jmethodID wait__J;
-      jmethodID wait;
+      jmethodID getClass;
+      jmethodID hashCode;
       jmethodID notify;
       jmethodID notifyAll;
+      jmethodID set__JIIIIIJJIII;
+      jmethodID toString;
+      jmethodID wait;
+      jmethodID wait__J;
+      jmethodID wait__JI;
 
    } method;
 
@@ -74,9 +74,9 @@ typedef struct _jclass_fuse_FuseFSDirEnt
    // cached instance field IDs
    struct
    {
-      jfieldID name;
       jfieldID inode;
       jfieldID mode;
+      jfieldID name;
 
    } field;
 
@@ -90,16 +90,16 @@ typedef struct _jclass_fuse_FuseFSDirEnt
    // cached instance method IDs
    struct
    {
-      jmethodID toString;
       jmethodID clone;
-      jmethodID hashCode;
-      jmethodID getClass;
       jmethodID equals__Ljava_lang_Object_;
-      jmethodID wait__JI;
-      jmethodID wait__J;
-      jmethodID wait;
+      jmethodID getClass;
+      jmethodID hashCode;
       jmethodID notify;
       jmethodID notifyAll;
+      jmethodID toString;
+      jmethodID wait;
+      jmethodID wait__J;
+      jmethodID wait__JI;
 
    } method;
 
@@ -130,43 +130,43 @@ typedef struct _jclass_fuse_FuseFSDirFiller
    // cached instance method IDs
    struct
    {
-      jmethodID toString;
-      jmethodID add__Ljava_lang_String_JI;
-      jmethodID setCharset__Ljava_nio_charset_Charset_;
-      jmethodID get__I;
+      jmethodID addAll__ILjava_util_Collection_;
+      jmethodID addAll__Ljava_util_Collection_;
       jmethodID add__ILjava_lang_Object_;
       jmethodID add__Ljava_lang_Object_;
-      jmethodID indexOf__Ljava_lang_Object_;
-      jmethodID clone;
+      jmethodID add__Ljava_lang_String_JI;
       jmethodID clear;
-      jmethodID lastIndexOf__Ljava_lang_Object_;
-      jmethodID contains__Ljava_lang_Object_;
-      jmethodID addAll__Ljava_util_Collection_;
-      jmethodID addAll__ILjava_util_Collection_;
-      jmethodID size;
-      jmethodID toArray;
-      jmethodID toArray___Ljava_lang_Object_;
-      jmethodID set__ILjava_lang_Object_;
-      jmethodID remove__I;
-      jmethodID remove__Ljava_lang_Object_;
-      jmethodID isEmpty;
-      jmethodID trimToSize;
-      jmethodID ensureCapacity__I;
-      jmethodID hashCode;
-      jmethodID equals__Ljava_lang_Object_;
-      jmethodID iterator;
-      jmethodID subList__II;
-      jmethodID listIterator__I;
-      jmethodID listIterator;
+      jmethodID clone;
       jmethodID containsAll__Ljava_util_Collection_;
-      jmethodID removeAll__Ljava_util_Collection_;
-      jmethodID retainAll__Ljava_util_Collection_;
+      jmethodID contains__Ljava_lang_Object_;
+      jmethodID ensureCapacity__I;
+      jmethodID equals__Ljava_lang_Object_;
       jmethodID getClass;
-      jmethodID wait__JI;
-      jmethodID wait__J;
-      jmethodID wait;
+      jmethodID get__I;
+      jmethodID hashCode;
+      jmethodID indexOf__Ljava_lang_Object_;
+      jmethodID isEmpty;
+      jmethodID iterator;
+      jmethodID lastIndexOf__Ljava_lang_Object_;
+      jmethodID listIterator;
+      jmethodID listIterator__I;
       jmethodID notify;
       jmethodID notifyAll;
+      jmethodID removeAll__Ljava_util_Collection_;
+      jmethodID remove__I;
+      jmethodID remove__Ljava_lang_Object_;
+      jmethodID retainAll__Ljava_util_Collection_;
+      jmethodID setCharset__Ljava_nio_charset_Charset_;
+      jmethodID set__ILjava_lang_Object_;
+      jmethodID size;
+      jmethodID subList__II;
+      jmethodID toArray;
+      jmethodID toArray___Ljava_lang_Object_;
+      jmethodID toString;
+      jmethodID trimToSize;
+      jmethodID wait;
+      jmethodID wait__J;
+      jmethodID wait__JI;
 
    } method;
 
@@ -192,8 +192,8 @@ typedef struct _jclass_fuse_FuseStatfs
    {
       jfieldID blockSize;
       jfieldID blocks;
-      jfieldID blocksFree;
       jfieldID blocksAvail;
+      jfieldID blocksFree;
       jfieldID files;
       jfieldID filesFree;
       jfieldID namelen;
@@ -210,17 +210,17 @@ typedef struct _jclass_fuse_FuseStatfs
    // cached instance method IDs
    struct
    {
-      jmethodID set__IIIIIII;
-      jmethodID toString;
       jmethodID clone;
-      jmethodID hashCode;
-      jmethodID getClass;
       jmethodID equals__Ljava_lang_Object_;
-      jmethodID wait__JI;
-      jmethodID wait__J;
-      jmethodID wait;
+      jmethodID getClass;
+      jmethodID hashCode;
       jmethodID notify;
       jmethodID notifyAll;
+      jmethodID set__IIIIIII;
+      jmethodID toString;
+      jmethodID wait;
+      jmethodID wait__J;
+      jmethodID wait__JI;
 
    } method;
 
@@ -258,17 +258,17 @@ typedef struct _jclass_fuse_FuseSize
    // cached instance method IDs
    struct
    {
-      jmethodID setSize__I;
-      jmethodID toString;
       jmethodID clone;
-      jmethodID hashCode;
-      jmethodID getClass;
       jmethodID equals__Ljava_lang_Object_;
-      jmethodID wait__JI;
-      jmethodID wait__J;
-      jmethodID wait;
+      jmethodID getClass;
+      jmethodID hashCode;
       jmethodID notify;
       jmethodID notifyAll;
+      jmethodID setSize__I;
+      jmethodID toString;
+      jmethodID wait;
+      jmethodID wait__J;
+      jmethodID wait__JI;
 
    } method;
 
@@ -292,8 +292,8 @@ typedef struct _jclass_fuse_FuseOpen
    // cached instance field IDs
    struct
    {
-      jfieldID fh;
       jfieldID directIO;
+      jfieldID fh;
       jfieldID keepCache;
 
    } field;
@@ -308,21 +308,21 @@ typedef struct _jclass_fuse_FuseOpen
    // cached instance method IDs
    struct
    {
-      jmethodID setFh__Ljava_lang_Object_;
-      jmethodID isDirectIO;
-      jmethodID setDirectIO__Z;
-      jmethodID isKeepCache;
-      jmethodID setKeepCache__Z;
-      jmethodID toString;
       jmethodID clone;
-      jmethodID hashCode;
-      jmethodID getClass;
       jmethodID equals__Ljava_lang_Object_;
-      jmethodID wait__JI;
-      jmethodID wait__J;
-      jmethodID wait;
+      jmethodID getClass;
+      jmethodID hashCode;
+      jmethodID isDirectIO;
+      jmethodID isKeepCache;
       jmethodID notify;
       jmethodID notifyAll;
+      jmethodID setDirectIO__Z;
+      jmethodID setFh__Ljava_lang_Object_;
+      jmethodID setKeepCache__Z;
+      jmethodID toString;
+      jmethodID wait;
+      jmethodID wait__J;
+      jmethodID wait__JI;
 
    } method;
 
@@ -346,9 +346,9 @@ typedef struct _jclass_fuse_FuseContext
    // cached instance field IDs
    struct
    {
-      jfieldID uid;
       jfieldID gid;
       jfieldID pid;
+      jfieldID uid;
 
    } field;
 
@@ -362,16 +362,16 @@ typedef struct _jclass_fuse_FuseContext
    // cached instance method IDs
    struct
    {
-      jmethodID toString;
       jmethodID clone;
-      jmethodID hashCode;
-      jmethodID getClass;
       jmethodID equals__Ljava_lang_Object_;
-      jmethodID wait__JI;
-      jmethodID wait__J;
-      jmethodID wait;
+      jmethodID getClass;
+      jmethodID hashCode;
       jmethodID notify;
       jmethodID notifyAll;
+      jmethodID toString;
+      jmethodID wait;
+      jmethodID wait__J;
+      jmethodID wait__JI;
 
    } method;
 
@@ -395,33 +395,33 @@ typedef struct _jclass_fuse_FuseFS
    // cached instance method IDs
    struct
    {
-      jmethodID write__Ljava_nio_ByteBuffer_Ljava_lang_Object_ZLjava_nio_ByteBuffer_J;
-      jmethodID flush__Ljava_nio_ByteBuffer_Ljava_lang_Object_;
-      jmethodID open__Ljava_nio_ByteBuffer_ILfuse_FuseOpenSetter_;
-      jmethodID read__Ljava_nio_ByteBuffer_Ljava_lang_Object_Ljava_nio_ByteBuffer_J;
-      jmethodID mkdir__Ljava_nio_ByteBuffer_I;
-      jmethodID rename__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
-      jmethodID getattr__Ljava_nio_ByteBuffer_Lfuse_FuseGetattrSetter_;
-      jmethodID readlink__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
-      jmethodID getdir__Ljava_nio_ByteBuffer_Lfuse_FuseFSDirFiller_;
-      jmethodID mknod__Ljava_nio_ByteBuffer_II;
-      jmethodID unlink__Ljava_nio_ByteBuffer_;
-      jmethodID rmdir__Ljava_nio_ByteBuffer_;
-      jmethodID symlink__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
-      jmethodID link__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
       jmethodID chmod__Ljava_nio_ByteBuffer_I;
       jmethodID chown__Ljava_nio_ByteBuffer_II;
-      jmethodID truncate__Ljava_nio_ByteBuffer_J;
-      jmethodID utime__Ljava_nio_ByteBuffer_II;
-      jmethodID statfs__Lfuse_FuseStatfsSetter_;
-      jmethodID release__Ljava_nio_ByteBuffer_Ljava_lang_Object_I;
+      jmethodID flush__Ljava_nio_ByteBuffer_Ljava_lang_Object_;
       jmethodID fsync__Ljava_nio_ByteBuffer_Ljava_lang_Object_Z;
-      jmethodID setxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_I;
-      jmethodID getxattrsize__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Lfuse_FuseSizeSetter_;
+      jmethodID getattr__Ljava_nio_ByteBuffer_Lfuse_FuseGetattrSetter_;
+      jmethodID getdir__Ljava_nio_ByteBuffer_Lfuse_FuseFSDirFiller_;
       jmethodID getxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
-      jmethodID listxattrsize__Ljava_nio_ByteBuffer_Lfuse_FuseSizeSetter_;
+      jmethodID getxattrsize__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Lfuse_FuseSizeSetter_;
+      jmethodID link__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
       jmethodID listxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
+      jmethodID listxattrsize__Ljava_nio_ByteBuffer_Lfuse_FuseSizeSetter_;
+      jmethodID mkdir__Ljava_nio_ByteBuffer_I;
+      jmethodID mknod__Ljava_nio_ByteBuffer_II;
+      jmethodID open__Ljava_nio_ByteBuffer_ILfuse_FuseOpenSetter_;
+      jmethodID read__Ljava_nio_ByteBuffer_Ljava_lang_Object_Ljava_nio_ByteBuffer_J;
+      jmethodID readlink__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
+      jmethodID release__Ljava_nio_ByteBuffer_Ljava_lang_Object_I;
       jmethodID removexattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
+      jmethodID rename__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
+      jmethodID rmdir__Ljava_nio_ByteBuffer_;
+      jmethodID setxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_I;
+      jmethodID statfs__Lfuse_FuseStatfsSetter_;
+      jmethodID symlink__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
+      jmethodID truncate__Ljava_nio_ByteBuffer_J;
+      jmethodID unlink__Ljava_nio_ByteBuffer_;
+      jmethodID utime__Ljava_nio_ByteBuffer_II;
+      jmethodID write__Ljava_nio_ByteBuffer_Ljava_lang_Object_ZLjava_nio_ByteBuffer_J;
 
    } method;
 
@@ -445,89 +445,90 @@ typedef struct _jclass_java_nio_ByteBuffer
    // cached static method IDs
    struct
    {
+      jmethodID allocateDirect__I;
+      jmethodID allocate__I;
       jmethodID wrap___B;
       jmethodID wrap___BII;
-      jmethodID allocate__I;
-      jmethodID allocateDirect__I;
 
    } static_method;
 
    // cached instance method IDs
    struct
    {
-      jmethodID hashCode;
+      jmethodID array;
+      jmethodID array;
+      jmethodID arrayOffset;
+      jmethodID asCharBuffer;
+      jmethodID asDoubleBuffer;
+      jmethodID asFloatBuffer;
+      jmethodID asIntBuffer;
+      jmethodID asLongBuffer;
+      jmethodID asReadOnlyBuffer;
+      jmethodID asShortBuffer;
+      jmethodID capacity;
+      jmethodID clear;
+      jmethodID compact;
       jmethodID compareTo__Ljava_lang_Object_;
       jmethodID compareTo__Ljava_nio_ByteBuffer_;
+      jmethodID duplicate;
       jmethodID equals__Ljava_lang_Object_;
-      jmethodID toString;
-      jmethodID get___BII;
+      jmethodID flip;
       jmethodID get;
-      jmethodID get__I;
-      jmethodID get___B;
-      jmethodID getShort;
-      jmethodID getShort__I;
       jmethodID getChar;
       jmethodID getChar__I;
+      jmethodID getClass;
+      jmethodID getDouble;
+      jmethodID getDouble__I;
+      jmethodID getFloat;
+      jmethodID getFloat__I;
       jmethodID getInt;
       jmethodID getInt__I;
       jmethodID getLong;
       jmethodID getLong__I;
-      jmethodID getFloat__I;
-      jmethodID getFloat;
-      jmethodID getDouble;
-      jmethodID getDouble__I;
-      jmethodID putShort__S;
-      jmethodID putShort__IS;
+      jmethodID getShort;
+      jmethodID getShort__I;
+      jmethodID get__I;
+      jmethodID get___B;
+      jmethodID get___BII;
+      jmethodID hasArray;
+      jmethodID hasRemaining;
+      jmethodID hashCode;
+      jmethodID isDirect;
+      jmethodID isReadOnly;
+      jmethodID limit;
+      jmethodID limit__I;
+      jmethodID mark;
+      jmethodID notify;
+      jmethodID notifyAll;
+      jmethodID order;
+      jmethodID order__Ljava_nio_ByteOrder_;
+      jmethodID position;
+      jmethodID position__I;
       jmethodID putChar__C;
       jmethodID putChar__IC;
-      jmethodID putInt__I;
-      jmethodID putInt__II;
-      jmethodID putLong__J;
-      jmethodID putLong__IJ;
+      jmethodID putDouble__D;
+      jmethodID putDouble__ID;
       jmethodID putFloat__F;
       jmethodID putFloat__IF;
-      jmethodID putDouble__ID;
-      jmethodID putDouble__D;
+      jmethodID putInt__I;
+      jmethodID putInt__II;
+      jmethodID putLong__IJ;
+      jmethodID putLong__J;
+      jmethodID putShort__IS;
+      jmethodID putShort__S;
+      jmethodID put__B;
+      jmethodID put__IB;
       jmethodID put__Ljava_nio_ByteBuffer_;
       jmethodID put___B;
       jmethodID put___BII;
-      jmethodID put__IB;
-      jmethodID put__B;
-      jmethodID isDirect;
-      jmethodID hasArray;
-      jmethodID array;
-      jmethodID arrayOffset;
-      jmethodID duplicate;
-      jmethodID slice;
-      jmethodID asReadOnlyBuffer;
-      jmethodID compact;
-      jmethodID order;
-      jmethodID order__Ljava_nio_ByteOrder_;
-      jmethodID asCharBuffer;
-      jmethodID asShortBuffer;
-      jmethodID asIntBuffer;
-      jmethodID asLongBuffer;
-      jmethodID asFloatBuffer;
-      jmethodID asDoubleBuffer;
-      jmethodID limit;
-      jmethodID limit__I;
-      jmethodID clear;
       jmethodID remaining;
-      jmethodID position__I;
-      jmethodID position;
-      jmethodID capacity;
-      jmethodID mark;
       jmethodID reset;
-      jmethodID flip;
       jmethodID rewind;
-      jmethodID hasRemaining;
-      jmethodID isReadOnly;
-      jmethodID getClass;
-      jmethodID wait__JI;
-      jmethodID wait__J;
+      jmethodID slice;
+      jmethodID toString;
       jmethodID wait;
-      jmethodID notify;
-      jmethodID notifyAll;
+      jmethodID wait__J;
+      jmethodID wait__JI;
 
    } method;
 
@@ -558,9 +559,9 @@ typedef struct _jclass_fuse_FuseFSFactory
    // cached static method IDs
    struct
    {
+      jmethodID adapt__Lfuse_Filesystem3_Lorg_apache_commons_logging_Log_;
       jmethodID adapt__Lfuse_compat_Filesystem1_Lorg_apache_commons_logging_Log_;
       jmethodID adapt__Lfuse_compat_Filesystem2_Lorg_apache_commons_logging_Log_;
-      jmethodID adapt__Lfuse_Filesystem3_Lorg_apache_commons_logging_Log_;
       jmethodID adapt__Ljava_lang_Object_;
       jmethodID adapt__Ljava_lang_Object_Lorg_apache_commons_logging_Log_;
 
@@ -569,15 +570,15 @@ typedef struct _jclass_fuse_FuseFSFactory
    // cached instance method IDs
    struct
    {
-      jmethodID hashCode;
-      jmethodID getClass;
       jmethodID equals__Ljava_lang_Object_;
-      jmethodID toString;
-      jmethodID wait__JI;
-      jmethodID wait__J;
-      jmethodID wait;
+      jmethodID getClass;
+      jmethodID hashCode;
       jmethodID notify;
       jmethodID notifyAll;
+      jmethodID toString;
+      jmethodID wait;
+      jmethodID wait__J;
+      jmethodID wait__JI;
 
    } method;
 
