@@ -2,6 +2,8 @@
 #include "fuse_callback.h"
 #include "util.h"
 
+#define ENOTSUPP        524
+
 /*
  * Class:     fuse_FuseMount
  * Method:    mount
@@ -49,7 +51,7 @@ JNIEXPORT void JNICALL Java_fuse_FuseMount_mount(JNIEnv *env, jclass class, jobj
                jint jerrno = (*env)->CallIntMethod(env, fuseFS, FuseFS->method.init);
                exception_check_jerrno(env, &jerrno);
 
-               if (jerrno == 0) {
+               if (jerrno == 0 || jerrno == ENOTSUPP) {
                    // main loop
                    fuse_main(fuseArgc, fuseArgv, &javafs_oper, NULL);
 
