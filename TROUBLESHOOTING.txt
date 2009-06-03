@@ -1,0 +1,24 @@
+Q. Why does Fuse4j keep crashing?
+===
+The native Makefile creates two binaries (an executable and a library):
+ - native/javafs
+ - native/libjavafs.jnilib
+
+The library will only work in the foreground (with the -f flag) e.g:
+
+java fuse.FakeFilesystem $MOUNT_POINT -f
+
+
+The reason the library doesn't work in the background is that the 
+(mac)fuse library does a "fork" system call after the JVM has been 
+started (the JVM can't handle the fork and dies).
+
+
+In order to solve this problem I created a native launcher (javafs).
+Which waits for the fork to be completed before firing up the JVM.
+
+
+Hence for debugging your filesystem you should use the jnilib
+(.so file on linux) but you will need the -f flag.
+When deploying you will need to use the native launcher in order to
+background the procces.
