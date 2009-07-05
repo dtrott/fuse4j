@@ -727,10 +727,9 @@ static int javafs_fsync(const char *path, int datasync, struct fuse_file_info *f
 // extended attributes support contributed by Steven Pearson <steven_pearson@final-step.com>
 // and then modified by Peter Levart <peter@select-tech.si> to fit the new errno returning scheme
 
-
-/*
-static int javafs_setxattr(const char *path, const char *name, const char *value, size_t size, int flags)
+static int javafs_setxattr(const char *path, const char *name, const char *value, size_t size, int flags, uint32_t position)
 {
+   // Temporarily ignoring position argument.
    JNIEnv *env = get_env();
    jobject jPath = NULL;
    jobject jName = NULL;
@@ -763,10 +762,8 @@ static int javafs_setxattr(const char *path, const char *name, const char *value
 
    return -jerrno;
 }
-*/
 
-/*
-static int javafs_getxattr(const char *path, const char *name, char *value, size_t size)
+static int javafs_getxattr(const char *path, const char *name, char *value, size_t size, uint32_t position)
 {
    JNIEnv *env = get_env();
    jobject jPath = NULL;
@@ -822,7 +819,6 @@ static int javafs_getxattr(const char *path, const char *name, char *value, size
 
    return jerrno? -jerrno : xattrsize;
 }
-*/
 
 static int javafs_listxattr(const char *path, char *list, size_t size)
 {
@@ -986,8 +982,8 @@ struct fuse_operations javafs_oper = {
    release:    javafs_release,
    fsync:      javafs_fsync,
    // extended attributes are now implemented
-   setxattr:    NULL,
-   getxattr:    NULL,
+   setxattr:    javafs_setxattr,
+   getxattr:    javafs_getxattr,
    listxattr:   javafs_listxattr,
    removexattr: javafs_removexattr,
    opendir:     NULL,
