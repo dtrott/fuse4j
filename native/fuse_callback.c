@@ -729,7 +729,6 @@ static int javafs_fsync(const char *path, int datasync, struct fuse_file_info *f
 
 static int javafs_setxattr(const char *path, const char *name, const char *value, size_t size, int flags, uint32_t position)
 {
-   // Temporarily ignoring position argument.
    JNIEnv *env = get_env();
    jobject jPath = NULL;
    jobject jName = NULL;
@@ -747,7 +746,7 @@ static int javafs_setxattr(const char *path, const char *name, const char *value
       jobject jValue = (*env)->NewDirectByteBuffer(env, (void *)value, (jlong)size);
       if (exception_check_jerrno(env, &jerrno)) break;
 
-      jerrno = (*env)->CallIntMethod(env, fuseFS, FuseFS->method.setxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_I, jPath, jName, jValue, (jint)flags);
+      jerrno = (*env)->CallIntMethod(env, fuseFS, FuseFS->method.setxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_II, jPath, jName, jValue, (jint)flags, (jint)position);
       exception_check_jerrno(env, &jerrno);
       break;
    }
@@ -797,7 +796,7 @@ static int javafs_getxattr(const char *path, const char *name, char *value, size
          jValue = (*env)->NewDirectByteBuffer(env, value , (jlong)size);
          if (exception_check_jerrno(env, &jerrno)) break;
 
-         jerrno = (*env)->CallIntMethod(env, fuseFS, FuseFS->method.getxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_, jPath, jName, jValue);
+         jerrno = (*env)->CallIntMethod(env, fuseFS, FuseFS->method.getxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_I, jPath, jName, jValue, (jint)position);
          if (exception_check_jerrno(env, &jerrno)) break;
 
          // to obtain # of bytes read, get current position from ByteBuffer
