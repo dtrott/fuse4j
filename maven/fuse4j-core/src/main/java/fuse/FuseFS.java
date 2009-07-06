@@ -68,11 +68,11 @@ public interface FuseFS extends FilesystemConstants {
     // extended attributes support contributed by Steven Pearson <steven_pearson@final-step.com>
     // and then modified by Peter Levart <peter@select-tech.si> to fit the new errno returning scheme
 
-    public int setxattr(ByteBuffer path, ByteBuffer name, ByteBuffer value, int flags);
+    public int setxattr(ByteBuffer path, ByteBuffer name, ByteBuffer value, int flags, int position);
 
     public int getxattrsize(ByteBuffer path, ByteBuffer name, FuseSizeSetter sizeSetter);
 
-    public int getxattr(ByteBuffer path, ByteBuffer name, ByteBuffer value);
+    public int getxattr(ByteBuffer path, ByteBuffer name, ByteBuffer value, int position);
 
     public int listxattrsize(ByteBuffer path, FuseSizeSetter sizeSetter);
 

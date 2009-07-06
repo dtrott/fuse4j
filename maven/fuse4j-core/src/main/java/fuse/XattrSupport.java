@@ -24,21 +24,24 @@ public interface XattrSupport
     */
    public int getxattrsize(String path, String name, FuseSizeSetter sizeSetter) throws FuseException;
 
-   /**
-    * This method will be called to get the value of the extended attribute
-    *
-    * @param path the path to file or directory containing extended attribute
-    * @param name the name of the extended attribute
-    * @param dst a ByteBuffer that should be filled with the value of the extended attribute
-    * @return 0 if Ok or errno when error
-    * @throws FuseException an alternative to returning errno is to throw this exception with errno initialized
-    * @throws BufferOverflowException should be thrown to indicate that the given <code>dst</code> ByteBuffer
-    *         is not large enough to hold the attribute's value. After that <code>getxattr()</code> method will
-    *         be called again with a larger buffer.
-    */
-   public int getxattr(String path, String name, ByteBuffer dst) throws FuseException, BufferOverflowException;
+    /**
+     * This method will be called to get the value of the extended attribute
+     *
+     * @param path     the path to file or directory containing extended attribute
+     * @param name     the name of the extended attribute
+     * @param position specifies the offset within the extended attribute.
+     *                 In the current implementation, only the resource fork extended attribute makes use of this argument.
+     *                 For all others, position is reserved and should be set to zero.
+     * @param dst      a ByteBuffer that should be filled with the value of the extended attribute
+     * @return 0 if Ok or errno when error
+     * @throws FuseException           an alternative to returning errno is to throw this exception with errno initialized
+     * @throws BufferOverflowException should be thrown to indicate that the given <code>dst</code> ByteBuffer
+     *                                 is not large enough to hold the attribute's value. After that <code>getxattr()</code> method will
+     *                                 be called again with a larger buffer.
+     */
+    public int getxattr(String path, String name, ByteBuffer dst, int position) throws FuseException, BufferOverflowException;
 
-   /**
+    /**
     * This method will be called to get the list of extended attribute names
     *
     * @param path the path to file or directory containing extended attributes
@@ -48,22 +51,25 @@ public interface XattrSupport
     */
    public int listxattr(String path, XattrLister lister) throws FuseException;
 
-   /**
-    * This method will be called to set the value of an extended attribute
-    *
-    * @param path the path to file or directory containing extended attributes
-    * @param name the name of the extended attribute
-    * @param value the value of the extended attribute
-    * @param flags parameter can be used to refine the semantics of the operation.<p>
-    *        <code>XATTR_CREATE</code> specifies a pure create, which should fail with <code>Errno.EEXIST</code> if the named attribute exists already.<p>
-    *        <code>XATTR_REPLACE</code> specifies a pure replace operation, which should fail with <code>Errno.ENOATTR</code> if the named attribute does not already exist.<p>
-    *        By default (no flags), the  extended  attribute  will  be created if need be, or will simply replace the value if the attribute exists.
-    * @return 0 if Ok or errno when error
-    * @throws FuseException an alternative to returning errno is to throw this exception with errno initialized
-    */
-   public int setxattr(String path, String name, ByteBuffer value, int flags) throws FuseException;
+    /**
+     * This method will be called to set the value of an extended attribute.
+     *
+     * @param path  the path to file or directory containing extended attributes
+     * @param name  the name of the extended attribute
+     * @param value the value of the extended attribute
+     * @param flags parameter can be used to refine the semantics of the operation.<p>
+     *              <code>XATTR_CREATE</code> specifies a pure create, which should fail with <code>Errno.EEXIST</code> if the named attribute exists already.<p>
+     *              <code>XATTR_REPLACE</code> specifies a pure replace operation, which should fail with <code>Errno.ENOATTR</code> if the named attribute does not already exist.<p>
+     *              By default (no flags), the  extended  attribute  will  be created if need be, or will simply replace the value if the attribute exists.
+     * @param position specifies the offset within the extended attribute.
+     *                 In the current implementation, only the resource fork extended attribute makes use of this argument.
+     *                 For all others, position is reserved and should be set to zero.
+     * @return 0 if Ok or errno when error
+     * @throws FuseException an alternative to returning errno is to throw this exception with errno initialized
+     */
+    public int setxattr(String path, String name, ByteBuffer value, int flags, int position) throws FuseException;
 
-   /**
+    /**
     * This method will be called to remove the extended attribute
     *
     * @param path the path to file or directory containing extended attributes

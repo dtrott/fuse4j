@@ -148,7 +148,7 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
    {
       root = new D("", 0755, "description", "ROOT directory");
 
-      root.add(new F("README", 0644, "Hou have read me\n", "mimetype", "text/plain", "description", "a README file"));
+      root.add(new F("README", 0644, "You have read me\n", "mimetype", "text/plain", "description", "a README file"));
       root.add(new F("execute_me.sh", 0755, "#!/bin/sh\n\necho \"You executed me\"\n", "mimetype", "text/plain", "description", "a BASH script"));
 
       D subdir = new D("subdir", 0755, "description", "a subdirectory");
@@ -414,6 +414,7 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     * @param path the path to file or directory containing extended attribute
     * @param name the name of the extended attribute
     * @param dst  a ByteBuffer that should be filled with the value of the extended attribute
+    * @param position specifies the offset within the extended attribute.
     * @return 0 if Ok or errno when error
     * @throws fuse.FuseException an alternative to returning errno is to throw this exception with errno initialized
     * @throws java.nio.BufferOverflowException
@@ -421,7 +422,7 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     *                            is not large enough to hold the attribute's value. After that <code>getxattr()</code> method will
     *                            be called again with a larger buffer.
     */
-   public int getxattr(String path, String name, ByteBuffer dst) throws FuseException, BufferOverflowException
+   public int getxattr(String path, String name, ByteBuffer dst, int position) throws FuseException, BufferOverflowException
    {
       N n = lookup(path);
 
@@ -508,10 +509,11 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     *              <code>XATTR_CREATE</code> specifies a pure create, which should fail with <code>Errno.EEXIST</code> if the named attribute exists already.<p>
     *              <code>XATTR_REPLACE</code> specifies a pure replace operation, which should fail with <code>Errno.ENOATTR</code> if the named attribute does not already exist.<p>
     *              By default (no flags), the  extended  attribute  will  be created if need be, or will simply replace the value if the attribute exists.
+    * @param position specifies the offset within the extended attribute.
     * @return 0 if Ok or errno when error
     * @throws fuse.FuseException an alternative to returning errno is to throw this exception with errno initialized
     */
-   public int setxattr(String path, String name, ByteBuffer value, int flags) throws FuseException
+   public int setxattr(String path, String name, ByteBuffer value, int flags, int position) throws FuseException
    {
       return Errno.EROFS;
    }

@@ -436,7 +436,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
         }
     }
 
-    public int getxattr(ByteBuffer path, ByteBuffer name, ByteBuffer value) {
+    public int getxattr(ByteBuffer path, ByteBuffer name, ByteBuffer value, int position) {
         if (xattrSupport == null) {
             return handleErrno(Errno.ENOTSUPP);
         }
@@ -449,7 +449,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
         }
 
         try {
-            return handleErrno(xattrSupport.getxattr(pathStr, nameStr, value), value);
+            return handleErrno(xattrSupport.getxattr(pathStr, nameStr, value, position), value);
         }
         catch(Exception e) {
             return handleException(e);
@@ -596,7 +596,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
         return handleErrno(errno, lister);
     }
 
-    public int setxattr(ByteBuffer path, ByteBuffer name, ByteBuffer value, int flags) {
+    public int setxattr(ByteBuffer path, ByteBuffer name, ByteBuffer value, int flags, int position) {
         if (xattrSupport == null) {
             return handleErrno(Errno.ENOTSUPP);
         }
@@ -609,7 +609,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
         }
 
         try {
-            return handleErrno(xattrSupport.setxattr(pathStr, nameStr, value, flags));
+            return handleErrno(xattrSupport.setxattr(pathStr, nameStr, value, flags, position));
         }
         catch(Exception e) {
             return handleException(e);
