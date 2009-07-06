@@ -680,7 +680,7 @@ jclass_fuse_FuseFS *alloc_jclass_fuse_FuseFS(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.getdir__Ljava_nio_ByteBuffer_Lfuse_FuseFSDirFiller_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "getdir", "(Ljava/nio/ByteBuffer;Lfuse/FuseFSDirFiller;)I");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.getxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "getxattr", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)I");
+      fuse_FuseFS->method.getxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_I = (*env)->GetMethodID(env, fuse_FuseFS->class, "getxattr", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;I)I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.getxattrsize__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Lfuse_FuseSizeSetter_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "getxattrsize", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;Lfuse/FuseSizeSetter;)I");
       if ((*env)->ExceptionCheck(env)) break;
@@ -710,7 +710,7 @@ jclass_fuse_FuseFS *alloc_jclass_fuse_FuseFS(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.rmdir__Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "rmdir", "(Ljava/nio/ByteBuffer;)I");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFS->method.setxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_I = (*env)->GetMethodID(env, fuse_FuseFS->class, "setxattr", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;I)I");
+      fuse_FuseFS->method.setxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_II = (*env)->GetMethodID(env, fuse_FuseFS->class, "setxattr", "(Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;Ljava/nio/ByteBuffer;II)I");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFS->method.statfs__Lfuse_FuseStatfsSetter_ = (*env)->GetMethodID(env, fuse_FuseFS->class, "statfs", "(Lfuse/FuseStatfsSetter;)I");
       if ((*env)->ExceptionCheck(env)) break;

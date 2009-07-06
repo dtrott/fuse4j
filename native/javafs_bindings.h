@@ -402,7 +402,7 @@ typedef struct _jclass_fuse_FuseFS
       jmethodID fsync__Ljava_nio_ByteBuffer_Ljava_lang_Object_Z;
       jmethodID getattr__Ljava_nio_ByteBuffer_Lfuse_FuseGetattrSetter_;
       jmethodID getdir__Ljava_nio_ByteBuffer_Lfuse_FuseFSDirFiller_;
-      jmethodID getxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
+      jmethodID getxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_I;
       jmethodID getxattrsize__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Lfuse_FuseSizeSetter_;
       jmethodID init;
       jmethodID link__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
@@ -417,7 +417,7 @@ typedef struct _jclass_fuse_FuseFS
       jmethodID removexattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
       jmethodID rename__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
       jmethodID rmdir__Ljava_nio_ByteBuffer_;
-      jmethodID setxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_I;
+      jmethodID setxattr__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_II;
       jmethodID statfs__Lfuse_FuseStatfsSetter_;
       jmethodID symlink__Ljava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
       jmethodID truncate__Ljava_nio_ByteBuffer_J;
