@@ -1,0 +1,11 @@
+TODO
+====
+Combine the native code compile into the maven project.
+
+At the moment I am manually generating the C API code using the following
+command:
+
+java java2c.CAPIGenerator javafs_bindings.h javafs_bindings.c util.h
+
+And then dropping the output files (javafs_bindings.h and javafs_bindings.c)
+into the native directory.
