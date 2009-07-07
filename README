@@ -1,7 +1,11 @@
-This is still a really early version.
-The native methods are not registered yet hence more complex functionality
-will not work, but you should at least be able to mount the fake filesystem.
+July 7th 2009
+=====
+I have added an additional "position" argument to the getxattr and setxattr
+methods, the version before this change was tagged (b4_xattr)
+However extended attributes should work in either version.
 
+
+=====
 Note: I am building on:
 Mac OS X 10.5.5
 Using MacFuse (Built from source)
