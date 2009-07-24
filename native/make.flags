@@ -9,6 +9,6 @@ FS_EXE=javafs
 
 CC=gcc
 DEPFLAGS=-D__FreeBSD__=10 -D_FILE_OFFSET_BITS=64
-CFLAGS=-Wall -fPIC ${DEPFLAGS}
+CFLAGS=-Wall -fPIC ${DEPFLAGS} -arch x86_64 -arch i386
 LD=libtool -dynamic
 LDFLAGS=-lfuse -lpthread -lSystem
