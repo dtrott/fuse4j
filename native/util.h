@@ -23,6 +23,7 @@ extern jobject threadGroup;
 extern jobject fuseFS;
 
 extern jclass_fuse_FuseContext       *FuseContext;
+extern jclass_fuse_PasswordEntry     *PasswordEntry;
 extern jclass_fuse_FuseGetattr       *FuseGetattr;
 extern jclass_fuse_FuseFS            *FuseFS;
 extern jclass_fuse_FuseFSDirEnt      *FuseFSDirEnt;

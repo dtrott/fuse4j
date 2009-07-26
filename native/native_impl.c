@@ -1,8 +1,75 @@
+#include <pwd.h>
 #include "native_impl.h"
 #include "fuse_callback.h"
 #include "util.h"
 
 #define ENOTSUPP        524
+
+jobject CopyPasswordEntry(JNIEnv *env, jobject jCharset, struct passwd * pw)
+{
+    // pw is null so there is no entry.
+    if (!pw) { return NULL; }
+
+    jobject jUsername = NULL;
+    jobject jHomeDirectory = NULL;
+    jobject jShell = NULL;
+    jobject jPasswordEntry = NULL;
+    jint jerrno = 0;
+
+    while (1)
+    {
+        jUsername = (*env)->NewDirectByteBuffer(env, (void *)pw->pw_name, (jlong)strlen(pw->pw_name));
+        if (exception_check_jerrno(env, &jerrno)) break;
+
+        jHomeDirectory = (*env)->NewDirectByteBuffer(env, (void *)pw->pw_dir, (jlong)strlen(pw->pw_dir));
+        if (exception_check_jerrno(env, &jerrno)) break;
+
+        jShell = (*env)->NewDirectByteBuffer(env, (void *)pw->pw_shell, (jlong)strlen(pw->pw_shell));
+        if (exception_check_jerrno(env, &jerrno)) break;
+                       
+        // Constructor(Charset charset, ByteBuffer username, int uid, int gid, ByteBuffer homeDirectory, ByteBuffer shell)
+        jPasswordEntry = (*env)->NewObject(env, PasswordEntry->class, PasswordEntry->constructor.new__Ljava_nio_charset_Charset_Ljava_nio_ByteBuffer_IILjava_nio_ByteBuffer_Ljava_nio_ByteBuffer_,
+            jCharset, jUsername, pw->pw_uid, pw->pw_gid, jHomeDirectory, jShell);
+        if (exception_check_jerrno(env, &jerrno)) break;
+
+        break;
+    }
+    
+    // Clean up
+
+    if (jUsername)      { (*env)->DeleteLocalRef(env, jUsername); }
+    if (jHomeDirectory) { (*env)->DeleteLocalRef(env, jHomeDirectory); }
+    if (jShell)         { (*env)->DeleteLocalRef(env, jShell); }
+
+    return jPasswordEntry;
+}
+
+
+/*
+ * Class:     fuse_PasswordEntry
+ * Method:    lookupByUsername
+ * Signature: (Ljava/nio/charset/Charset;Ljava/lang/String;)Lfuse/PasswordEntry;
+ */
+JNIEXPORT jobject JNICALL Java_fuse_PasswordEntry_lookupByUsername(JNIEnv * env, jclass jClassPasswordEntry, jobject jCharset, jstring jUsername)
+{
+    const char *username = (*env)->GetStringUTFChars(env, jUsername, NULL);
+    struct passwd * pw = getpwnam(username);
+    (*env)->ReleaseStringUTFChars(env, jUsername, username);
+
+    return CopyPasswordEntry(env, jCharset, pw);
+}
+
+/*
+ * Class:     fuse_PasswordEntry
+ * Method:    lookupByUid
+ * Signature: (Ljava/nio/charset/Charset;I)Lfuse/PasswordEntry;
+ */
+JNIEXPORT jobject JNICALL Java_fuse_PasswordEntry_lookupByUid(JNIEnv * env, jclass jClassPasswordEntry, jobject jCharset, jint jUid)
+{
+    struct passwd * pw = getpwuid(jUid);
+
+    return CopyPasswordEntry(env, jCharset, pw);
+}
 
 /*
  * Class:     fuse_FuseMount

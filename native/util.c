@@ -7,6 +7,7 @@ JNIEnv *mainEnv;
 jobject threadGroup = NULL;
 jobject fuseFS = NULL;
 
+jclass_fuse_PasswordEntry     *PasswordEntry;
 jclass_fuse_FuseContext       *FuseContext;
 jclass_fuse_FuseGetattr       *FuseGetattr;
 jclass_fuse_FuseFS            *FuseFS;
@@ -101,6 +102,7 @@ int alloc_classes(JNIEnv *env)
       if (!(FuseOpen        = alloc_jclass_fuse_FuseOpen(env))) break;
       if (!(FuseSize        = alloc_jclass_fuse_FuseSize(env))) break;
       if (!(FuseContext     = alloc_jclass_fuse_FuseContext(env))) break;
+      if (!(PasswordEntry   = alloc_jclass_fuse_PasswordEntry(env))) break;
       if (!(ByteBuffer      = alloc_jclass_java_nio_ByteBuffer(env))) break;
       if (!(FuseFS          = alloc_jclass_fuse_FuseFS(env))) break;
       if (!(FuseFSFactory   = alloc_jclass_fuse_FuseFSFactory(env))) break;
@@ -129,6 +131,7 @@ void free_classes(JNIEnv *env)
     if (FuseOpen != NULL)        { free_jclass_fuse_FuseOpen(env, FuseOpen);               FuseOpen = NULL; }
     if (FuseSize != NULL)        { free_jclass_fuse_FuseSize(env, FuseSize);               FuseSize = NULL; }
     if (FuseContext != NULL)     { free_jclass_fuse_FuseContext(env, FuseContext);         FuseContext = NULL; }
+    if (PasswordEntry != NULL)   { free_jclass_fuse_PasswordEntry(env, PasswordEntry);     PasswordEntry = NULL; }
     if (ByteBuffer != NULL)      { free_jclass_java_nio_ByteBuffer(env, ByteBuffer);       ByteBuffer = NULL; }
     if (FuseFS != NULL)          { free_jclass_fuse_FuseFS(env, FuseFS);                   FuseFS = NULL; }
     if (FuseFSFactory != NULL)   { free_jclass_fuse_FuseFSFactory(env, FuseFSFactory);     FuseFSFactory = NULL; }
