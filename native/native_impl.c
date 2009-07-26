@@ -246,8 +246,10 @@ int RegisterNativeMethods(JNIEnv *env)
 {
     while(1)
     {
-        if (!RegisterMethod            (env,  FuseContext->class,  "fillInFuseContext", "()V",              Java_fuse_FuseContext_fillInFuseContext)) break;
-        if (!LoadClassAndRegisterMethod(env, "fuse/FuseFSFillDir", "fill", "(Ljava/nio/ByteBuffer;JIJJJ)Z", Java_fuse_FuseFSFillDir_fill)) break;
+        if (!RegisterMethod            (env,  FuseContext->class,    "fillInFuseContext", "()V",                                                               Java_fuse_FuseContext_fillInFuseContext)) break;
+        if (!LoadClassAndRegisterMethod(env, "fuse/FuseFSFillDir",   "fill",              "(Ljava/nio/ByteBuffer;JIJJJ)Z",                                     Java_fuse_FuseFSFillDir_fill)) break;
+        if (!RegisterMethod            (env,  PasswordEntry->class,  "lookupByUsername",  "(Ljava/nio/charset/Charset;Ljava/lang/String;)Lfuse/PasswordEntry;", Java_fuse_PasswordEntry_lookupByUsername)) break;
+        if (!RegisterMethod            (env,  PasswordEntry->class,  "lookupByUid",       "(Ljava/nio/charset/Charset;I)Lfuse/PasswordEntry;",                  Java_fuse_PasswordEntry_lookupByUid)) break;
 
         return 1;
     }
