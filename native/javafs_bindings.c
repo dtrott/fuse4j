@@ -1018,3 +1018,91 @@ jclass_fuse_FuseFSFactory *alloc_jclass_fuse_FuseFSFactory(JNIEnv *env)
    return NULL;
 }
 
+/**
+ * free structure with a reference to fuse.PasswordEntry java class and cached field & method IDs
+ */
+void free_jclass_fuse_PasswordEntry(JNIEnv *env, jclass_fuse_PasswordEntry *fuse_PasswordEntry)
+{
+   if (fuse_PasswordEntry->class != NULL)
+      (*env)->DeleteGlobalRef(env, fuse_PasswordEntry->class);
+
+   free(fuse_PasswordEntry);
+}
+
+/**
+ * alloc structure with a reference to fuse.PasswordEntry java class and cached field & method IDs
+ */
+jclass_fuse_PasswordEntry *alloc_jclass_fuse_PasswordEntry(JNIEnv *env)
+{
+   jclass class;
+
+   jclass_fuse_PasswordEntry *fuse_PasswordEntry = (jclass_fuse_PasswordEntry*)calloc(1, sizeof(jclass_fuse_PasswordEntry));
+   if (fuse_PasswordEntry == NULL)
+   {
+      WARN("Can't allocate structure jclass_fuse_PasswordEntry");
+      return NULL;
+   }
+
+   while (1)
+   {
+      class = (*env)->FindClass(env, "fuse/PasswordEntry");
+      if ((*env)->ExceptionCheck(env)) break;
+
+      fuse_PasswordEntry->class = (*env)->NewGlobalRef(env, class);
+      if ((*env)->ExceptionCheck(env)) break;
+
+      // obtain instance field IDs
+      fuse_PasswordEntry->field.gid = (*env)->GetFieldID(env, fuse_PasswordEntry->class, "gid", "I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->field.homeDirectory = (*env)->GetFieldID(env, fuse_PasswordEntry->class, "homeDirectory", "Ljava/lang/String;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->field.shell = (*env)->GetFieldID(env, fuse_PasswordEntry->class, "shell", "Ljava/lang/String;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->field.uid = (*env)->GetFieldID(env, fuse_PasswordEntry->class, "uid", "I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->field.username = (*env)->GetFieldID(env, fuse_PasswordEntry->class, "username", "Ljava/lang/String;");
+      if ((*env)->ExceptionCheck(env)) break;
+
+      // obtain constructor method IDs
+      fuse_PasswordEntry->constructor.new__Ljava_nio_charset_Charset_Ljava_nio_ByteBuffer_IILjava_nio_ByteBuffer_Ljava_nio_ByteBuffer_ = (*env)->GetMethodID(env, fuse_PasswordEntry->class, "<init>", "(Ljava/nio/charset/Charset;Ljava/nio/ByteBuffer;IILjava/nio/ByteBuffer;Ljava/nio/ByteBuffer;)V");
+      if ((*env)->ExceptionCheck(env)) break;
+
+      // obtain static method IDs
+      fuse_PasswordEntry->static_method.lookupByUid__Ljava_nio_charset_Charset_I = (*env)->GetStaticMethodID(env, fuse_PasswordEntry->class, "lookupByUid", "(Ljava/nio/charset/Charset;I)Lfuse/PasswordEntry;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->static_method.lookupByUsername__Ljava_nio_charset_Charset_Ljava_lang_String_ = (*env)->GetStaticMethodID(env, fuse_PasswordEntry->class, "lookupByUsername", "(Ljava/nio/charset/Charset;Ljava/lang/String;)Lfuse/PasswordEntry;");
+      if ((*env)->ExceptionCheck(env)) break;
+
+      // obtain instance method IDs
+      fuse_PasswordEntry->method.clone = (*env)->GetMethodID(env, fuse_PasswordEntry->class, "clone", "()Ljava/lang/Object;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->method.equals__Ljava_lang_Object_ = (*env)->GetMethodID(env, fuse_PasswordEntry->class, "equals", "(Ljava/lang/Object;)Z");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->method.getClass = (*env)->GetMethodID(env, fuse_PasswordEntry->class, "getClass", "()Ljava/lang/Class;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->method.hashCode = (*env)->GetMethodID(env, fuse_PasswordEntry->class, "hashCode", "()I");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->method.notify = (*env)->GetMethodID(env, fuse_PasswordEntry->class, "notify", "()V");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->method.notifyAll = (*env)->GetMethodID(env, fuse_PasswordEntry->class, "notifyAll", "()V");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->method.toString = (*env)->GetMethodID(env, fuse_PasswordEntry->class, "toString", "()Ljava/lang/String;");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->method.wait = (*env)->GetMethodID(env, fuse_PasswordEntry->class, "wait", "()V");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->method.wait__J = (*env)->GetMethodID(env, fuse_PasswordEntry->class, "wait", "(J)V");
+      if ((*env)->ExceptionCheck(env)) break;
+      fuse_PasswordEntry->method.wait__JI = (*env)->GetMethodID(env, fuse_PasswordEntry->class, "wait", "(JI)V");
+      if ((*env)->ExceptionCheck(env)) break;
+
+      // we're done
+      return fuse_PasswordEntry;
+   }
+
+   // error handler
+   (*env)->ExceptionDescribe(env);
+   (*env)->ExceptionClear(env);
+   free_jclass_fuse_PasswordEntry(env, fuse_PasswordEntry);
+   return NULL;
+}
+

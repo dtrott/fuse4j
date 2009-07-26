@@ -591,3 +591,62 @@ void free_jclass_fuse_FuseFSFactory(JNIEnv *env, jclass_fuse_FuseFSFactory *fuse
 // alloc structure
 jclass_fuse_FuseFSFactory *alloc_jclass_fuse_FuseFSFactory(JNIEnv *env);
 
+
+/**
+ * structure with a reference to fuse.PasswordEntry java class and cached field & method IDs
+ */
+typedef struct _jclass_fuse_PasswordEntry
+{
+   // a pointer to globaly referenced Java class
+   jclass class;
+
+   // cached instance field IDs
+   struct
+   {
+      jfieldID gid;
+      jfieldID homeDirectory;
+      jfieldID shell;
+      jfieldID uid;
+      jfieldID username;
+
+   } field;
+
+   // cached constructor IDs
+   struct
+   {
+      jmethodID new__Ljava_nio_charset_Charset_Ljava_nio_ByteBuffer_IILjava_nio_ByteBuffer_Ljava_nio_ByteBuffer_;
+
+   } constructor;
+
+   // cached static method IDs
+   struct
+   {
+      jmethodID lookupByUid__Ljava_nio_charset_Charset_I;
+      jmethodID lookupByUsername__Ljava_nio_charset_Charset_Ljava_lang_String_;
+
+   } static_method;
+
+   // cached instance method IDs
+   struct
+   {
+      jmethodID clone;
+      jmethodID equals__Ljava_lang_Object_;
+      jmethodID getClass;
+      jmethodID hashCode;
+      jmethodID notify;
+      jmethodID notifyAll;
+      jmethodID toString;
+      jmethodID wait;
+      jmethodID wait__J;
+      jmethodID wait__JI;
+
+   } method;
+
+} jclass_fuse_PasswordEntry;
+
+// free structure
+void free_jclass_fuse_PasswordEntry(JNIEnv *env, jclass_fuse_PasswordEntry *fuse_PasswordEntry);
+
+// alloc structure
+jclass_fuse_PasswordEntry *alloc_jclass_fuse_PasswordEntry(JNIEnv *env);
+

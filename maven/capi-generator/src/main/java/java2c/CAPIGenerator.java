@@ -18,6 +18,7 @@ import fuse.FuseGetattr;
 import fuse.FuseOpen;
 import fuse.FuseSize;
 import fuse.FuseStatfs;
+import fuse.PasswordEntry;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,10 +31,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Arrays;
 
 
 @SuppressWarnings("unchecked")
@@ -466,6 +467,7 @@ public class CAPIGenerator {
             new CAPIGenerator(FuseFS.class).generateClassAPI(overload, hOut, cOut, false, false);
             new CAPIGenerator(ByteBuffer.class).generateClassAPI(overload, hOut, cOut, false, false);
             new CAPIGenerator(FuseFSFactory.class).generateClassAPI(overload, hOut, cOut, false, false);
+            new CAPIGenerator(PasswordEntry.class).generateClassAPI(overload, hOut, cOut, false, false);
         }
         catch(IOException e) {
             e.printStackTrace();
