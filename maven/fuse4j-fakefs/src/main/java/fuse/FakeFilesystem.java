@@ -12,7 +12,6 @@ package fuse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.File;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -27,14 +26,14 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     private static final int BLOCK_SIZE = 512;
     private static final int NAME_LENGTH = 1024;
 
-    private static class N {
+    private static class Node {
         static int nfiles = 0;
 
         String name;
         int mode;
         Map<String, byte[]> xattrs = new HashMap<String, byte[]>();
 
-        N(String name, int mode, String... xattrs) {
+        Node(String name, int mode, String... xattrs) {
             this.name = name;
             this.mode = mode;
 
@@ -51,15 +50,15 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
         }
     }
 
-    private static class D extends N {
-        Map<String, N> files = new LinkedHashMap<String, N>();
+    private static class Directory extends Node {
+        Map<String, Node> files = new LinkedHashMap<String, Node>();
 
-        D(String name, int mode, String... xattrs) {
+        Directory(String name, int mode, String... xattrs) {
             super(name, mode, xattrs);
         }
 
-        void add(N n) {
-            files.put(n.name, n);
+        void add(Node node) {
+            files.put(node.name, node);
         }
 
         public String toString() {
@@ -67,31 +66,31 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
         }
     }
 
-    private static class F extends N {
+    private static class File extends Node {
         byte[] content;
 
-        F(String name, int mode, String content, String... xattrs) {
+        File(String name, int mode, String content, String... xattrs) {
             super(name, mode, xattrs);
 
             this.content = content.getBytes();
         }
     }
 
-    private static class L extends N {
+    private static class Link extends Node {
         String link;
 
-        L(String name, int mode, String link, String... xattrs) {
+        Link(String name, int mode, String link, String... xattrs) {
             super(name, mode, xattrs);
 
             this.link = link;
         }
     }
 
-    private static class FH {
-        N n;
+    private static class FileHandle {
+        Node node;
 
-        FH(N n) {
-            this.n = n;
+        FileHandle(Node node) {
+            this.node = node;
             log.debug("  " + this + " created");
         }
 
@@ -104,23 +103,23 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
         }
 
         public String toString() {
-            return "FH[" + n + ", hashCode=" + hashCode() + "]";
+            return "FileHandle[" + node + ", hashCode=" + hashCode() + "]";
         }
     }
 
     // a root directory
-    private D root;
+    private Directory root;
 
     // lookup node
 
-    private N lookup(String path) {
+    private Node lookup(String path) {
         if (path.equals("/")) {
             return root;
         }
 
-        File f = new File(path);
-        N parent = lookup(f.getParent());
-        N node = (parent instanceof D) ? ((D) parent).files.get(f.getName()) : null;
+        java.io.File f = new java.io.File(path);
+        Node parent = lookup(f.getParent());
+        Node node = (parent instanceof Directory) ? ((Directory) parent).files.get(f.getName()) : null;
 
         if (log.isDebugEnabled()) {
             log.debug("  lookup(\"" + path + "\") returning: " + node);
@@ -130,24 +129,24 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     }
 
     public FakeFilesystem() {
-        root = new D("", 0755, "description", "ROOT directory");
+        root = new Directory("", 0755, "description", "ROOT directory");
 
-        root.add(new F("README", 0644, "You have read me\n", "mimetype", "text/plain", "description", "a README file"));
-        root.add(new F("execute_me.sh", 0755, "#!/bin/sh\n\necho \"You executed me\"\n", "mimetype", "text/plain", "description", "a BASH script"));
+        root.add(new File("README", 0644, "You have read me\n", "mimetype", "text/plain", "description", "a README file"));
+        root.add(new File("execute_me.sh", 0755, "#!/bin/sh\n\necho \"You executed me\"\n", "mimetype", "text/plain", "description", "a BASH script"));
 
-        D subdir = new D("subdir", 0755, "description", "a subdirectory");
+        Directory subdir = new Directory("subdir", 0755, "description", "a subdirectory");
         root.add(subdir);
-        subdir.add(new L("README.link", 0666, "../README", "description", "a symbolic link"));
-        subdir.add(new L("execute_me.link.sh", 0666, "../execute_me.sh", "description", "another symbolic link"));
+        subdir.add(new Link("README.link", 0666, "../README", "description", "a symbolic link"));
+        subdir.add(new Link("execute_me.link.sh", 0666, "../execute_me.sh", "description", "another symbolic link"));
 
         log.info("created");
     }
 
     public int chmod(String path, int mode) throws FuseException {
-        N n = lookup(path);
+        Node node = lookup(path);
 
-        if (n != null) {
-            n.mode = (n.mode & FuseStatConstants.TYPE_MASK) | (mode & FuseStatConstants.MODE_MASK);
+        if (node != null) {
+            node.mode = (node.mode & FuseStatConstants.TYPE_MASK) | (mode & FuseStatConstants.MODE_MASK);
             return 0;
         }
 
@@ -159,23 +158,23 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     }
 
     public int getattr(String path, FuseGetattrSetter getattrSetter) throws FuseException {
-        N n = lookup(path);
+        Node node = lookup(path);
 
         int time = (int) (System.currentTimeMillis() / 1000L);
 
-        if (n instanceof D) {
-            D d = (D) n;
-            getattrSetter.set(d.hashCode(), FuseFtypeConstants.TYPE_DIR | d.mode, 1, 0, 0, 0, d.files.size() * NAME_LENGTH, (d.files.size() * NAME_LENGTH + BLOCK_SIZE - 1) / BLOCK_SIZE, time, time, time);
+        if (node instanceof Directory) {
+            Directory directory = (Directory) node;
+            getattrSetter.set(directory.hashCode(), FuseFtypeConstants.TYPE_DIR | directory.mode, 1, 0, 0, 0, directory.files.size() * NAME_LENGTH, (directory.files.size() * NAME_LENGTH + BLOCK_SIZE - 1) / BLOCK_SIZE, time, time, time);
 
             return 0;
-        } else if (n instanceof F) {
-            F f = (F) n;
-            getattrSetter.set(f.hashCode(), FuseFtypeConstants.TYPE_FILE | f.mode, 1, 0, 0, 0, f.content.length, (f.content.length + BLOCK_SIZE - 1) / BLOCK_SIZE, time, time, time);
+        } else if (node instanceof File) {
+            File file = (File) node;
+            getattrSetter.set(file.hashCode(), FuseFtypeConstants.TYPE_FILE | file.mode, 1, 0, 0, 0, file.content.length, (file.content.length + BLOCK_SIZE - 1) / BLOCK_SIZE, time, time, time);
 
             return 0;
-        } else if (n instanceof L) {
-            L l = (L) n;
-            getattrSetter.set(l.hashCode(), FuseFtypeConstants.TYPE_SYMLINK | l.mode, 1, 0, 0, 0, l.link.length(), (l.link.length() + BLOCK_SIZE - 1) / BLOCK_SIZE, time, time, time);
+        } else if (node instanceof Link) {
+            Link link = (Link) node;
+            getattrSetter.set(link.hashCode(), FuseFtypeConstants.TYPE_SYMLINK | link.mode, 1, 0, 0, 0, link.link.length(), (link.link.length() + BLOCK_SIZE - 1) / BLOCK_SIZE, time, time, time);
 
             return 0;
         }
@@ -184,15 +183,15 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     }
 
     public int getdir(String path, FuseDirFiller filler) throws FuseException {
-        N n = lookup(path);
+        Node node = lookup(path);
 
-        if (n instanceof D) {
-            for (N child : ((D) n).files.values()) {
-                int ftype = (child instanceof D)
+        if (node instanceof Directory) {
+            for (Node child : ((Directory) node).files.values()) {
+                int ftype = (child instanceof Directory)
                         ? FuseFtypeConstants.TYPE_DIR
-                        : ((child instanceof F)
+                        : ((child instanceof File)
                         ? FuseFtypeConstants.TYPE_FILE
-                        : ((child instanceof L)
+                        : ((child instanceof Link)
                         ? FuseFtypeConstants.TYPE_SYMLINK
                         : 0));
                 if (ftype > 0) {
@@ -227,7 +226,7 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     }
 
     public int statfs(FuseStatfsSetter statfsSetter) throws FuseException {
-        statfsSetter.set(BLOCK_SIZE, 1000, 200, 180, N.nfiles, 0, NAME_LENGTH);
+        statfsSetter.set(BLOCK_SIZE, 1000, 200, 180, Node.nfiles, 0, NAME_LENGTH);
         return 0;
     }
 
@@ -248,10 +247,10 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     }
 
     public int readlink(String path, CharBuffer link) throws FuseException {
-        N n = lookup(path);
+        Node node = lookup(path);
 
-        if (n instanceof L) {
-            link.append(((L) n).link);
+        if (node instanceof Link) {
+            link.append(((Link) node).link);
             return 0;
         }
 
@@ -261,10 +260,10 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     // if open returns a filehandle by calling FuseOpenSetter.setFh() method, it will be passed to every method that supports 'fh' argument
 
     public int open(String path, int flags, FuseOpenSetter openSetter) throws FuseException {
-        N n = lookup(path);
+        Node node = lookup(path);
 
-        if (n != null) {
-            openSetter.setFh(new FH(n));
+        if (node != null) {
+            openSetter.setFh(new FileHandle(node));
             return 0;
         }
 
@@ -281,9 +280,9 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     // fh is filehandle passed from open
 
     public int read(String path, Object fh, ByteBuffer buf, long offset) throws FuseException {
-        if (fh instanceof FH) {
-            F f = (F) ((FH) fh).n;
-            buf.put(f.content, (int) offset, Math.min(buf.remaining(), f.content.length - (int) offset));
+        if (fh instanceof FileHandle) {
+            File file = (File) ((FileHandle) fh).node;
+            buf.put(file.content, (int) offset, Math.min(buf.remaining(), file.content.length - (int) offset));
 
             return 0;
         }
@@ -294,7 +293,7 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     // new operation (called on every filehandle close), fh is filehandle passed from open
 
     public int flush(String path, Object fh) throws FuseException {
-        if (fh instanceof FH) {
+        if (fh instanceof FileHandle) {
             return 0;
         }
 
@@ -305,7 +304,7 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     // isDatasync indicates that only the user data should be flushed, not the meta data
 
     public int fsync(String path, Object fh, boolean isDatasync) throws FuseException {
-        if (fh instanceof FH) {
+        if (fh instanceof FileHandle) {
             return 0;
         }
 
@@ -315,8 +314,8 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
     // (called when last filehandle is closed), fh is filehandle passed from open
 
     public int release(String path, Object fh, int flags) throws FuseException {
-        if (fh instanceof FH) {
-            ((FH) fh).release();
+        if (fh instanceof FileHandle) {
+            ((FileHandle) fh).release();
             System.runFinalization();
             return 0;
         }
@@ -342,13 +341,13 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
      *                            be called again with a larger buffer.
      */
     public int getxattr(String path, String name, ByteBuffer dst, int position) throws FuseException, BufferOverflowException {
-        N n = lookup(path);
+        Node node = lookup(path);
 
-        if (n == null) {
+        if (node == null) {
             return Errno.ENOENT;
         }
 
-        byte[] value = n.xattrs.get(name);
+        byte[] value = node.xattrs.get(name);
 
         if (value == null) {
             return Errno.ENOATTR;
@@ -369,13 +368,13 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
      * @throws fuse.FuseException an alternative to returning errno is to throw this exception with errno initialized
      */
     public int getxattrsize(String path, String name, FuseSizeSetter sizeSetter) throws FuseException {
-        N n = lookup(path);
+        Node node = lookup(path);
 
-        if (n == null) {
+        if (node == null) {
             return Errno.ENOENT;
         }
 
-        byte[] value = n.xattrs.get(name);
+        byte[] value = node.xattrs.get(name);
 
         if (value == null) {
             return Errno.ENOATTR;
@@ -395,13 +394,13 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
      * @throws fuse.FuseException an alternative to returning errno is to throw this exception with errno initialized
      */
     public int listxattr(String path, XattrLister lister) throws FuseException {
-        N n = lookup(path);
+        Node node = lookup(path);
 
-        if (n == null) {
+        if (node == null) {
             return Errno.ENOENT;
         }
 
-        for (String xattrName : n.xattrs.keySet()) {
+        for (String xattrName : node.xattrs.keySet()) {
             lister.add(xattrName);
         }
 
