@@ -57,8 +57,7 @@ class HdfsClientReal implements HdfsClient {
       FuseStat fuseStat = new FuseStat();
 
       // the following flags have been taken from Fuse-J - ZipFS sample.
-      fuseStat.mode = dfsStat.isDir() ? FuseFtype.TYPE_DIR | 0755
-          : FuseFtype.TYPE_FILE | 0644;
+      fuseStat.mode = dfsStat.isDir() ? FuseFtype.TYPE_DIR | 0755 : FuseFtype.TYPE_FILE | 0644;
       fuseStat.nlink = 1;
       fuseStat.uid = 0;
       fuseStat.gid = 0;
@@ -70,8 +69,7 @@ class HdfsClientReal implements HdfsClient {
 
       // TODO: per-file block-size can't be retrieved correctly,
       //       using default block size for now.
-      fuseStat.blocks = (int) Math.ceil(((double) dfsStat.getLen())
-          / dfs.getDefaultBlockSize());
+      fuseStat.blocks = (int) Math.ceil(((double) dfsStat.getLen()) / dfs.getDefaultBlockSize());
 
       return fuseStat;
     } catch (IOException ioe) {
@@ -94,8 +92,7 @@ class HdfsClientReal implements HdfsClient {
         fuseDirEnts[i] = new FuseDirEnt();
         fuseDirEnts[i].inode = 0;
         fuseDirEnts[i].name = dfsStatList[i].getPath().getName();
-        fuseDirEnts[i].mode = dfsStatList[i].isDir() ? FuseFtype.TYPE_DIR
-            : FuseFtype.TYPE_FILE;
+        fuseDirEnts[i].mode = dfsStatList[i].isDir() ? FuseFtype.TYPE_DIR : FuseFtype.TYPE_FILE;
       }
 
       return fuseDirEnts;
@@ -261,7 +258,20 @@ class HdfsClientReal implements HdfsClient {
    */
   public boolean rename(String src, String dst) {
     try {
-      return dfs.rename(new Path(src), new Path(dst));
+
+      Path srcPath = new Path(src);
+      Path dstPath = new Path(dst);
+      if (srcPath.equals(dstPath)) {
+        //source and destination are the same path
+        return false;
+      }
+      if (dfs.isFile(dstPath) && dfs.isFile(srcPath)) {
+        //TODO: temporary fix to overwrite files
+        //delete destination file if exists.
+        //"HDFS-654"  fixes the problem allowing atomic rename when dst exists
+        dfs.delete(dstPath);
+      }
+      return dfs.rename(srcPath, dstPath);
     } catch (IOException ioe) {
       // fall through to failure
     }
@@ -282,3 +292,4 @@ class HdfsFileIoContext {
     offsetWritten = 0;
   }
 }
+
