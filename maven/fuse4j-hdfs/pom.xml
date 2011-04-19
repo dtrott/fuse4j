@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>fuse4j-parent</artifactId>
+        <groupId>fuse4j</groupId>
+        <version>2.4.0.0-SNAPSHOT</version>
+    </parent>
+    
+    <artifactId>fuse4j-hdfs</artifactId>
+    <name>Fuse4J HDFS FileSystem</name>
+    <properties>
+      <cdh.hadoop.version>0.20.2-CDH3B4</cdh.hadoop.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>fuse4j</groupId>
+            <artifactId>fuse4j-core</artifactId>
+        </dependency>
+        <dependency> 
+                <groupId>org.apache.hadoop</groupId> 
+                <artifactId>hadoop-core</artifactId> 
+ 
+                <version>${cdh.hadoop.version}</version> 
+                <exclusions> 
+                    <exclusion> 
+                        <groupId>org.apache.commons</groupId> 
+                        <artifactId>commons-cli</artifactId> 
+                    </exclusion> 
+                </exclusions> 
+            </dependency> 
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+      <plugins>
+        <!-- -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.1</version>
+      </plugin>
+
+      <!--assembly -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-5</version>
+        <configuration>
+          <tarLongFileMode>gnu</tarLongFileMode>
+          <descriptors>
+            <descriptor>assembly.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+         <execution>
+           <id>make-assembly</id>
+           <phase>package</phase>
+           <goals>
+             <goal>single</goal>
+           </goals>
+         </execution>
+       </executions>
+      </plugin>
+
+      </plugins>
+    </build>
+</project>
