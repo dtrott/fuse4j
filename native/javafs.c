@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
     {
         char *arg = argv[i];
         
-        // Fuse only captures command name and mount point.
-        if (i < 2)
+        // Fuse only captures command name, mount point and -f (foreground mode)
+        if (i < 2 || !strcmp(arg, "-f"))
           fuse_opt_add_arg(&args, argv[i]);
         
         
