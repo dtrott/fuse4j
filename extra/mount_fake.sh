@@ -1,5 +1,7 @@
 #!/bin/sh
 
+#JAVA_HOME=  -- YOU MUST SET JAVA_HOME --
+
 # This script uses the native (executable) launcher which works in either the foreground or forked into the background.
 
 PROJECT_NAME=fuse4j
@@ -9,12 +11,11 @@ FUSE_HOME=/usr/local
 MOUNT_POINT=${CWD}/fake
 FS_CLASS=fuse/FakeFilesystem
 VERSION=2.4.0.0-SNAPSHOT
-JAVA_HOME=/usr/lib/java
 
 
 M2_REPO=${HOME}/.m2/repository
 
-LD_LIBRARY_PATH=$FUSE_HOME/lib:${JAVA_HOME}/jre/lib/i386/server
+LD_LIBRARY_PATH=$FUSE_HOME/lib:${JAVA_HOME}/jre/lib/amd64/server
 export LD_LIBRARY_PATH
 
 CLASSPATH=""
@@ -24,4 +25,4 @@ CLASSPATH="$CLASSPATH:$M2_REPO/commons-logging/commons-logging/1.1.1/commons-log
 export CLASSPATH
 
 
-../native/javafs -C${FS_CLASS} "-J-Djava.class.path=$CLASSPATH" $MOUNT_POINT -f
+../native/javafs $MOUNT_POINT -f -o class=${FS_CLASS} -o "jvm=-Djava.class.path=$CLASSPATH" 
