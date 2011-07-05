@@ -145,5 +145,5 @@ public interface Errno
    // extended attributes support needs these...
 
    public static final int ENOATTR = ENODATA;   /* No such attribute */
-   public static final int ENOTSUPP = 524;      /* Operation is not supported*/
+   public static final int ENOTSUPP = 0;      /* Operation is not supported*/
 }

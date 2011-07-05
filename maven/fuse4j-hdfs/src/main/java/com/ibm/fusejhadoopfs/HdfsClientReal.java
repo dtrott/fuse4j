@@ -18,19 +18,24 @@
 
 package com.ibm.fusejhadoopfs;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-
 import fuse.FuseFtype;
+import fuse.FuseStatfs;
+import fuse.PasswordEntry;
 import fuse.compat.FuseDirEnt;
 import fuse.compat.FuseStat;
 
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.FileStatus;
-import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.fs.FSDataOutputStream;
-import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.FsStatus;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.security.UserGroupInformation;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 
 /**
  * class HdfsClientReal
@@ -46,6 +51,27 @@ class HdfsClientReal implements HdfsClient {
     dfs = FileSystem.get(conf);
   }
 
+  public FuseStatfs getStatus(){
+    try {
+      FsStatus status = dfs.getStatus();
+      long cap = status.getCapacity();
+      long bsize = dfs.getDefaultBlockSize();
+      long used = status.getUsed();
+
+      FuseStatfs statFS = new FuseStatfs();
+      statFS.blockSize = (int) bsize;
+      statFS.blocks = (int) (cap/bsize);
+      statFS.blocksFree = (int) ((cap-used)/bsize);
+      statFS.blocksAvail = (int) ((cap-used)/bsize);
+      statFS.files = 1000;
+      statFS.filesFree = 500;
+      statFS.namelen = 1023;
+      return statFS;
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
   /**
    * getFileInfo()
    */
@@ -59,8 +85,8 @@ class HdfsClientReal implements HdfsClient {
       // the following flags have been taken from Fuse-J - ZipFS sample.
       fuseStat.mode = dfsStat.isDir() ? FuseFtype.TYPE_DIR | 0755 : FuseFtype.TYPE_FILE | 0644;
       fuseStat.nlink = 1;
-      fuseStat.uid = 0;
-      fuseStat.gid = 0;
+      fuseStat.uid = PasswordEntry.lookupByUsername(Charset.defaultCharset(), dfsStat.getOwner()).uid;
+      fuseStat.gid = PasswordEntry.lookupByUsername(Charset.defaultCharset(), dfsStat.getOwner()).gid;
       fuseStat.size = dfsStat.getLen();
 
       // modification/create-times are the same as access-time
@@ -73,7 +99,7 @@ class HdfsClientReal implements HdfsClient {
 
       return fuseStat;
     } catch (IOException ioe) {
-      // fall through to failure
+      System.out.println(ioe);
     }
 
     // failed
@@ -97,7 +123,7 @@ class HdfsClientReal implements HdfsClient {
 
       return fuseDirEnts;
     } catch (IOException ioe) {
-      // fall through to failure
+      System.out.println(ioe);
     }
 
     return null;
@@ -125,7 +151,7 @@ class HdfsClientReal implements HdfsClient {
 
       return new HdfsFileIoContext(output);
     } catch (IOException ioe) {
-      // fall through to failure
+      System.out.println(ioe);
     }
 
     return null;
@@ -146,7 +172,7 @@ class HdfsClientReal implements HdfsClient {
         return true;
       }
     } catch (IOException ioe) {
-      // fall through to failure
+      System.out.println(ioe);
     }
 
     return false;
@@ -170,6 +196,7 @@ class HdfsClientReal implements HdfsClient {
     try {
       bytesRead = input.read(offset, readBuf, 0, readBuf.length);
     } catch (IOException ioe) {
+      System.out.println(ioe);
       return false;
     }
 
@@ -213,6 +240,7 @@ class HdfsClientReal implements HdfsClient {
           // if we are here, then everything is good
           status = true;
         } catch (IOException ioe) {
+          System.out.println(ioe);
           // return failure
           status = false;
         }
@@ -242,6 +270,7 @@ class HdfsClientReal implements HdfsClient {
       return dfs.delete(new Path(filePath));
     } catch (IOException ioe) {
       // fall through to failure
+      System.out.println(ioe);
     }
     return false;
   }
@@ -274,6 +303,7 @@ class HdfsClientReal implements HdfsClient {
       return dfs.rename(srcPath, dstPath);
     } catch (IOException ioe) {
       // fall through to failure
+      System.out.println(ioe);
     }
     return false;
   }

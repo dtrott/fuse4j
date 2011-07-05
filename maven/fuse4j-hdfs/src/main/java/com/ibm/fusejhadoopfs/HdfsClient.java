@@ -18,9 +18,9 @@
 
 package com.ibm.fusejhadoopfs;
 
-import fuse.compat.FuseStat;
+import fuse.FuseStatfs;
 import fuse.compat.FuseDirEnt;
-import fuse.FuseException;
+import fuse.compat.FuseStat;
 
 import java.nio.ByteBuffer;
 
@@ -29,6 +29,9 @@ import java.nio.ByteBuffer;
  *
  */
 interface HdfsClient {
+
+  public FuseStatfs getStatus();
+
   public FuseStat getFileInfo(String path);
 
   public FuseDirEnt[] listPaths(String path);

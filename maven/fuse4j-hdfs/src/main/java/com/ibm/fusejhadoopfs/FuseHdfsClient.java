@@ -18,23 +18,29 @@
 
 package com.ibm.fusejhadoopfs;
 
-import fuse.*;
+import fuse.FilesystemConstants;
+import fuse.FuseException;
+import fuse.FuseMount;
+import fuse.FuseSizeSetter;
+import fuse.FuseStatfs;
+import fuse.XattrLister;
+import fuse.XattrSupport;
 import fuse.compat.Filesystem1;
 import fuse.compat.FuseDirEnt;
 import fuse.compat.FuseStat;
+import fuse.logging.FuseLog;
 
+import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.Iterator;
-
-import fuse.logging.FuseLog;
+import java.util.Set;
 
 /**
  * class FuseHdfsClient
  *
  */
-class FuseHdfsClient implements Filesystem1, Runnable {
+class FuseHdfsClient implements Filesystem1, XattrSupport, Runnable {
   //
   // Members
   //
@@ -56,6 +62,7 @@ class FuseHdfsClient implements Filesystem1, Runnable {
     hdfsFileCtxtMap = new HashMap<String, HdfsFileContext>();
 
     ctxtMapCleanerThread = new Thread(this);
+    ctxtMapCleanerThread.setDaemon(true);
     ctxtMapCleanerThread.start();
   }
 
@@ -125,7 +132,7 @@ class FuseHdfsClient implements Filesystem1, Runnable {
 
     //
     // there will be no 'release' for this mknod, therefore we must not
-    // pin the file, it will still live in the tree, but will have a 
+    // pin the file, it will still live in the tree, but will have a
     // '0' pin-count.
     // TODO: eventually have a worker-thread that looks at all
     //       '0' pin-count objects, ensures that they were opened for
@@ -139,7 +146,7 @@ class FuseHdfsClient implements Filesystem1, Runnable {
       hdfs.close(hdfsFile);
 
       // TODO: don't fail this open() when racing with another
-      //       thread, instead just use the 
+      //       thread, instead just use the
       //       already inserted 'context'...?
       throw new FuseException("collision").initErrno(FuseException.EACCES);
     }
@@ -229,10 +236,8 @@ class FuseHdfsClient implements Filesystem1, Runnable {
   }
 
   public FuseStatfs statfs() throws FuseException {
-    // TODO: support this in the future?
     log.info("statfs(): \n");
-    throw new FuseException("statfs not supported")
-        .initErrno(FuseException.ENOSYS);
+    return hdfs.getStatus();
   }
 
   /**
@@ -302,7 +307,7 @@ class FuseHdfsClient implements Filesystem1, Runnable {
       hdfs.close(hdfsFile);
 
       // TODO: don't fail this open() when racing with another
-      //       thread, instead just use the 
+      //       thread, instead just use the
       //       already inserted 'context'...?
       throw new FuseException("collision").initErrno(FuseException.EACCES);
     }
@@ -491,7 +496,7 @@ class FuseHdfsClient implements Filesystem1, Runnable {
    * run()
    * - this method is called on a thread, it sleepily trolls the
    *   HdfsFileContext-map to see if any expired contexts need to
-   *   be shutdown (this can happen if a mknod() occurred, but the 
+   *   be shutdown (this can happen if a mknod() occurred, but the
    *   associated open()/write()/release() did not happen in which
    *   case we shutdown the file on HDFS after a set period of time,
    *   and the file becomes read-only.
@@ -522,6 +527,51 @@ class FuseHdfsClient implements Filesystem1, Runnable {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  /* (non-Javadoc)
+   * @see fuse.XattrSupport#getxattrsize(java.lang.String, java.lang.String, fuse.FuseSizeSetter)
+   */
+  public int getxattrsize(String path, String name, FuseSizeSetter sizeSetter)
+    throws FuseException {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  /* (non-Javadoc)
+   * @see fuse.XattrSupport#getxattr(java.lang.String, java.lang.String, java.nio.ByteBuffer, int)
+   */
+  public int getxattr(String path, String name, ByteBuffer dst, int position)
+    throws FuseException, BufferOverflowException {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  /* (non-Javadoc)
+   * @see fuse.XattrSupport#listxattr(java.lang.String, fuse.XattrLister)
+   */
+  public int listxattr(String path, XattrLister lister)
+    throws FuseException {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  /* (non-Javadoc)
+   * @see fuse.XattrSupport#setxattr(java.lang.String, java.lang.String, java.nio.ByteBuffer, int, int)
+   */
+  public int setxattr(String path, String name, ByteBuffer value, int flags, int position)
+    throws FuseException {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  /* (non-Javadoc)
+   * @see fuse.XattrSupport#removexattr(java.lang.String, java.lang.String)
+   */
+  public int removexattr(String path, String name)
+    throws FuseException {
+    // TODO Auto-generated method stub
+    return 0;
   }
 }
 

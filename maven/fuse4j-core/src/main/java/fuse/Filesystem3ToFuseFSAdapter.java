@@ -438,7 +438,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
 
     public int getxattr(ByteBuffer path, ByteBuffer name, ByteBuffer value, int position) {
         if (xattrSupport == null) {
-            return handleErrno(Errno.ENOTSUPP);
+            return 0; //handleErrno(Errno.ENOTSUPP);
         }
 
         String pathStr = cs.decode(path).toString();
