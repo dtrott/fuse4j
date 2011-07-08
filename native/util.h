@@ -8,9 +8,11 @@
 typedef struct _jfuse_params
 {
    char *fuseArgv[100];
+   char *jvmArgv[100];
    char *javaArgv[100];
    char *filesystemClassName;
    int fuseArgc;
+   int jvmArgc;
    int javaArgc;
 
 } jfuse_params;
@@ -47,7 +49,7 @@ void     free_classes(JNIEnv *env);
 int      retain_threadGroup(JNIEnv *env, jobject util);
 void     free_threadGroup(JNIEnv *env);
 
-int      alloc_fuseFS(JNIEnv *env, char *filesystemClassName);
+int      alloc_fuseFS(JNIEnv *env, char *filesystemClassName,  jfuse_params *params);
 int      retain_fuseFS(JNIEnv *env, jobject util);
 void     free_fuseFS(JNIEnv *env);
 

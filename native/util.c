@@ -25,11 +25,11 @@ int init_java(jfuse_params *params)
     JNIEnv *env = NULL;
 
     while(1) {
-        if ((env = alloc_JVM(params->javaArgc, params->javaArgv)) == NULL) break;
+        if ((env = alloc_JVM(params->jvmArgc, params->jvmArgv)) == NULL) break;
 
         if (! alloc_classes(env)) break;
 
-        if (! alloc_fuseFS(env, params->filesystemClassName)) break;
+        if (! alloc_fuseFS(env, params->filesystemClassName, params)) break;
 
         if (! RegisterNativeMethods(env)) break;
 
@@ -158,23 +158,49 @@ void free_threadGroup(JNIEnv *env)
    if (threadGroup != NULL) { (*env)->DeleteGlobalRef(env, threadGroup); threadGroup = NULL; }
 }
 
-int alloc_fuseFS(JNIEnv *env, char *filesystemClassName)
+int alloc_fuseFS(JNIEnv *env, char *filesystemClassName, jfuse_params *params)
 {
     jclass userFSClass = NULL;
     jmethodID userFSConstructorID;
     jobject userFSObject = NULL;
     jobject fsObject = NULL;
+    jobjectArray argsFSArray;
+    int i;
 
     while (1)
     {
         userFSClass = (*env)->FindClass(env, filesystemClassName);
         if ((*env)->ExceptionCheck(env)) break;
 
-        userFSConstructorID = (*env)->GetMethodID(env, userFSClass, "<init>", "()V");
-        if ((*env)->ExceptionCheck(env)) break;
+        userFSConstructorID = (*env)->GetMethodID(env, userFSClass, "<init>", "([Ljava/lang/String;)V");
+        // Clear the exception
+        if ((*env)->ExceptionCheck(env))
+            (*env)->ExceptionClear(env);
+        
+        // Has a string array constructor
+        if (userFSConstructorID) {
 
-        userFSObject = (*env)->NewObject(env, userFSClass, userFSConstructorID);
-        if ((*env)->ExceptionCheck(env)) break;
+            // Create the String array object.
+            argsFSArray = (*env)->NewObjectArray(env, params->javaArgc, (*env)->FindClass(env, "java/lang/String"), (*env)->NewStringUTF(env, ""));
+
+            // Set all the parameters.
+            for(i=0;i<params->javaArgc;i++) {
+                (*env)->SetObjectArrayElement(env,argsFSArray,i,(*env)->NewStringUTF(env, params->javaArgv[i]));
+            }
+             
+            // Construct the object.
+            userFSObject = (*env)->NewObject(env, userFSClass, userFSConstructorID, argsFSArray);
+            if ((*env)->ExceptionCheck(env)) break;
+        }
+        else
+        {
+            userFSConstructorID = (*env)->GetMethodID(env, userFSClass, "<init>", "()V");
+            if ((*env)->ExceptionCheck(env)) break;
+
+            userFSObject = (*env)->NewObject(env, userFSClass, userFSConstructorID);
+            if ((*env)->ExceptionCheck(env)) break;
+        }
+
 
         fsObject = (*env)->CallStaticObjectMethod(env, FuseFSFactory->class, FuseFSFactory->static_method.adapt__Ljava_lang_Object_, userFSObject);
         if ((*env)->ExceptionCheck(env)) break;

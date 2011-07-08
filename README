@@ -1,3 +1,12 @@
+April 26th 2011
+=====
+Finally had some time to look for the correct make flags for a
+64 bit JVM (1.6.0_24) running on OSX 10.6.7
+
+Apple is "supported" platform again !!!!
+
+Using MacFUSE 2.0.3 - Download from: http://code.google.com/p/macfuse/
+
 July 7th 2009
 =====
 I have added an additional "position" argument to the getxattr and setxattr
