@@ -16,6 +16,7 @@
         <module>fuse4j-staticfs</module>
         <module>fuse4j-zipfs</module>
         <module>fuse4j-hdfs</module>
+        <module>fuse4j-hadoopfs</module>
         <module>capi-generator</module>
     </modules>
 

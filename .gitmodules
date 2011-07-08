@@ -1,0 +1,3 @@
+[submodule "maven/fuse4j-hadoopfs"]
+	path = maven/fuse4j-hadoopfs
+	url = git@github.com:amuraru/fuse4j-hadoopfs.git
