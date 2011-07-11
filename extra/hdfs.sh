@@ -26,7 +26,7 @@ cd $SCRIPT_DIR
 VERSION=2.4.0.0-SNAPSHOT
 HADOOP_HOME=/home/hadoop/hadoop
 FUSE4J_NATIVE_DIR=$SCRIPT_DIR/../native
-FUSE4J_HDFS_JAR=$SCRIPT_DIR/../maven/fuse4j-hdfs/fuse4j-hdfs-${VERSION}.jar
+FUSE4J_HDFS_JAR=$SCRIPT_DIR/../maven/fuse4j-hadoopfs/fuse4j-hadoopfs-${VERSION}.jar
 FUSE4J_CORE_JAR=$SCRIPT_DIR/../maven/fuse4j-core/fuse4j-core-${VERSION}.jar
 
 #
