@@ -62,5 +62,5 @@ export CLASSPATH=$SCRIPT_DIR:$FUSE4J_HDFS_JAR:$FUSE4J_CORE_JAR:$HADOOP_CONF_DIR:
 PARAMS=$@
 echo $PARAMS
 #nohup env LD_LIBRARY_PATH=$FUSE4J_NATIVE_DIR CLASSPATH=$CLASSPATH $PATH_TO_JAVA -Xmx128m  -Xms16m -Dcom.sun.management.jmxremote.port=39090 -Dcom.sun.management.jmxremote.authenticate=false -Dorg.apache.commons.logging.Log=fuse.logging.FuseLog -Dfuse.logging.level=DEBUG fuse4j.hadoopfs.FuseHdfsClient -f $PARAMS &>/dev/null &
-nohup env LD_LIBRARY_PATH=$FUSE4J_NATIVE_DIR CLASSPATH=$CLASSPATH $PATH_TO_JAVA -Xmx128m  -Xms16m -Dorg.apache.commons.logging.Log=fuse.logging.FuseLog -Dfuse.logging.level=INFO fuse4j.hadoopfs.FuseHdfsClient -f $PARAMS &>/dev/null &
+nohup env LD_LIBRARY_PATH=$FUSE4J_NATIVE_DIR CLASSPATH=$CLASSPATH $PATH_TO_JAVA -Xmx128m  -Xms16m -Dorg.apache.commons.logging.Log=fuse.logging.FuseLog -Dfuse.logging.level=WARN fuse4j.hadoopfs.FuseHdfsClient -f $PARAMS &>/dev/null &
 

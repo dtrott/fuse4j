@@ -992,7 +992,7 @@ struct fuse_operations javafs_oper = {
    init:        javafs_init,
    destroy:     javafs_destroy,
    access:      NULL,
-   create:      NULL,
+   create:      NULL, //<-- implement/export this as it is better than mknod
    ftruncate:   NULL,
    fgetattr:    NULL
 };
