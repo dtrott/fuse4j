@@ -29,8 +29,10 @@ mvn install
 The native executable can be built by:
 
 cd native
+#default to Ubuntu
 make
-
+#compile in Darwin
+env DISTRIBUTION=Darwin make
 
 To mount the "Fake" filesystem.
 

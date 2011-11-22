@@ -9,3 +9,6 @@ java java2c.CAPIGenerator javafs_bindings.h javafs_bindings.c util.h
 
 And then dropping the output files (javafs_bindings.h and javafs_bindings.c)
 into the native directory.
+
+* Export fuse "create" operation instead of mknod for regular files and initialize a filehandler for newly created file
+
