@@ -1,11 +1,15 @@
+November 25th 2011
+=====
+Switching to Fuse4X instead of MacFuse
+Download from https://github.com/fuse4x/fuse4x/downloads
+
+
 April 26th 2011
 =====
 Finally had some time to look for the correct make flags for a
 64 bit JVM (1.6.0_24) running on OSX 10.6.7
 
 Apple is "supported" platform again !!!!
-
-Using MacFUSE 2.0.3 - Download from: http://code.google.com/p/macfuse/
 
 July 7th 2009
 =====
@@ -16,8 +20,8 @@ However extended attributes should work in either version.
 
 =====
 Note: I am building on:
-Mac OS X 10.5.5
-Using MacFuse (Built from source)
+Mac OS X 10.6.8
+Fuse4X-0.8.13.dmg
 
 
 The maven project(s) can be built by:
