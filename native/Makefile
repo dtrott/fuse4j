@@ -14,10 +14,10 @@ dep:
 	${CC} -c ${CFLAGS} ${INCLUDES} $*.c
 
 ${FS_EXE}: ${OBJS}
-	${CC} ${CFLAGS} ${LDFLAGS} ${LDPATH} -o ${FS_EXE} ${OBJS}
+	${CC} -o ${FS_EXE} ${OBJS} ${CFLAGS} ${LDFLAGS} ${LDPATH}
 
 ${LIB_SO}: ${OBJS}
-	${LD} ${LDFLAGS} ${LDPATH} -o ${LIB_SO} ${OBJS}
+	${LD} -o ${LIB_SO} ${OBJS} ${LDFLAGS} ${LDPATH}
 
 clean:
 	rm -f ${LIB_SO} ${FS_EXE} *.o
