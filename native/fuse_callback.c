@@ -44,7 +44,7 @@ static int javafs_getattr(const char *path, struct stat *stbuf)
       stbuf->st_atime =  (time_t)((*env)->GetIntField(env, jGetattr, FuseGetattr->field.atime));
       stbuf->st_mtime =  (time_t)((*env)->GetIntField(env, jGetattr, FuseGetattr->field.mtime));
       stbuf->st_ctime =  (time_t)((*env)->GetIntField(env, jGetattr, FuseGetattr->field.ctime));
-
+      stbuf->st_birthtime =  (time_t)((*env)->GetIntField(env, jGetattr, FuseGetattr->field.crtime));
       break;
    }
 

@@ -42,8 +42,8 @@ public class Filesystem2ToFilesystem3Adapter implements Filesystem3
          stat.blocks,
          stat.atime,
          stat.mtime,
-         stat.ctime
-      );
+         stat.ctime,
+         stat.crtime);
 
       return 0;
    }

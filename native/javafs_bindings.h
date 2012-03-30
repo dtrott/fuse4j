@@ -23,6 +23,7 @@ typedef struct _jclass_fuse_FuseGetattr
       jfieldID inode;
       jfieldID mode;
       jfieldID mtime;
+      jfieldID crtime;
       jfieldID nlink;
       jfieldID rdev;
       jfieldID size;
@@ -46,7 +47,7 @@ typedef struct _jclass_fuse_FuseGetattr
       jmethodID hashCode;
       jmethodID notify;
       jmethodID notifyAll;
-      jmethodID set__JIIIIIJJIII;
+      jmethodID set__JIIIIIJJIIII;
       jmethodID toString;
       jmethodID wait;
       jmethodID wait__J;
