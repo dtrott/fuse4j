@@ -12,7 +12,7 @@
 #define _JAVAFS_H_
 
 #define FUSE_USE_VERSION 26
-#include <fuse.h>
+#include <osxfuse/fuse.h>
 
 #include <stdio.h>
 #include <stdlib.h>
