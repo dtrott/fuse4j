@@ -10,9 +10,10 @@ package fuse;
 
 import org.apache.commons.logging.Log;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.nio.BufferOverflowException;
 import java.nio.charset.*;
 import java.util.Date;
 
@@ -465,7 +466,12 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
         int size = 0;
 
         public void add(String xattrName) {
-            size += (int) ((float) xattrName.length() * enc.averageBytesPerChar()) + 1;
+            try {
+                size+= xattrName.getBytes("UTF-8").length+1;
+            } catch (Exception e) {
+                handleException(e);
+            }
+
         }
     }
 
@@ -517,8 +523,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
             if (boe == null) // don't need to bother any more if there was an exception already
             {
                 try {
-                    enc.encode(CharBuffer.wrap(xattrName), list, true);
-                    list.put((byte) 0); // each attribute name is terminated by byte 0
+                    enc.encode(CharBuffer.wrap(xattrName+"\u0000"), list, true);
                 }
                 catch(BufferOverflowException e) {
                     boe = e;

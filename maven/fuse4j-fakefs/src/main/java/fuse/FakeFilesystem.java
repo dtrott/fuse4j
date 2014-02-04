@@ -164,17 +164,17 @@ public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSuppo
 
         if (node instanceof Directory) {
             Directory directory = (Directory) node;
-            getattrSetter.set(directory.hashCode(), FuseFtypeConstants.TYPE_DIR | directory.mode, 1, 0, 0, 0, directory.files.size() * NAME_LENGTH, (directory.files.size() * NAME_LENGTH + BLOCK_SIZE - 1) / BLOCK_SIZE, time, time, time);
+            getattrSetter.set(directory.hashCode(), FuseFtypeConstants.TYPE_DIR | directory.mode, 1, 0, 0, 0, directory.files.size() * NAME_LENGTH, (directory.files.size() * NAME_LENGTH + BLOCK_SIZE - 1) / BLOCK_SIZE, time, time, time, time);
 
             return 0;
         } else if (node instanceof File) {
             File file = (File) node;
-            getattrSetter.set(file.hashCode(), FuseFtypeConstants.TYPE_FILE | file.mode, 1, 0, 0, 0, file.content.length, (file.content.length + BLOCK_SIZE - 1) / BLOCK_SIZE, time, time, time);
+            getattrSetter.set(file.hashCode(), FuseFtypeConstants.TYPE_FILE | file.mode, 1, 0, 0, 0, file.content.length, (file.content.length + BLOCK_SIZE - 1) / BLOCK_SIZE, time, time, time, time);
 
             return 0;
         } else if (node instanceof Link) {
             Link link = (Link) node;
-            getattrSetter.set(link.hashCode(), FuseFtypeConstants.TYPE_SYMLINK | link.mode, 1, 0, 0, 0, link.link.length(), (link.link.length() + BLOCK_SIZE - 1) / BLOCK_SIZE, time, time, time);
+            getattrSetter.set(link.hashCode(), FuseFtypeConstants.TYPE_SYMLINK | link.mode, 1, 0, 0, 0, link.link.length(), (link.link.length() + BLOCK_SIZE - 1) / BLOCK_SIZE, time, time, time, time);
 
             return 0;
         }
