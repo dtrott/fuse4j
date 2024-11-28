@@ -25,4 +25,5 @@ CLASSPATH="$CLASSPATH:$M2_REPO/commons-logging/commons-logging/1.1.1/commons-log
 export CLASSPATH
 
 
+mkdir -p $MOUNT_POINT
 ../native/javafs $MOUNT_POINT -f -o class=${FS_CLASS} -o "jvm=-Djava.class.path=$CLASSPATH" 
