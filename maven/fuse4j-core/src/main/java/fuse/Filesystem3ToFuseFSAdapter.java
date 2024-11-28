@@ -418,7 +418,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
 
     public int getxattrsize(ByteBuffer path, ByteBuffer name, FuseSizeSetter sizeSetter) {
         if (xattrSupport == null) {
-            return handleErrno(Errno.ENOTSUPP);
+            return handleErrno(Errno.ENOTSUP);
         }
 
         String pathStr = cs.decode(path).toString();
@@ -438,7 +438,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
 
     public int getxattr(ByteBuffer path, ByteBuffer name, ByteBuffer value, int position) {
         if (xattrSupport == null) {
-            return handleErrno(Errno.ENOTSUPP);
+            return handleErrno(Errno.ENOTSUP);
         }
 
         String pathStr = cs.decode(path).toString();
@@ -474,7 +474,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
 
     public int listxattrsize(ByteBuffer path, FuseSizeSetter sizeSetter) {
         if (xattrSupport == null) {
-            return handleErrno(Errno.ENOTSUPP);
+            return handleErrno(Errno.ENOTSUP);
         }
 
         String pathStr = cs.decode(path).toString();
@@ -569,7 +569,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
 
     public int listxattr(ByteBuffer path, final ByteBuffer list) {
         if (xattrSupport == null) {
-            return handleErrno(Errno.ENOTSUPP);
+            return handleErrno(Errno.ENOTSUP);
         }
 
         String pathStr = cs.decode(path).toString();
@@ -598,7 +598,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
 
     public int setxattr(ByteBuffer path, ByteBuffer name, ByteBuffer value, int flags, int position) {
         if (xattrSupport == null) {
-            return handleErrno(Errno.ENOTSUPP);
+            return handleErrno(Errno.ENOTSUP);
         }
 
         String pathStr = cs.decode(path).toString();
@@ -618,7 +618,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
 
     public int removexattr(ByteBuffer path, ByteBuffer name) {
         if (xattrSupport == null) {
-            return handleErrno(Errno.ENOTSUPP);
+            return handleErrno(Errno.ENOTSUP);
         }
 
         String pathStr = cs.decode(path).toString();
@@ -640,7 +640,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
     // Lifecycle support is optional
     public int init() {
         if (lifecycleSupport == null) {
-            return handleErrno(Errno.ENOTSUPP);
+            return handleErrno(Errno.ENOTSUP);
         }
 
         if (log != null && log.isDebugEnabled()) {
@@ -656,7 +656,7 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
 
     public int destroy() {
         if (lifecycleSupport == null) {
-            return handleErrno(Errno.ENOTSUPP);
+            return handleErrno(Errno.ENOTSUP);
         }
 
         if (log != null && log.isDebugEnabled()) {
