@@ -11,5 +11,5 @@ FS_EXE=javafs
 CC=gcc
 DEPFLAGS=-D__FreeBSD__=10 -D_FILE_OFFSET_BITS=64
 CFLAGS=-Wall -fPIC ${DEPFLAGS} -arch arm64
-LD=libtool -dynamic
+LD=ld -dylib -lSystem -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib -arch arm64 -macos_version_min 14.0
 LDFLAGS=-lfuse -ljvm
