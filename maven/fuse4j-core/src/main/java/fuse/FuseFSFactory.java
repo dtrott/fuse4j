@@ -56,7 +56,7 @@ public class FuseFSFactory {
      * This method uses a logger for the filesystem object that
      * was passed to it.
      *
-     * @param filesystem The filsystem (1,2 or 3) object to be wrapped.
+     * @param filesystem The filesystem (1,2 or 3) object to be wrapped.
      * @return The new FuseFS adapter
      *         or null if the Filesystem type is not recognized.
      */
@@ -74,7 +74,7 @@ public class FuseFSFactory {
      * particular filesystem can be encoded in java rather
      * than in C.
      *
-     * @param filesystem The filsystem (1,2 or 3) object to be wrapped.
+     * @param filesystem The filesystem (1,2 or 3) object to be wrapped.
      * @param log        The logger that should be used by the adapter.
      * @return The new FuseFS adapter
      *         or null if the Filesystem type is not recognized.

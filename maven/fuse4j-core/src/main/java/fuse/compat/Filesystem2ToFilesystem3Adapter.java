@@ -111,7 +111,7 @@ public class Filesystem2ToFilesystem3Adapter implements Filesystem3
    // if open returns a filehandle by calling FuseOpenSetter.setFh() method, it will be passed to every method that supports 'fh' argument
    public int open(String path, int flags, FuseOpenSetter openSetter) throws FuseException
    {
-      openSetter.setFh(new Long(fs2.open(path, flags)));
+      openSetter.setFh(fs2.open(path, flags));
 
       return 0;
    }

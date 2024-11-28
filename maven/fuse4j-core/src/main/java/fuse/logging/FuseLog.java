@@ -166,7 +166,7 @@ public class FuseLog implements Log
 
    private static class Levels
    {
-      private Map<String, Integer> name2levelMap = new HashMap<String, Integer>();
+      private Map<String, Integer> name2levelMap = new HashMap<>();
 
       Levels()
       {
@@ -191,7 +191,7 @@ public class FuseLog implements Log
                if (levelValue < 0)
                   throw new IllegalArgumentException("Invalid logging level specified for System property: " + propName + ": " + levelName);
 
-               name2levelMap.put(levelKey, new Integer(levelValue));
+               name2levelMap.put(levelKey, levelValue);
             }
          }
       }
