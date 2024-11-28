@@ -17,7 +17,7 @@ VERSION=2.4.0.0-SNAPSHOT
 
 M2_REPO=${HOME}/.m2/repository
 
-LD_LIBRARY_PATH=$FUSE_HOME/lib:${JAVA_HOME}/jre/lib/i386/server:${CWD}/../native
+LD_LIBRARY_PATH=$FUSE_HOME/lib:${JAVA_HOME}/lib/server:${CWD}/../native
 export LD_LIBRARY_PATH
 
 CLASSPATH=""
