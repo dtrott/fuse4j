@@ -14,7 +14,7 @@ dep:
 	${CC} -c ${CFLAGS} ${INCLUDES} $*.c
 
 ${FS_EXE}: ${OBJS}
-	${CC} -o ${FS_EXE} ${OBJS} ${CFLAGS} ${LDFLAGS} ${LDPATH}
+	${CC} -o ${FS_EXE} ${OBJS} ${CFLAGS} ${LDFLAGS} ${LDPATH} ${RPATH}
 
 ${LIB_SO}: ${OBJS}
 	${LD} -o ${LIB_SO} ${OBJS} ${LDFLAGS} ${LDPATH}

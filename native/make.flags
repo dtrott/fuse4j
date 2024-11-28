@@ -4,6 +4,7 @@ JAVA_HEADERS=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home/incl
 
 INCLUDES=-I${JAVA_HEADERS} -I${JAVA_HEADERS}/darwin -I${FUSE_HOME}/include
 LDPATH=-L${FUSE_HOME}/lib -L${JAVA_HOME}/lib -L${JAVA_HOME}/lib/server
+RPATH=-rpath ${JAVA_HOME}/lib/server
 
 LIB_SO=libjavafs.jnilib
 FS_EXE=javafs
