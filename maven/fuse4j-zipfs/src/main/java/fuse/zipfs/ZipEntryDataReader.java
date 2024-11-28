@@ -17,13 +17,13 @@ import java.nio.ByteBuffer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class ZipEntryDataReader
 {
-   private static final Log log = LogFactory.getLog(ZipEntryDataReader.class);
+   private static final Logger log = LoggerFactory.getLogger(ZipEntryDataReader.class);
 
    private static final int bufferSize = 8192;
 

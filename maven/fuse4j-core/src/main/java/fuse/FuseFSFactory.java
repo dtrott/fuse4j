@@ -4,8 +4,8 @@ import fuse.compat.Filesystem1;
 import fuse.compat.Filesystem1ToFilesystem2Adapter;
 import fuse.compat.Filesystem2;
 import fuse.compat.Filesystem2ToFilesystem3Adapter;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Factory object which wraps FileSystem(1,2,3) objects
@@ -19,7 +19,7 @@ public class FuseFSFactory {
      * @param log         The logger that should be used by the adapter.
      * @return The new FuseFS adapter.
      */
-    public static FuseFS adapt(Filesystem1 filesystem1, Log log) {
+    public static FuseFS adapt(Filesystem1 filesystem1, Logger log) {
         return adapt(new Filesystem1ToFilesystem2Adapter(filesystem1), log);
     }
 
@@ -30,7 +30,7 @@ public class FuseFSFactory {
      * @param log         The logger that should be used by the adapter.
      * @return The new FuseFS adapter.
      */
-    public static FuseFS adapt(Filesystem2 filesystem2, Log log) {
+    public static FuseFS adapt(Filesystem2 filesystem2, Logger log) {
         return adapt(new Filesystem2ToFilesystem3Adapter(filesystem2), log);
     }
 
@@ -41,7 +41,7 @@ public class FuseFSFactory {
      * @param log         The logger that should be used by the adapter.
      * @return The new FuseFS adapter.
      */
-    public static FuseFS adapt(Filesystem3 filesystem3, Log log) {
+    public static FuseFS adapt(Filesystem3 filesystem3, Logger log) {
         return new Filesystem3ToFuseFSAdapter(filesystem3, log);
     }
 
@@ -61,7 +61,7 @@ public class FuseFSFactory {
      *         or null if the Filesystem type is not recognized.
      */
     public static FuseFS adapt(Object filesystem) {
-        Log log = LogFactory.getLog(filesystem.getClass());
+        Logger log = LoggerFactory.getLogger(filesystem.getClass());
 
         return adapt(filesystem, log);
     }
@@ -79,7 +79,7 @@ public class FuseFSFactory {
      * @return The new FuseFS adapter
      *         or null if the Filesystem type is not recognized.
      */
-    public static FuseFS adapt(Object filesystem, Log log) {
+    public static FuseFS adapt(Object filesystem, Logger log) {
         if (filesystem instanceof Filesystem3) {
             return adapt((Filesystem3) filesystem, log);
         }

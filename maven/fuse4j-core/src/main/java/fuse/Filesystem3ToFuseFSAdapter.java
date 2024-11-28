@@ -8,7 +8,7 @@
  */
 package fuse;
 
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -27,18 +27,18 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
     private LifecycleSupport lifecycleSupport;
 
     private Charset cs;
-    private Log log;
+    private Logger log;
 
 
-    public Filesystem3ToFuseFSAdapter(Filesystem3 fs3, Log log) {
+    public Filesystem3ToFuseFSAdapter(Filesystem3 fs3, Logger log) {
         this(fs3, System.getProperty("file.encoding", "UTF-8"), log);
     }
 
-    public Filesystem3ToFuseFSAdapter(Filesystem3 fs3, String encoding, Log log) {
+    public Filesystem3ToFuseFSAdapter(Filesystem3 fs3, String encoding, Logger log) {
         this(fs3, Charset.forName(encoding), log);
     }
 
-    public Filesystem3ToFuseFSAdapter(Filesystem3 fs3, Charset cs, Log log) {
+    public Filesystem3ToFuseFSAdapter(Filesystem3 fs3, Charset cs, Logger log) {
         this.fs3 = fs3;
 
         // XattrSupport is optional
@@ -713,17 +713,17 @@ public class Filesystem3ToFuseFSAdapter implements FuseFS {
         if (e instanceof FuseException) {
             errno = handleErrno(((FuseException) e).getErrno());
             if (log != null && log.isDebugEnabled()) {
-                log.debug(e);
+                log.debug("Exception", e);
             }
         } else if (e instanceof BufferOverflowException) {
             errno = handleErrno(Errno.ERANGE);
             if (log != null && log.isDebugEnabled()) {
-                log.debug(e);
+                log.debug("Exception", e);
             }
         } else {
             errno = handleErrno(Errno.EFAULT);
             if (log != null) {
-                log.error(e);
+                log.error("Exception", e);
             }
         }
 

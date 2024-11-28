@@ -23,7 +23,7 @@ export LD_LIBRARY_PATH
 CLASSPATH=""
 CLASSPATH="$CLASSPATH:$M2_REPO/${PROJECT_NAME}/${PROJECT_NAME}-core/${VERSION}/${PROJECT_NAME}-core-${VERSION}.jar"
 CLASSPATH="$CLASSPATH:$M2_REPO/${PROJECT_NAME}/${PROJECT_NAME}-fakefs/${VERSION}/${PROJECT_NAME}-fakefs-${VERSION}.jar"
-CLASSPATH="$CLASSPATH:$M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:$M2_REPO/log4j/log4j/1.2.13/log4j-1.2.13.jar:${CWD}"
+CLASSPATH="$CLASSPATH:$M2_REPO/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar:$M2_REPO/org/slf4j/slf4j-jdk14/2.0.16/slf4j-jdk14-2.0.16.jar:${CWD}"
 export CLASSPATH
 
 

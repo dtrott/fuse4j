@@ -976,15 +976,15 @@ jclass_fuse_FuseFSFactory *alloc_jclass_fuse_FuseFSFactory(JNIEnv *env)
       if ((*env)->ExceptionCheck(env)) break;
 
       // obtain static method IDs
-      fuse_FuseFSFactory->static_method.adapt__Lfuse_Filesystem3_Lorg_apache_commons_logging_Log_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Lfuse/Filesystem3;Lorg/apache/commons/logging/Log;)Lfuse/FuseFS;");
+      fuse_FuseFSFactory->static_method.adapt__Lfuse_Filesystem3_Lorg_slf4j_Logger_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Lfuse/Filesystem3;Lorg/slf4j/Logger;)Lfuse/FuseFS;");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSFactory->static_method.adapt__Lfuse_compat_Filesystem1_Lorg_apache_commons_logging_Log_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Lfuse/compat/Filesystem1;Lorg/apache/commons/logging/Log;)Lfuse/FuseFS;");
+      fuse_FuseFSFactory->static_method.adapt__Lfuse_compat_Filesystem1_Lorg_slf4j_Logger_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Lfuse/compat/Filesystem1;Lorg/slf4j/Logger;)Lfuse/FuseFS;");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSFactory->static_method.adapt__Lfuse_compat_Filesystem2_Lorg_apache_commons_logging_Log_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Lfuse/compat/Filesystem2;Lorg/apache/commons/logging/Log;)Lfuse/FuseFS;");
+      fuse_FuseFSFactory->static_method.adapt__Lfuse_compat_Filesystem2_Lorg_slf4j_Logger_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Lfuse/compat/Filesystem2;Lorg/slf4j/Logger;)Lfuse/FuseFS;");
       if ((*env)->ExceptionCheck(env)) break;
       fuse_FuseFSFactory->static_method.adapt__Ljava_lang_Object_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Ljava/lang/Object;)Lfuse/FuseFS;");
       if ((*env)->ExceptionCheck(env)) break;
-      fuse_FuseFSFactory->static_method.adapt__Ljava_lang_Object_Lorg_apache_commons_logging_Log_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Ljava/lang/Object;Lorg/apache/commons/logging/Log;)Lfuse/FuseFS;");
+      fuse_FuseFSFactory->static_method.adapt__Ljava_lang_Object_Lorg_slf4j_Logger_ = (*env)->GetStaticMethodID(env, fuse_FuseFSFactory->class, "adapt", "(Ljava/lang/Object;Lorg/slf4j/Logger;)Lfuse/FuseFS;");
       if ((*env)->ExceptionCheck(env)) break;
 
       // obtain instance method IDs

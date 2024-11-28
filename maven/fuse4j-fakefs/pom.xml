@@ -16,5 +16,10 @@
             <groupId>fuse4j</groupId>
             <artifactId>fuse4j-core</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+        </dependency>
     </dependencies>
 </project>

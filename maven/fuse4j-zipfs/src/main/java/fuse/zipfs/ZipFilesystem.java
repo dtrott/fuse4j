@@ -25,13 +25,13 @@ import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class ZipFilesystem implements Filesystem1
 {
-   private static final Log log = LogFactory.getLog(ZipFilesystem.class);
+   private static final Logger log = LoggerFactory.getLogger(ZipFilesystem.class);
 
    private static final int blockSize = 512;
 

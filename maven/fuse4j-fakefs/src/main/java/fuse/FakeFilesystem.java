@@ -9,8 +9,8 @@
 
 package fuse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 @SuppressWarnings({"OctalInteger"})
 public class FakeFilesystem implements Filesystem3, XattrSupport, LifecycleSupport {
-    private static final Log log = LogFactory.getLog(FakeFilesystem.class);
+    private static final Logger log = LoggerFactory.getLogger(FakeFilesystem.class);
 
     private static final int BLOCK_SIZE = 512;
     private static final int NAME_LENGTH = 1024;

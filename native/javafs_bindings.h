@@ -560,11 +560,11 @@ typedef struct _jclass_fuse_FuseFSFactory
    // cached static method IDs
    struct
    {
-      jmethodID adapt__Lfuse_Filesystem3_Lorg_apache_commons_logging_Log_;
-      jmethodID adapt__Lfuse_compat_Filesystem1_Lorg_apache_commons_logging_Log_;
-      jmethodID adapt__Lfuse_compat_Filesystem2_Lorg_apache_commons_logging_Log_;
+      jmethodID adapt__Lfuse_Filesystem3_Lorg_slf4j_Logger_;
+      jmethodID adapt__Lfuse_compat_Filesystem1_Lorg_slf4j_Logger_;
+      jmethodID adapt__Lfuse_compat_Filesystem2_Lorg_slf4j_Logger_;
       jmethodID adapt__Ljava_lang_Object_;
-      jmethodID adapt__Ljava_lang_Object_Lorg_apache_commons_logging_Log_;
+      jmethodID adapt__Ljava_lang_Object_Lorg_slf4j_Logger_;
 
    } static_method;
 

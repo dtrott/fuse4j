@@ -13,11 +13,11 @@ import fuse.compat.Filesystem1;
 import fuse.compat.Filesystem1ToFilesystem2Adapter;
 import fuse.compat.Filesystem2;
 import fuse.compat.Filesystem2ToFilesystem3Adapter;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FuseMount {
-    private static final Log log = LogFactory.getLog(FuseMount.class);
+    private static final Logger log = LoggerFactory.getLogger(FuseMount.class);
 
     static {
         System.loadLibrary("javafs");
@@ -32,16 +32,16 @@ public class FuseMount {
     public static void mount(String[] args, Filesystem1 filesystem1) throws Exception {
         mount(args,
                 new Filesystem2ToFilesystem3Adapter(new Filesystem1ToFilesystem2Adapter(filesystem1)),
-                LogFactory.getLog(filesystem1.getClass()));
+                LoggerFactory.getLogger(filesystem1.getClass()));
     }
 
     public static void mount(String[] args, Filesystem2 filesystem2) throws Exception {
-        mount(args, new Filesystem2ToFilesystem3Adapter(filesystem2), LogFactory.getLog(filesystem2.getClass()));
+        mount(args, new Filesystem2ToFilesystem3Adapter(filesystem2), LoggerFactory.getLogger(filesystem2.getClass()));
     }
 
     //
     // prefered String level API
-    public static void mount(String[] args, Filesystem3 filesystem3, Log log) throws Exception {
+    public static void mount(String[] args, Filesystem3 filesystem3, Logger log) throws Exception {
         mount(args, new Filesystem3ToFuseFSAdapter(filesystem3, log));
     }
 
@@ -73,7 +73,7 @@ public class FuseMount {
     // byte level API
     public static void mount(
             final String[] args, final Filesystem3 filesystem3,
-            final ThreadGroup group, final Log log) throws Exception {
+            final ThreadGroup group, final Logger log) throws Exception {
 
         final Filesystem3ToFuseFSAdapter fuseFS = new Filesystem3ToFuseFSAdapter(filesystem3, log);
         Thread fuseThread = new Thread(group, new Runnable() {
