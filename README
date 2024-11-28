@@ -1,3 +1,15 @@
+November 28th 2024
+=====
+Fixed some issues with changes to errno.
+Switched to compiling for Apple Silicon.
+Updated JDK to Eclipse Temurin™ 17.
+Updating to macOS Sonoma - 14.6.1
+Switching back to MacFuse (4.8.3).
+Download from https://github.com/macfuse/macfuse/releases
+
+CAUTION: Introduced issue that prevents backgrounding the process - you must always use -f regardless of whether you are using the library or the native launcher.
+
+
 November 25th 2011
 =====
 Switching to Fuse4X instead of MacFuse
