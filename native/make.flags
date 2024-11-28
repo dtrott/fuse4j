@@ -3,7 +3,7 @@ JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home
 JAVA_HEADERS=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home/include
 
 INCLUDES=-I${JAVA_HEADERS} -I${JAVA_HEADERS}/darwin -I${FUSE_HOME}/include
-LDPATH=-L/Library/Java/Extensions -L/System/Library/Java/Extensions -L${FUSE_HOME}/lib -framework CoreFoundation -framework IOKit -framework JavaVM
+LDPATH=-L${FUSE_HOME}/lib -L${JAVA_HOME}/lib -L${JAVA_HOME}/lib/server
 
 LIB_SO=libjavafs.jnilib
 FS_EXE=javafs
@@ -12,4 +12,4 @@ CC=gcc
 DEPFLAGS=-D__FreeBSD__=10 -D_FILE_OFFSET_BITS=64
 CFLAGS=-Wall -fPIC ${DEPFLAGS} -arch arm64
 LD=libtool -dynamic
-LDFLAGS=-losxfuse -lpthread -lSystem
+LDFLAGS=-lfuse -ljvm
